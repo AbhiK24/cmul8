@@ -160,19 +160,16 @@ body {
 
 /* Showcase */
 .showcase {
-  padding: 4rem 3rem 8rem;
-  max-width: 1200px;
-  margin: 0 auto;
+  padding: 0;
 }
 
 .showcase-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
+  gap: 0.5rem;
 }
 
 .showcase-card {
-  border-radius: 1rem;
   overflow: hidden;
 }
 
@@ -182,7 +179,6 @@ body {
   align-items: center;
   justify-content: center;
   padding: 3rem;
-  border-radius: 1rem;
   transition: transform 0.3s ease;
 }
 
@@ -343,7 +339,7 @@ body {
   }
 
   .card-preview {
-    aspect-ratio: 16/10;
+    aspect-ratio: 16/9;
   }
 }
 
@@ -375,11 +371,15 @@ body {
     font-size: 1.75rem;
   }
 
-  .showcase,
   .features,
   .cta-section {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
+  }
+
+  .showcase-grid {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
   }
 
   .feature {
