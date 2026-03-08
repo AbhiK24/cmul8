@@ -313,43 +313,54 @@ body {
 
 /* Features */
 .features {
-  padding: 4rem 3rem 8rem;
+  padding: 6rem 3rem 8rem;
   max-width: 1200px;
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 3rem;
 }
 
 .feature {
   display: flex;
-  align-items: flex-start;
-  gap: 2rem;
-  padding-bottom: 3rem;
-  border-bottom: 1px solid var(--text-light);
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
-.feature:last-child {
-  border-bottom: none;
-  padding-bottom: 0;
+.feature-icon {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--white);
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+
+.feature-icon svg {
+  opacity: 0.8;
 }
 
 .feature-number {
-  font-size: 0.875rem;
-  font-weight: 500;
+  font-size: 0.75rem;
+  font-weight: 600;
   color: var(--text-gray);
-  min-width: 2rem;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+  display: block;
 }
 
 .feature-content h3 {
-  font-size: 1.5rem;
-  font-weight: 500;
-  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
   letter-spacing: -0.02em;
 }
 
 .feature-content p {
-  font-size: 1.0625rem;
+  font-size: 0.9375rem;
+  line-height: 1.6;
 }
 
 /* CTA Section */
@@ -487,9 +498,13 @@ body {
     font-size: 0.75rem;
   }
 
+  .features {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
   .feature {
-    flex-direction: column;
-    gap: 0.75rem;
+    gap: 1rem;
   }
 
   .footer {
