@@ -35,25 +35,32 @@ body {
   left: 0;
   right: 0;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  padding: 1.5rem 3rem;
+  padding: 1.25rem 2rem;
   background: var(--bg);
   z-index: 100;
 }
 
+.nav-center {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
 .nav-logo {
-  font-size: 1.25rem;
-  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.125rem;
+  font-weight: 500;
   color: var(--text-dark);
   text-decoration: none;
   letter-spacing: -0.02em;
 }
 
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: 2rem;
+.nav-icon {
+  opacity: 0.8;
 }
 
 .nav-link {
@@ -192,34 +199,108 @@ body {
 
 .card-preview.light {
   background: var(--white);
+  position: relative;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 2rem;
 }
 
 .card-preview.dark {
   background: #1a1a1a;
   color: var(--white);
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 4rem;
 }
 
-.card-content {
-  text-align: center;
-  max-width: 280px;
+/* Light card mockup */
+.card-mockup {
+  width: 100%;
+  max-width: 500px;
 }
 
-.card-icon {
-  margin-bottom: 1.5rem;
-  opacity: 0.8;
+.mockup-window {
+  background: #f5f5f5;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.1);
 }
 
-.card-content h3 {
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin-bottom: 0.75rem;
+.mockup-header {
+  display: flex;
+  gap: 6px;
+  padding: 12px 16px;
+  background: #e8e8e8;
+}
+
+.mockup-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ccc;
+}
+
+.mockup-content {
+  display: flex;
+  padding: 1rem;
+  gap: 1rem;
+  min-height: 200px;
+}
+
+.mockup-sidebar {
+  width: 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mockup-line {
+  height: 8px;
+  background: #ddd;
+  border-radius: 4px;
+}
+
+.mockup-line.short {
+  width: 60%;
+}
+
+.mockup-main {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.mockup-card {
+  background: #e0e0e0;
+  border-radius: 6px;
+  aspect-ratio: 1;
+}
+
+.card-label {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-dark);
+}
+
+/* Dark card brand */
+.card-brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--white);
+}
+
+.brand-name {
+  font-size: 1.75rem;
+  font-weight: 500;
   letter-spacing: -0.02em;
-}
-
-.card-content p {
-  font-size: 0.9375rem;
-  opacity: 0.7;
-  line-height: 1.5;
 }
 
 /* Features */
