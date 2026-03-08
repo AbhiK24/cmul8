@@ -186,6 +186,7 @@ body {
   display: inline-block;
   position: relative;
   height: 1.2em;
+  min-width: 180px;
   overflow: hidden;
   vertical-align: bottom;
 }
@@ -193,7 +194,7 @@ body {
 .flip-word {
   display: block;
   color: var(--text-dark);
-  animation: flipWords 8s infinite;
+  animation: flipWords 12.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
   opacity: 0;
   position: absolute;
   left: 0;
@@ -201,23 +202,23 @@ body {
 }
 
 .flip-word:nth-child(1) { animation-delay: 0s; }
-.flip-word:nth-child(2) { animation-delay: 1.6s; }
-.flip-word:nth-child(3) { animation-delay: 3.2s; }
-.flip-word:nth-child(4) { animation-delay: 4.8s; }
-.flip-word:nth-child(5) { animation-delay: 6.4s; }
+.flip-word:nth-child(2) { animation-delay: 2.5s; }
+.flip-word:nth-child(3) { animation-delay: 5s; }
+.flip-word:nth-child(4) { animation-delay: 7.5s; }
+.flip-word:nth-child(5) { animation-delay: 10s; }
 
 @keyframes flipWords {
-  0%, 2% {
+  0% {
     opacity: 0;
-    transform: translateY(100%);
+    transform: translateY(80%);
   }
-  5%, 17% {
+  3%, 17% {
     opacity: 1;
     transform: translateY(0);
   }
   20%, 100% {
     opacity: 0;
-    transform: translateY(-100%);
+    transform: translateY(-80%);
   }
 }
 
