@@ -493,12 +493,17 @@ body {
   .hero {
     padding: 7rem 1.5rem 4rem;
     min-height: auto;
-    padding-top: 30vh;
+    padding-top: 25vh;
     padding-bottom: 10vh;
   }
 
   .hero-text {
     font-size: 1.75rem;
+    line-height: 1.35;
+  }
+
+  .flip-words {
+    min-width: 120px;
   }
 
   .features,
@@ -561,8 +566,18 @@ body {
     height: 12px;
   }
 
+  .hero {
+    padding: 6rem 1.5rem 4rem;
+  }
+
   .hero-text {
-    font-size: 1.5rem;
+    font-size: 1.375rem;
+    line-height: 1.4;
+  }
+
+  .flip-words {
+    min-width: 90px;
+    height: 1.4em;
   }
 
   .card-preview {
