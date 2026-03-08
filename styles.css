@@ -346,6 +346,18 @@ body {
   border-bottom: 1px solid var(--text-light);
 }
 
+.feature-left {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+}
+
+.feature-icon {
+  flex-shrink: 0;
+  opacity: 0.4;
+  margin-top: 0.25rem;
+}
+
 .feature-header {
   display: flex;
   flex-direction: column;
