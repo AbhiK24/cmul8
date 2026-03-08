@@ -111,13 +111,13 @@ body {
 .mobile-menu {
   display: none;
   position: fixed;
-  top: 70px;
+  top: 60px;
   left: 0;
   right: 0;
   background: var(--bg);
-  padding: 1.5rem 3rem 2rem;
+  padding: 1.5rem;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
   z-index: 99;
   border-bottom: 1px solid var(--text-light);
   transform: translateY(-100%);
@@ -131,9 +131,22 @@ body {
 }
 
 .mobile-link {
-  font-size: 1.125rem;
+  font-size: 1rem;
   color: var(--text-dark);
   text-decoration: none;
+  padding: 0.5rem 0;
+}
+
+.mobile-cta {
+  display: inline-block;
+  font-size: 0.9375rem;
+  color: var(--white);
+  background: var(--accent);
+  text-decoration: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 2rem;
+  text-align: center;
+  margin-top: 0.5rem;
 }
 
 /* Hero */
@@ -382,10 +395,16 @@ body {
 
 @media (max-width: 768px) {
   .nav {
-    padding: 1.25rem 1.5rem;
+    padding: 1rem 1.5rem;
+    justify-content: space-between;
   }
 
-  .nav-links {
+  .nav-center {
+    gap: 0;
+  }
+
+  .nav-center .nav-link,
+  .nav-center .nav-cta {
     display: none;
   }
 
@@ -400,8 +419,8 @@ body {
   .hero {
     padding: 7rem 1.5rem 4rem;
     min-height: auto;
-    padding-top: 35vh;
-    padding-bottom: 15vh;
+    padding-top: 30vh;
+    padding-bottom: 10vh;
   }
 
   .hero-text {
@@ -416,7 +435,13 @@ body {
 
   .showcase-grid {
     grid-template-columns: 1fr;
-    gap: 0.5rem;
+    gap: 2px;
+  }
+
+  .card-label {
+    bottom: 1rem;
+    right: 1rem;
+    font-size: 0.75rem;
   }
 
   .feature {
@@ -436,13 +461,26 @@ body {
 }
 
 @media (max-width: 480px) {
+  .nav-logo {
+    font-size: 1rem;
+  }
+
+  .nav-icon {
+    width: 22px;
+    height: 12px;
+  }
+
   .hero-text {
     font-size: 1.5rem;
   }
 
   .card-preview {
     padding: 2rem;
-    aspect-ratio: 1/1;
+    aspect-ratio: 4/3;
+  }
+
+  .abstract-viz {
+    width: 50%;
   }
 
   .feature-content h3 {
