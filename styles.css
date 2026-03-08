@@ -25,6 +25,7 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 /* Navigation */
@@ -161,13 +162,14 @@ body {
 /* Showcase */
 .showcase {
   padding: 0;
-  width: 100%;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
 }
 
 .showcase-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
 }
 
 .showcase-card {
