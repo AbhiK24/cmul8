@@ -457,8 +457,9 @@
           <li>Templates you can use immediately</li>
         </ul>
 
-        <form class="download-form" id="download-form">
-          <input type="email" class="form-input" placeholder="Your email" required>
+        <form class="download-form" action="https://formspree.io/f/mlgpgbrq" method="POST">
+          <input type="hidden" name="_next" value="https://www.cmul8.com/playbook/thanks">
+          <input type="email" name="email" class="form-input" placeholder="Your email" required>
           <button type="submit" class="form-button">Get My Free Copy</button>
           <span class="form-note">No spam. Unsubscribe anytime.</span>
         </form>
@@ -525,8 +526,9 @@
 
     <section class="final-cta">
       <h2>Ready to simulate?</h2>
-      <form class="download-form" id="download-form-2">
-        <input type="email" class="form-input" placeholder="Your email" required>
+      <form class="download-form" action="https://formspree.io/f/mlgpgbrq" method="POST">
+        <input type="hidden" name="_next" value="https://www.cmul8.com/playbook/thanks">
+        <input type="email" name="email" class="form-input" placeholder="Your email" required>
         <button type="submit" class="form-button">Get My Free Copy</button>
       </form>
     </section>
@@ -539,17 +541,5 @@
     </div>
   </footer>
 
-  <script>
-    // Simple form handling - replace with actual submission logic
-    document.querySelectorAll('form').forEach(form => {
-      form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        const email = this.querySelector('input[type="email"]').value;
-        // TODO: Send to backend/email service
-        alert('Thanks! Check your email for the playbook.');
-        this.reset();
-      });
-    });
-  </script>
 </body>
 </html>

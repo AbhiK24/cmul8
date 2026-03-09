@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Download Your Playbook - cmul8</title>
+  <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #fafafb;
+      --text-dark: #1a1a1a;
+      --text-gray: #888;
+      --text-light: #ededed;
+      --accent: #1a1a1a;
+      --white: #fff;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text-dark);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: center;
+      padding: 1.5rem 2rem;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.125rem;
+      font-weight: 500;
+      color: var(--text-dark);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+
+    .nav-icon {
+      opacity: 0.8;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .success-badge {
+      width: 72px;
+      height: 72px;
+      margin-bottom: 2rem;
+      background: var(--white);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .success-badge svg {
+      width: 36px;
+      height: 36px;
+      color: var(--text-dark);
+    }
+
+    h1 {
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-weight: 500;
+      letter-spacing: -0.03em;
+      margin-bottom: 1rem;
+    }
+
+    .subtitle {
+      font-size: 1.125rem;
+      color: var(--text-gray);
+      max-width: 450px;
+      margin-bottom: 2rem;
+    }
+
+    .playbook-preview {
+      display: flex;
+      background: var(--white);
+      border-radius: 4px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+      margin-bottom: 2rem;
+      overflow: hidden;
+      max-width: 280px;
+    }
+
+    .preview-spine {
+      width: 8px;
+      background: linear-gradient(to right, rgba(0,0,0,0.06), rgba(0,0,0,0.02));
+    }
+
+    .preview-content {
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .preview-tag {
+      font-size: 0.625rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-gray);
+    }
+
+    .preview-title {
+      font-size: 0.9375rem;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      color: var(--text-dark);
+    }
+
+    .download-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1.125rem 2.5rem;
+      font-size: 1rem;
+      font-weight: 500;
+      font-family: inherit;
+      color: var(--white);
+      background: var(--accent);
+      border: none;
+      border-radius: 3rem;
+      text-decoration: none;
+      cursor: pointer;
+      transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .download-button:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .download-button svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .back-link {
+      margin-top: 2rem;
+      font-size: 0.875rem;
+      color: var(--text-gray);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .back-link:hover {
+      color: var(--text-dark);
+    }
+
+    .footer {
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .footer-copy {
+      font-size: 0.875rem;
+      color: var(--text-gray);
+    }
+  </style>
+  <script>
+    // Protect against direct access - must come from Formspree
+    (function() {
+      const referrer = document.referrer;
+      const validSources = ['formspree.io', 'cmul8.com/playbook'];
+      const isValid = validSources.some(source => referrer.includes(source));
+
+      if (!referrer || !isValid) {
+        window.location.href = '/playbook';
+      }
+    })();
+  </script>
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="nav-logo">
+      <svg class="nav-icon" width="28" height="16" viewBox="0 0 28 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M7 8c0-2.5 2-4.5 4.5-4.5S16 5.5 16 8s-2 4.5-4.5 4.5S7 10.5 7 8z"/>
+        <path d="M12 8c0-2.5 2-4.5 4.5-4.5S21 5.5 21 8s-2 4.5-4.5 4.5S12 10.5 12 8z"/>
+        <line x1="1" y1="8" x2="27" y2="8" stroke-width="1" stroke-dasharray="2 2"/>
+        <polygon points="25,6 27,8 25,10" fill="currentColor" stroke="none"/>
+      </svg>
+      cmul8
+    </a>
+  </nav>
+
+  <main>
+    <div class="success-badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M8 12l2.5 2.5L16 9"/>
+      </svg>
+    </div>
+
+    <h1>You're in.</h1>
+    <p class="subtitle">Your playbook is ready. Click below to download it now.</p>
+
+    <div class="playbook-preview">
+      <div class="preview-spine"></div>
+      <div class="preview-content">
+        <span class="preview-tag">PDF</span>
+        <span class="preview-title">The Customer Simulation Playbook</span>
+      </div>
+    </div>
+
+    <a href="/assets/customer-simulation-playbook.pdf" class="download-button" download="Customer-Simulation-Playbook.pdf">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+      </svg>
+      Download Playbook
+    </a>
+
+    <a href="/" class="back-link">Back to cmul8.com</a>
+  </main>
+
+  <footer class="footer">
+    <span class="footer-copy">&copy; 2026 cmul8</span>
+  </footer>
+</body>
+</html>
