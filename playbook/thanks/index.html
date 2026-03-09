@@ -183,13 +183,16 @@
     }
   </style>
   <script>
-    // Protect against direct access - must come from Formspree
+    // Light protection - check for token from Formspree redirect
     (function() {
+      const params = new URLSearchParams(window.location.search);
+      const hasToken = params.has('dl');
       const referrer = document.referrer;
-      const validSources = ['formspree.io', 'cmul8.com/playbook'];
-      const isValid = validSources.some(source => referrer.includes(source));
+      const fromFormspree = referrer.includes('formspree.io');
+      const fromPlaybook = referrer.includes('/playbook');
 
-      if (!referrer || !isValid) {
+      // Allow if: has token OR came from formspree OR came from playbook page
+      if (!hasToken && !fromFormspree && !fromPlaybook) {
         window.location.href = '/playbook';
       }
     })();
