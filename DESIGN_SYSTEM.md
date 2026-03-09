@@ -1,6 +1,6 @@
 # cmul8 Design System
 
-> Auto-generated from landing page styles. Last updated: 2026-03-09
+> Auto-generated from landing page styles. Last updated: 2026-03-09 (v2)
 
 ---
 
@@ -125,7 +125,9 @@ transition: transform 0.2s ease, opacity 0.2s ease;
 **Light Card**
 ```css
 background: var(--white);
-aspect-ratio: 4/3;
+aspect-ratio: 4/3;          /* Desktop */
+/* aspect-ratio: 2/1;       /* 768px */
+/* aspect-ratio: 16/9;      /* 480px */
 ```
 
 **Dark Card**
@@ -225,6 +227,32 @@ transition: all 0.3s ease;
 - Smooth reveals: `cubic-bezier(0.16, 1, 0.3, 1)`
 - Flip animation: `cubic-bezier(0.4, 0, 0.2, 1)`
 
+### Spinning Ring (Hero Background)
+Inception-inspired 3D rotating rings. Three concentric circles tilted in perspective.
+
+```css
+.spinning-ring {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  perspective: 800px;
+}
+
+/* Three rings at different speeds */
+.spinning-ring::before { animation: spinRing 6s linear infinite; }
+.spinning-ring::after { animation: spinRing 10s linear infinite reverse; }
+.spinning-ring-inner { animation: spinRing 14s linear infinite; }
+
+@keyframes spinRing {
+  0% { transform: rotateX(75deg) rotateZ(0deg); }
+  100% { transform: rotateX(75deg) rotateZ(360deg); }
+}
+```
+
+**Ring Colors**: `rgba(0, 0, 0, 0.15)`, `rgba(0, 0, 0, 0.1)`, `rgba(0, 0, 0, 0.08)`
+
+**Responsive**: Shrinks at 900px, hidden on mobile (768px)
+
 ---
 
 ## Responsive Breakpoints
@@ -235,11 +263,21 @@ transition: all 0.3s ease;
 | `768px` | Tablet portrait / Mobile |
 | `480px` | Small mobile |
 
-### Key Adjustments at 768px
-- Nav: show hamburger, hide inline links
-- Hero: reduce padding, font size
+### 900px (Tablet Landscape)
+- Cards: single column stack
+- Spinning ring: shrinks to 350px, 70% opacity
+
+### 768px (Tablet / Mobile)
+- Nav: hamburger menu, hide inline links
+- Hero: `min-height: 70vh`, text `2rem`
+- Cards: `aspect-ratio: 2/1`, smaller visuals (40%)
 - Features: single column
-- Cards: stack vertically
+- Spinning ring: hidden
+
+### 480px (Small Mobile)
+- Hero: `min-height: 60vh`, text `1.625rem`
+- Cards: `aspect-ratio: 16/9`, visuals 35%
+- CTA button: full width
 
 ---
 
