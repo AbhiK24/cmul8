@@ -541,5 +541,35 @@
     </div>
   </footer>
 
+  <script>
+    // Handle form submission via AJAX and redirect
+    document.querySelectorAll('.download-form').forEach(form => {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const button = form.querySelector('.form-button');
+        const originalText = button.textContent;
+        button.textContent = 'Sending...';
+        button.disabled = true;
+
+        const formData = new FormData(form);
+
+        try {
+          await fetch('https://formspree.io/f/mlgpgbrq', {
+            method: 'POST',
+            body: formData,
+            headers: { 'Accept': 'application/json' }
+          });
+
+          // Redirect to thanks page
+          window.location.href = '/playbook/thanks?dl=1';
+        } catch (error) {
+          button.textContent = originalText;
+          button.disabled = false;
+          alert('Something went wrong. Please try again.');
+        }
+      });
+    });
+  </script>
 </body>
 </html>
