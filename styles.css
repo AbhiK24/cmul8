@@ -162,139 +162,18 @@ body {
   position: relative;
 }
 
-/* Spinning Ring */
-.spinning-ring {
+/* Pendulum Wave Canvas - Distant & Grand */
+#fractal-canvas {
   position: absolute;
-  right: 5%;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 450px;
-  height: 450px;
+  right: -150px;
+  top: 40%;
+  transform: translateY(-50%) scale(1.1);
+  width: 900px;
+  height: 900px;
   pointer-events: none;
-}
-
-.spinning-ring::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border: 2px dashed rgba(0, 0, 0, 0.12);
-  border-radius: 50%;
-  animation: spinFlat 20s linear infinite;
-}
-
-.spinning-ring::after {
-  content: '';
-  position: absolute;
-  inset: 50px;
-  border: 2px dashed rgba(0, 0, 0, 0.08);
-  border-radius: 50%;
-  animation: spinFlat 30s linear infinite reverse;
-}
-
-.spinning-ring-inner {
-  position: absolute;
-  inset: 100px;
-  border: 1px dashed rgba(0, 0, 0, 0.06);
-  border-radius: 50%;
-  animation: spinFlat 25s linear infinite;
-}
-
-@keyframes spinFlat {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* Center point - "the one" */
-.ring-center {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 8px;
-  height: 8px;
-  background: var(--text-dark);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  opacity: 0.4;
-}
-
-
-/* Fractal nodes - appear/disappear */
-.fractal-node {
-  position: absolute;
-  width: 3px;
-  height: 3px;
-  background: var(--text-dark);
-  border-radius: 50%;
-  opacity: 0;
-  animation: fractalPulse 4s ease-in-out infinite;
-}
-
-.fn-1 { top: 20%; left: 50%; animation-delay: 0s; }
-.fn-2 { top: 35%; right: 15%; animation-delay: 0.5s; }
-.fn-3 { top: 65%; right: 20%; animation-delay: 1s; }
-.fn-4 { bottom: 20%; left: 50%; animation-delay: 1.5s; }
-.fn-5 { top: 65%; left: 15%; animation-delay: 2s; }
-.fn-6 { top: 35%; left: 20%; animation-delay: 2.5s; }
-.fn-7 { top: 50%; left: 8%; animation-delay: 3s; }
-.fn-8 { top: 50%; right: 8%; animation-delay: 3.5s; }
-
-@keyframes fractalPulse {
-  0%, 100% {
-    opacity: 0;
-    transform: scale(0.5);
-  }
-  15%, 40% {
-    opacity: 0.3;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.15;
-    transform: scale(1.5);
-  }
-  65% {
-    opacity: 0;
-    transform: scale(2);
-  }
-}
-
-/* Fractal branches - lines that grow outward */
-.fractal-branch {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 1px;
-  height: 0;
-  background: linear-gradient(to bottom, var(--text-dark), transparent);
-  opacity: 0;
-  transform-origin: top center;
-  animation: branchGrow 6s ease-out infinite;
-}
-
-.fb-1 { transform: rotate(-30deg); animation-delay: 0s; }
-.fb-2 { transform: rotate(60deg); animation-delay: 1.5s; }
-.fb-3 { transform: rotate(150deg); animation-delay: 3s; }
-.fb-4 { transform: rotate(-120deg); animation-delay: 4.5s; }
-
-@keyframes branchGrow {
-  0% {
-    height: 0;
-    opacity: 0;
-  }
-  10% {
-    opacity: 0.15;
-  }
-  30% {
-    height: 80px;
-    opacity: 0.1;
-  }
-  50% {
-    height: 120px;
-    opacity: 0.05;
-  }
-  70%, 100% {
-    height: 150px;
-    opacity: 0;
-  }
+  opacity: 0.85;
+  mask-image: radial-gradient(ellipse 65% 55% at 50% 45%, black 0%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse 65% 55% at 50% 45%, black 0%, transparent 70%);
 }
 
 .hero-text {
@@ -593,19 +472,11 @@ body {
 
 /* Responsive */
 @media (max-width: 900px) {
-  .spinning-ring {
-    width: 300px;
-    height: 300px;
-    right: -5%;
-    opacity: 0.6;
-  }
-
-  .spinning-ring::after {
-    inset: 40px;
-  }
-
-  .spinning-ring-inner {
-    inset: 80px;
+  #fractal-canvas {
+    width: 500px;
+    height: 500px;
+    right: -100px;
+    opacity: 0.4;
   }
 
   .showcase-grid {
@@ -641,13 +512,16 @@ body {
     display: flex;
   }
 
-  .spinning-ring,
-  .spinning-ring-inner,
-  .ring-center,
-  .ring-dot,
-  .fractal-node,
-  .fractal-branch {
-    display: none;
+  #fractal-canvas {
+    width: 100vw;
+    height: 400px;
+    right: auto;
+    left: 0;
+    top: 15%;
+    opacity: 0.6;
+    transform: none;
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 0%, transparent 70%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 0%, transparent 70%);
   }
 
   .hero {
@@ -734,6 +608,16 @@ body {
   .nav-icon {
     width: 22px;
     height: 12px;
+  }
+
+  #fractal-canvas {
+    width: 100vw;
+    height: 350px;
+    right: auto;
+    left: 0;
+    top: 12%;
+    opacity: 0.5;
+    transform: none;
   }
 
   .hero {
