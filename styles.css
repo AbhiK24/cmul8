@@ -159,6 +159,55 @@ body {
   padding: 8rem 3rem 6rem;
   max-width: 1200px;
   margin: 0 auto;
+  position: relative;
+}
+
+/* Spinning Ring */
+.spinning-ring {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 500px;
+  height: 500px;
+  pointer-events: none;
+  perspective: 800px;
+  transform-style: preserve-3d;
+}
+
+.spinning-ring::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 3px solid rgba(0, 0, 0, 0.15);
+  border-radius: 50%;
+  animation: spinRing 6s linear infinite;
+}
+
+.spinning-ring::after {
+  content: '';
+  position: absolute;
+  inset: 60px;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  animation: spinRing 10s linear infinite reverse;
+}
+
+.spinning-ring-inner {
+  position: absolute;
+  inset: 120px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 50%;
+  animation: spinRing 14s linear infinite;
+}
+
+@keyframes spinRing {
+  0% {
+    transform: rotateX(75deg) rotateZ(0deg);
+  }
+  100% {
+    transform: rotateX(75deg) rotateZ(360deg);
+  }
 }
 
 .hero-text {
@@ -457,6 +506,21 @@ body {
 
 /* Responsive */
 @media (max-width: 900px) {
+  .spinning-ring {
+    width: 350px;
+    height: 350px;
+    right: -10%;
+    opacity: 0.7;
+  }
+
+  .spinning-ring::after {
+    inset: 50px;
+  }
+
+  .spinning-ring-inner {
+    inset: 100px;
+  }
+
   .showcase-grid {
     grid-template-columns: 1fr;
   }
@@ -488,6 +552,11 @@ body {
 
   .mobile-menu {
     display: flex;
+  }
+
+  .spinning-ring,
+  .spinning-ring-inner {
+    display: none;
   }
 
   .hero {
