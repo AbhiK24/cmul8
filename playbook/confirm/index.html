@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Download Your Playbook - cmul8</title>
+  <title>Check Your Email - cmul8</title>
   <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -62,7 +62,7 @@
       text-align: center;
     }
 
-    .success-badge {
+    .email-icon {
       width: 72px;
       height: 72px;
       margin-bottom: 2rem;
@@ -74,9 +74,9 @@
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     }
 
-    .success-badge svg {
-      width: 36px;
-      height: 36px;
+    .email-icon svg {
+      width: 32px;
+      height: 32px;
       color: var(--text-dark);
     }
 
@@ -90,74 +90,65 @@
     .subtitle {
       font-size: 1.125rem;
       color: var(--text-gray);
-      max-width: 450px;
+      max-width: 400px;
       margin-bottom: 2rem;
     }
 
-    .playbook-preview {
-      display: flex;
+    .email-highlight {
+      display: inline-block;
       background: var(--white);
-      border-radius: 4px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      font-weight: 500;
       margin-bottom: 2rem;
-      overflow: hidden;
-      max-width: 280px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
     }
 
-    .preview-spine {
-      width: 8px;
-      background: linear-gradient(to right, rgba(0,0,0,0.06), rgba(0,0,0,0.02));
+    .steps {
+      text-align: left;
+      background: var(--white);
+      padding: 1.5rem 2rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+      max-width: 360px;
     }
 
-    .preview-content {
-      padding: 1.25rem 1.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .preview-tag {
-      font-size: 0.625rem;
+    .steps h3 {
+      font-size: 0.75rem;
       font-weight: 500;
       text-transform: uppercase;
       letter-spacing: 0.1em;
       color: var(--text-gray);
+      margin-bottom: 1rem;
     }
 
-    .preview-title {
-      font-size: 0.9375rem;
-      font-weight: 500;
-      letter-spacing: -0.01em;
-      color: var(--text-dark);
+    .step {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 0.75rem;
     }
 
-    .download-button {
-      display: inline-flex;
+    .step:last-child {
+      margin-bottom: 0;
+    }
+
+    .step-number {
+      width: 24px;
+      height: 24px;
+      background: var(--bg);
+      border-radius: 50%;
+      display: flex;
       align-items: center;
-      gap: 0.75rem;
-      padding: 1.125rem 2.5rem;
-      font-size: 1rem;
+      justify-content: center;
+      font-size: 0.75rem;
       font-weight: 500;
-      font-family: inherit;
-      color: var(--white);
-      background: var(--accent);
-      border: none;
-      border-radius: 3rem;
-      text-decoration: none;
-      cursor: pointer;
-      transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      flex-shrink: 0;
     }
 
-    .download-button:hover {
-      opacity: 0.9;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-    }
-
-    .download-button svg {
-      width: 20px;
-      height: 20px;
+    .step-text {
+      font-size: 0.9375rem;
+      color: var(--text-dark);
+      padding-top: 2px;
     }
 
     .back-link {
@@ -182,17 +173,6 @@
       color: var(--text-gray);
     }
   </style>
-  <script>
-    // Require confirmation token from email link
-    (function() {
-      const params = new URLSearchParams(window.location.search);
-      const hasToken = params.has('confirmed');
-
-      if (!hasToken) {
-        window.location.href = '/playbook';
-      }
-    })();
-  </script>
 </head>
 <body>
   <nav class="nav">
@@ -208,32 +188,33 @@
   </nav>
 
   <main>
-    <div class="success-badge">
+    <div class="email-icon">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-        <circle cx="12" cy="12" r="10"/>
-        <path d="M8 12l2.5 2.5L16 9"/>
+        <rect x="2" y="4" width="20" height="16" rx="2"/>
+        <path d="M22 6l-10 7L2 6"/>
       </svg>
     </div>
 
-    <h1>You're in.</h1>
-    <p class="subtitle">Your playbook is ready. Click below to download it now.</p>
+    <h1>Check your email</h1>
+    <p class="subtitle">We've sent a confirmation link to verify your email address.</p>
 
-    <div class="playbook-preview">
-      <div class="preview-spine"></div>
-      <div class="preview-content">
-        <span class="preview-tag">PDF</span>
-        <span class="preview-title">The Customer Simulation Playbook</span>
+    <div class="steps">
+      <h3>Next steps</h3>
+      <div class="step">
+        <span class="step-number">1</span>
+        <span class="step-text">Open the email from cmul8</span>
+      </div>
+      <div class="step">
+        <span class="step-number">2</span>
+        <span class="step-text">Click the confirmation link</span>
+      </div>
+      <div class="step">
+        <span class="step-number">3</span>
+        <span class="step-text">Download your playbook</span>
       </div>
     </div>
 
-    <a href="/assets/customer-simulation-playbook.pdf" class="download-button" download="Customer-Simulation-Playbook.pdf">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
-      </svg>
-      Download Playbook
-    </a>
-
-    <a href="/" class="back-link">Back to cmul8.com</a>
+    <a href="/playbook" class="back-link">Didn't receive it? Try again</a>
   </main>
 
   <footer class="footer">
