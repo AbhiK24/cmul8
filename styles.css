@@ -421,15 +421,7 @@ body {
 .trust-subtitle {
   font-size: 1.125rem;
   color: var(--text-gray);
-  margin-bottom: 1.5rem;
-}
-
-.trust-intro {
-  font-size: 1rem;
-  color: var(--text-gray);
-  max-width: 700px;
-  margin: 0 auto 3rem;
-  line-height: 1.7;
+  margin-bottom: 2.5rem;
 }
 
 .trust-pillars {
