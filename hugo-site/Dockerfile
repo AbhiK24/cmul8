@@ -4,7 +4,7 @@ FROM hugomods/hugo:exts as builder
 WORKDIR /src
 COPY . .
 
-RUN hugo --minify
+RUN hugo --minify --buildFuture
 
 # Production stage
 FROM nginx:alpine
