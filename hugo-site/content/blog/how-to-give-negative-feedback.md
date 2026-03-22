@@ -7,7 +7,7 @@ lastmod: 2026-03-23
 category: "difficult-conversations"
 tags: ["feedback", "management", "communication", "leadership"]
 keywords: ["how to give negative feedback", "giving feedback at work", "difficult conversations", "constructive criticism", "negative feedback examples", "feedback to employees"]
-image: "https://image.pollinations.ai/prompt/abstract%20geometric%20montage%20illustration%20difficult%20conversation%20feedback%20workplace%20minimalist%20muted%20earth%20tones%20professional%20editorial%20style?width=1200&height=630&nologo=true"
+image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200&h=630&fit=crop"
 
 tldr: "Use the SBII framework: describe the Situation specifically, explain the Behavior you observed (not your interpretation), share the Impact it had, and Invite their perspective. Deliver within 48 hours, always in private. Research shows 72% of employees say their performance would improve with more corrective feedback—most people want to know what's not working."
 

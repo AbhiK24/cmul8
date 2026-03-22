@@ -7,7 +7,7 @@ lastmod: 2026-03-21
 category: "leadership"
 tags: ["management", "leadership", "career"]
 keywords: ["first time manager", "new manager mistakes", "management tips", "leadership"]
-image: "https://image.pollinations.ai/prompt/abstract%20geometric%20montage%20illustration%20leadership%20team%20management%20growth%20minimalist%20warm%20tones%20editorial%20design%20professional?width=1200&height=630&nologo=true"
+image: "https://images.unsplash.com/photo-1557683316-973673baf926?w=1200&h=630&fit=crop"
 
 tldr: "The biggest mistakes: trying to stay friends instead of leading, solving everyone's problems instead of developing them, giving feedback too late or not at all, treating all reports the same, and taking credit or deflecting blame wrong. Most new managers figure this out eventually—usually after damaging key relationships."
 
