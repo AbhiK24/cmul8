@@ -1,51 +1,94 @@
 {{ define "main" }}
-<section class="blog-listing">
-  <header class="blog-header">
-    <h1>{{ if .IsSection }}Blog{{ else }}{{ .Title }}{{ end }}</h1>
-    <p class="blog-subtitle">Practical advice for navigating workplace challenges. No fluff, just real talk.</p>
-  </header>
+<!-- Blog Hero -->
+<section class="blog-hero">
+  <div class="blog-hero-content">
+    <h1>Work is hard.<br><span class="text-muted">We write about it.</span></h1>
+    <p>Practical guides for difficult conversations, leadership, career growth, and getting things done. No corporate fluff.</p>
+  </div>
+</section>
 
-  <!-- Category Filter -->
-  <nav class="blog-categories">
-    <a href="/blog/" class="category-pill{{ if eq .RelPermalink "/blog/" }} active{{ end }}">All</a>
-    {{ range .Site.Taxonomies.categories }}
-    <a href="{{ .Page.Permalink }}" class="category-pill">{{ .Page.Title | humanize }}</a>
-    {{ end }}
-  </nav>
+<!-- Featured Article -->
+{{ $posts := .Pages }}
+{{ with index $posts 0 }}
+<section class="blog-featured">
+  <a href="{{ .Permalink }}" class="blog-featured-card">
+    <div class="blog-featured-image">
+      {{ with .Params.image }}
+      <img src="{{ . }}" alt="{{ $.Title }}">
+      {{ else }}
+      <div class="blog-featured-placeholder">
+        <svg viewBox="0 0 200 120" fill="none">
+          <rect width="200" height="120" fill="#1a1a1a"/>
+          <circle cx="50" cy="60" r="25" stroke="#333" stroke-width="2"/>
+          <circle cx="100" cy="60" r="35" stroke="#444" stroke-width="2"/>
+          <circle cx="150" cy="60" r="20" stroke="#333" stroke-width="2"/>
+          <line x1="20" y1="100" x2="180" y2="100" stroke="#333" stroke-width="1" stroke-dasharray="4 4"/>
+        </svg>
+      </div>
+      {{ end }}
+    </div>
+    <div class="blog-featured-content">
+      <span class="blog-featured-label">Latest</span>
+      <span class="blog-featured-category">{{ .Params.category | humanize }}</span>
+      <h2>{{ .Title }}</h2>
+      <p>{{ .Params.description }}</p>
+      <div class="blog-featured-meta">
+        <span>{{ .PublishDate.Format "Jan 2, 2006" }}</span>
+        <span>{{ math.Round (div (countwords .Content) 200.0) }} min read</span>
+      </div>
+    </div>
+  </a>
+</section>
+{{ end }}
 
-  <!-- Posts Grid -->
-  <div class="blog-grid">
-    {{ $paginator := .Paginate .Pages 12 }}
-    {{ range $paginator.Pages }}
-    <article class="blog-card">
-      <a href="{{ .Permalink }}" class="blog-card-link">
-        {{ with .Params.category }}
-        <span class="blog-card-category">{{ . | humanize }}</span>
-        {{ end }}
-        <h2 class="blog-card-title">{{ .Title }}</h2>
-        <p class="blog-card-description">{{ .Params.description | truncate 120 }}</p>
-        <div class="blog-card-meta">
-          <time datetime="{{ .PublishDate.Format "2006-01-02" }}">{{ .PublishDate.Format "Jan 2, 2006" }}</time>
-          <span class="blog-card-read-time">{{ math.Round (div (countwords .Content) 200.0) }} min</span>
-        </div>
-      </a>
-    </article>
-    {{ end }}
+<!-- All Articles -->
+<section class="blog-articles">
+  <div class="blog-articles-header">
+    <h2>All Articles</h2>
   </div>
 
-  <!-- Pagination -->
-  {{ if gt $paginator.TotalPages 1 }}
-  <nav class="pagination">
-    {{ if $paginator.HasPrev }}
-    <a href="{{ $paginator.Prev.URL }}" class="pagination-link prev">Previous</a>
+  <div class="blog-articles-grid">
+    {{ range $posts }}
+    <a href="{{ .Permalink }}" class="blog-article-card">
+      <div class="blog-article-image">
+        {{ with .Params.image }}
+        <img src="{{ . }}" alt="{{ $.Title }}">
+        {{ else }}
+        <div class="blog-article-placeholder">
+          <svg viewBox="0 0 120 80" fill="none">
+            <rect width="120" height="80" fill="#f5f5f5"/>
+            <circle cx="40" cy="40" r="15" stroke="#ddd" stroke-width="1.5"/>
+            <circle cx="70" cy="40" r="20" stroke="#e5e5e5" stroke-width="1.5"/>
+            <line x1="20" y1="65" x2="100" y2="65" stroke="#eee" stroke-width="1"/>
+          </svg>
+        </div>
+        {{ end }}
+      </div>
+      <div class="blog-article-content">
+        <span class="blog-article-category">{{ .Params.category | humanize }}</span>
+        <h3>{{ .Title }}</h3>
+        <p>{{ .Params.description | truncate 100 }}</p>
+        <div class="blog-article-meta">
+          <span>{{ .PublishDate.Format "Jan 2" }}</span>
+          <span>{{ math.Round (div (countwords .Content) 200.0) }} min</span>
+        </div>
+      </div>
+    </a>
+    {{ else }}
+    <p class="blog-no-articles">New articles coming soon.</p>
     {{ end }}
+  </div>
+</section>
 
-    <span class="pagination-info">Page {{ $paginator.PageNumber }} of {{ $paginator.TotalPages }}</span>
-
-    {{ if $paginator.HasNext }}
-    <a href="{{ $paginator.Next.URL }}" class="pagination-link next">Next</a>
-    {{ end }}
-  </nav>
-  {{ end }}
+<!-- Newsletter CTA -->
+<section class="blog-newsletter">
+  <div class="blog-newsletter-content">
+    <h2>Get smarter about work</h2>
+    <p>One practical article per week. No spam, no fluff.</p>
+    <form class="blog-newsletter-form" action="#" method="POST">
+      <input type="email" placeholder="you@example.com" required>
+      <button type="submit">Subscribe</button>
+    </form>
+  </div>
 </section>
 {{ end }}
