@@ -3,87 +3,131 @@
 <section class="hero">
   <div class="hero-content">
     <h1 class="hero-title">
-      <span class="hero-title-main">cmul8</span>
-      <span class="hero-title-sub">Practical insights for navigating work</span>
+      <span class="hero-title-main">Work is hard.</span>
+      <span class="hero-title-sub">We make it easier.</span>
     </h1>
     <p class="hero-description">
-      No-fluff guides on difficult conversations, leadership, career growth, and getting things done. Written by people who've been there.
+      Practical, no-BS guides for the conversations and situations nobody taught you how to handle.
     </p>
-    <div class="hero-actions">
-      <a href="/blog/" class="btn btn-primary">Read the Blog</a>
-    </div>
   </div>
 </section>
 
-<!-- Featured Posts -->
-<section class="featured-posts">
-  <h2>Latest Articles</h2>
-  <div class="featured-grid">
-    {{ $posts := where .Site.RegularPages "Section" "blog" }}
-    {{ range first 6 $posts }}
-    <article class="featured-card">
-      <a href="{{ .Permalink }}">
-        {{ with .Params.category }}
-        <span class="featured-category">{{ . | humanize }}</span>
-        {{ end }}
-        <h3>{{ .Title }}</h3>
-        <p>{{ .Params.description | truncate 140 }}</p>
-        <div class="featured-meta">
-          <time datetime="{{ .PublishDate.Format "2006-01-02" }}">{{ .PublishDate.Format "Jan 2, 2006" }}</time>
-          <span>{{ math.Round (div (countwords .Content) 200.0) }} min read</span>
-        </div>
-      </a>
-    </article>
-    {{ else }}
-    <!-- Placeholder when no posts exist yet -->
-    <div class="no-posts">
-      <p>Articles coming soon. Check back shortly.</p>
+<!-- Featured Article (Hero Card) -->
+{{ $posts := where .Site.RegularPages "Section" "blog" }}
+{{ with index $posts 0 }}
+<section class="featured-hero">
+  <div class="featured-hero-label">Latest Article</div>
+  <a href="{{ .Permalink }}" class="featured-hero-card">
+    <div class="featured-hero-content">
+      <span class="featured-hero-category">{{ .Params.category | humanize }}</span>
+      <h2>{{ .Title }}</h2>
+      <p>{{ .Params.description }}</p>
+      <div class="featured-hero-meta">
+        <span class="featured-hero-read">Read article →</span>
+        <span class="featured-hero-time">{{ math.Round (div (countwords .Content) 200.0) }} min read</span>
+      </div>
     </div>
+  </a>
+</section>
+{{ end }}
+
+<!-- Popular Articles -->
+<section class="popular-section">
+  <div class="section-header">
+    <h2>Popular Right Now</h2>
+    <a href="/blog/" class="section-link">View all →</a>
+  </div>
+  <div class="popular-grid">
+    {{ range first 3 $posts }}
+    <a href="{{ .Permalink }}" class="popular-card">
+      <span class="popular-number">{{ add 1 (index (seq 3) 0) }}</span>
+      <div class="popular-content">
+        <span class="popular-category">{{ .Params.category | humanize }}</span>
+        <h3>{{ .Title }}</h3>
+        <span class="popular-meta">{{ math.Round (div (countwords .Content) 200.0) }} min read</span>
+      </div>
+    </a>
     {{ end }}
   </div>
-
-  {{ if gt (len $posts) 6 }}
-  <div class="view-all">
-    <a href="/blog/" class="btn btn-secondary">View All Articles</a>
-  </div>
-  {{ end }}
 </section>
 
-<!-- Categories -->
-<section class="topic-categories">
-  <h2>Topics We Cover</h2>
-  <div class="topics-grid">
-    <a href="/categories/difficult-conversations/" class="topic-card">
+<!-- Browse by Topic -->
+<section class="topics-section">
+  <h2>What do you need help with?</h2>
+  <div class="topics-grid-new">
+    <a href="/categories/difficult-conversations/" class="topic-card-new">
+      <div class="topic-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+      </div>
       <h3>Difficult Conversations</h3>
-      <p>How to give feedback, push back on your boss, and handle awkward situations without making things worse.</p>
+      <p>Giving feedback, saying no, addressing performance</p>
+      <span class="topic-cta">Browse articles →</span>
     </a>
 
-    <a href="/categories/leadership/" class="topic-card">
+    <a href="/categories/leadership/" class="topic-card-new">
+      <div class="topic-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+      </div>
       <h3>Leadership</h3>
-      <p>Managing people, building trust, dealing with conflict, and figuring out what good leadership actually looks like.</p>
+      <p>Managing people, building trust, handling conflict</p>
+      <span class="topic-cta">Browse articles →</span>
     </a>
 
-    <a href="/categories/career/" class="topic-card">
+    <a href="/categories/career/" class="topic-card-new">
+      <div class="topic-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="20" x2="12" y2="10"></line><line x1="18" y1="20" x2="18" y2="4"></line><line x1="6" y1="20" x2="6" y2="16"></line></svg>
+      </div>
       <h3>Career Growth</h3>
-      <p>Getting promoted, switching roles, negotiating, and navigating the weird unwritten rules of work.</p>
+      <p>Getting promoted, negotiating, navigating politics</p>
+      <span class="topic-cta">Browse articles →</span>
     </a>
 
-    <a href="/categories/interview-prep/" class="topic-card">
+    <a href="/categories/interview-prep/" class="topic-card-new">
+      <div class="topic-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+      </div>
       <h3>Interview Prep</h3>
-      <p>Behavioral interview tactics, PM/EM specific prep, and how to actually answer "tell me about a time..."</p>
+      <p>Behavioral questions, PM/EM prep, case studies</p>
+      <span class="topic-cta">Browse articles →</span>
     </a>
   </div>
 </section>
 
-<!-- Newsletter -->
-<section class="newsletter">
-  <div class="newsletter-content">
-    <h2>Get new articles in your inbox</h2>
-    <p>One email per week. No spam. Unsubscribe anytime.</p>
-    <form class="newsletter-form" action="#" method="POST">
+<!-- All Articles -->
+<section class="all-articles">
+  <div class="section-header">
+    <h2>All Articles</h2>
+    <a href="/blog/" class="section-link">View all →</a>
+  </div>
+  <div class="articles-list">
+    {{ range $posts }}
+    <a href="{{ .Permalink }}" class="article-row">
+      <div class="article-row-main">
+        <span class="article-row-category">{{ .Params.category | humanize }}</span>
+        <h3>{{ .Title }}</h3>
+      </div>
+      <div class="article-row-meta">
+        <span>{{ .PublishDate.Format "Jan 2" }}</span>
+        <span>{{ math.Round (div (countwords .Content) 200.0) }} min</span>
+        <span class="article-row-arrow">→</span>
+      </div>
+    </a>
+    {{ else }}
+    <p class="no-articles">New articles coming soon.</p>
+    {{ end }}
+  </div>
+</section>
+
+<!-- Newsletter CTA -->
+<section class="newsletter-cta">
+  <div class="newsletter-cta-content">
+    <h2>Get smarter about work</h2>
+    <p>One practical article per week. No fluff, no spam.</p>
+    <form class="newsletter-form-inline" action="#" method="POST">
       <input type="email" placeholder="you@example.com" required>
-      <button type="submit" class="btn btn-primary">Subscribe</button>
+      <button type="submit" class="btn btn-primary">Subscribe free</button>
     </form>
+    <span class="newsletter-note">Join 1,000+ professionals</span>
   </div>
 </section>
 {{ end }}
