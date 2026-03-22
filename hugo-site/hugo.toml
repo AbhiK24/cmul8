@@ -1,0 +1,66 @@
+baseURL = 'https://cmul8.com/'
+languageCode = 'en-us'
+title = 'cmul8 - Practical Insights for Navigating Work'
+theme = 'worksim'
+
+# SEO Settings
+enableRobotsTXT = true
+canonifyURLs = true
+
+[params]
+  description = "No-fluff guides on difficult conversations, leadership, career growth, and getting things done. Written by people who've been there."
+  author = "cmul8"
+  appUrl = "https://cmul8.works"
+
+  # Open Graph / Social
+  images = ["/images/og-default.png"]
+
+  # GEO/SEO
+  keywords = ["difficult conversations", "leadership", "career growth", "interview prep", "workplace advice", "management"]
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+  [markup.highlight]
+    style = "github"
+    lineNos = false
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+  section = ["HTML", "RSS"]
+  page = ["HTML"]
+
+[sitemap]
+  changefreq = "weekly"
+  priority = 0.5
+  filename = "sitemap.xml"
+
+[taxonomies]
+  category = "categories"
+  tag = "tags"
+
+[menu]
+  [[menu.main]]
+    name = "Blog"
+    url = "/blog/"
+    weight = 1
+  [[menu.main]]
+    name = "Difficult Conversations"
+    url = "/categories/difficult-conversations/"
+    weight = 2
+  [[menu.main]]
+    name = "Leadership"
+    url = "/categories/leadership/"
+    weight = 3
+  [[menu.main]]
+    name = "Career"
+    url = "/categories/career/"
+    weight = 4
+
+[permalinks]
+  blog = "/blog/:slug/"
+
+# Build settings
+[build]
+  writeStats = true

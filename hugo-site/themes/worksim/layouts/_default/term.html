@@ -1,0 +1,26 @@
+{{ define "main" }}
+<section class="blog-listing">
+  <header class="blog-header">
+    <h1>{{ .Title | humanize }}</h1>
+    <p class="blog-subtitle">{{ len .Pages }} article{{ if gt (len .Pages) 1 }}s{{ end }} in this category</p>
+  </header>
+
+  <div class="blog-grid">
+    {{ range .Pages }}
+    <article class="blog-card">
+      <a href="{{ .Permalink }}" class="blog-card-link">
+        {{ with .Params.category }}
+        <span class="blog-card-category">{{ . | humanize }}</span>
+        {{ end }}
+        <h2 class="blog-card-title">{{ .Title }}</h2>
+        <p class="blog-card-description">{{ .Params.description | truncate 120 }}</p>
+        <div class="blog-card-meta">
+          <time datetime="{{ .PublishDate.Format "2006-01-02" }}">{{ .PublishDate.Format "Jan 2, 2006" }}</time>
+          <span class="blog-card-read-time">{{ math.Round (div (countwords .Content) 200.0) }} min</span>
+        </div>
+      </a>
+    </article>
+    {{ end }}
+  </div>
+</section>
+{{ end }}

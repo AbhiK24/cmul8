@@ -1,0 +1,51 @@
+{{ define "main" }}
+<section class="blog-listing">
+  <header class="blog-header">
+    <h1>{{ if .IsSection }}Blog{{ else }}{{ .Title }}{{ end }}</h1>
+    <p class="blog-subtitle">Practical advice for navigating workplace challenges. No fluff, just real talk.</p>
+  </header>
+
+  <!-- Category Filter -->
+  <nav class="blog-categories">
+    <a href="/blog/" class="category-pill{{ if eq .RelPermalink "/blog/" }} active{{ end }}">All</a>
+    {{ range .Site.Taxonomies.categories }}
+    <a href="{{ .Page.Permalink }}" class="category-pill">{{ .Page.Title | humanize }}</a>
+    {{ end }}
+  </nav>
+
+  <!-- Posts Grid -->
+  <div class="blog-grid">
+    {{ $paginator := .Paginate .Pages 12 }}
+    {{ range $paginator.Pages }}
+    <article class="blog-card">
+      <a href="{{ .Permalink }}" class="blog-card-link">
+        {{ with .Params.category }}
+        <span class="blog-card-category">{{ . | humanize }}</span>
+        {{ end }}
+        <h2 class="blog-card-title">{{ .Title }}</h2>
+        <p class="blog-card-description">{{ .Params.description | truncate 120 }}</p>
+        <div class="blog-card-meta">
+          <time datetime="{{ .PublishDate.Format "2006-01-02" }}">{{ .PublishDate.Format "Jan 2, 2006" }}</time>
+          <span class="blog-card-read-time">{{ math.Round (div (countwords .Content) 200.0) }} min</span>
+        </div>
+      </a>
+    </article>
+    {{ end }}
+  </div>
+
+  <!-- Pagination -->
+  {{ if gt $paginator.TotalPages 1 }}
+  <nav class="pagination">
+    {{ if $paginator.HasPrev }}
+    <a href="{{ $paginator.Prev.URL }}" class="pagination-link prev">Previous</a>
+    {{ end }}
+
+    <span class="pagination-info">Page {{ $paginator.PageNumber }} of {{ $paginator.TotalPages }}</span>
+
+    {{ if $paginator.HasNext }}
+    <a href="{{ $paginator.Next.URL }}" class="pagination-link next">Next</a>
+    {{ end }}
+  </nav>
+  {{ end }}
+</section>
+{{ end }}
