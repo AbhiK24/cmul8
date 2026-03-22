@@ -16,7 +16,7 @@
   --color-accent: #2563eb;
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --max-width: 1200px;
-  --content-width: 720px;
+  --content-width: 800px;
 }
 
 html {
@@ -893,11 +893,76 @@ details[open] .faq-question::before {
   color: var(--color-mid);
 }
 
+/* Article Banner */
+.article-banner {
+  margin: -2rem -1.5rem 2rem;
+  border-radius: 0;
+}
+
+.article-banner img {
+  width: 100%;
+  height: auto;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: 0 0 16px 16px;
+}
+
+@media (min-width: 900px) {
+  .article-banner {
+    margin: 0 0 2rem;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .article-banner img {
+    border-radius: 16px;
+  }
+}
+
+/* WorkSim CTA */
+.worksim-cta {
+  margin: 3rem 0;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  border-radius: 16px;
+  padding: 2.5rem;
+}
+
+.worksim-cta-content {
+  text-align: center;
+  color: var(--color-white);
+}
+
+.worksim-cta h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.worksim-cta p {
+  font-size: 1rem;
+  opacity: 0.85;
+  line-height: 1.6;
+  max-width: 500px;
+  margin: 0 auto 1.5rem;
+}
+
+.worksim-cta-button {
+  display: inline-block;
+  background: var(--color-white);
+  color: var(--color-dark);
+  padding: 0.875rem 2rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+.worksim-cta-button:hover {
+  transform: translateY(-2px);
+  opacity: 0.95;
+}
+
 /* Article Footer */
 .article-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   margin-top: 3rem;
   padding-top: 2rem;
   border-top: 1px solid var(--color-border);
@@ -909,6 +974,17 @@ details[open] .faq-question::before {
   gap: 1rem;
 }
 
+.author-avatar-placeholder {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--color-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-mid);
+}
+
 .author-avatar {
   width: 48px;
   height: 48px;
@@ -918,29 +994,13 @@ details[open] .faq-question::before {
 
 .author-name {
   display: block;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .author-bio {
   display: block;
   font-size: 0.875rem;
   color: var(--color-muted);
-}
-
-.article-share {
-  display: flex;
-  gap: 0.75rem;
-  align-items: center;
-  font-size: 0.875rem;
-  color: var(--color-muted);
-}
-
-.share-link {
-  color: var(--color-mid);
-}
-
-.share-link:hover {
-  color: var(--color-dark);
 }
 
 /* Related Posts */

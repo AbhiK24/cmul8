@@ -13,7 +13,7 @@
   },
   "publisher": {
     "@type": "Organization",
-    "name": "WorkSim",
+    "name": "cmul8",
     "logo": {
       "@type": "ImageObject",
       "url": "{{ .Site.BaseURL }}images/logo.png"
@@ -74,6 +74,13 @@
 
 {{ define "main" }}
 <article class="article">
+  <!-- Banner Image -->
+  {{ with .Params.image }}
+  <div class="article-banner">
+    <img src="{{ . }}" alt="{{ $.Title }}">
+  </div>
+  {{ end }}
+
   <!-- Hero -->
   <header class="article-header">
     <div class="article-meta">
@@ -133,20 +140,28 @@
   </section>
   {{ end }}
 
-  <!-- Author / Share -->
+  <!-- WorkSim CTA -->
+  <aside class="worksim-cta">
+    <div class="worksim-cta-content">
+      <h3>Practice makes perfect</h3>
+      <p>Reading about workplace scenarios is helpful. Actually practicing them with AI coworkers? That's how you build real skills.</p>
+      <a href="https://cmul8.works" class="worksim-cta-button">Try WorkSim Free</a>
+    </div>
+  </aside>
+
+  <!-- Author -->
   <footer class="article-footer">
     <div class="article-author">
-      <img src="/images/worksim-avatar.png" alt="WorkSim Team" class="author-avatar">
+      <div class="author-avatar-placeholder">
+        <svg width="24" height="24" viewBox="0 0 28 16" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M7 8c0-2.5 2-4.5 4.5-4.5S16 5.5 16 8s-2 4.5-4.5 4.5S7 10.5 7 8z"/>
+          <path d="M12 8c0-2.5 2-4.5 4.5-4.5S21 5.5 21 8s-2 4.5-4.5 4.5S12 10.5 12 8z"/>
+        </svg>
+      </div>
       <div class="author-info">
         <span class="author-name">{{ .Site.Params.author }}</span>
-        <span class="author-bio">Helping professionals practice workplace scenarios before they happen.</span>
+        <span class="author-bio">Building AI that understands how humans actually decide.</span>
       </div>
-    </div>
-
-    <div class="article-share">
-      <span>Share:</span>
-      <a href="https://twitter.com/intent/tweet?text={{ .Title | urlquery }}&url={{ .Permalink | urlquery }}" target="_blank" rel="noopener" class="share-link">Twitter</a>
-      <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ .Permalink | urlquery }}" target="_blank" rel="noopener" class="share-link">LinkedIn</a>
     </div>
   </footer>
 
