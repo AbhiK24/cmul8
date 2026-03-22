@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Primary Meta Tags -->
-  <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | WorkSim{{ end }}</title>
-  <meta name="title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | WorkSim{{ end }}">
+  <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | cmul8{{ end }}</title>
+  <meta name="title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | cmul8{{ end }}">
   <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ with .Params.description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}{{ end }}">
   <meta name="keywords" content="{{ with .Params.keywords }}{{ delimit . ", " }}{{ else }}{{ delimit .Site.Params.keywords ", " }}{{ end }}">
   <meta name="author" content="{{ .Site.Params.author }}">
@@ -21,7 +21,7 @@
   <meta property="og:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }}{{ end }}">
   <meta property="og:description" content="{{ with .Description }}{{ . }}{{ else }}{{ with .Params.description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}{{ end }}">
   <meta property="og:image" content="{{ with .Params.image }}{{ . | absURL }}{{ else }}{{ (index .Site.Params.images 0) | absURL }}{{ end }}">
-  <meta property="og:site_name" content="WorkSim">
+  <meta property="og:site_name" content="cmul8">
 
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image">
@@ -52,7 +52,7 @@
   {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "WorkSim",
+    "name": "cmul8",
     "url": "{{ .Site.BaseURL }}",
     "logo": "{{ .Site.BaseURL }}images/logo.png",
     "description": "{{ .Site.Params.description }}",

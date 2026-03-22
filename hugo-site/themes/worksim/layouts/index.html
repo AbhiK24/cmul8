@@ -1,133 +1,297 @@
 {{ define "main" }}
-<!-- Hero Section -->
+<!-- Hero Section with Pendulum -->
 <section class="hero">
-  <div class="hero-content">
-    <h1 class="hero-title">
-      <span class="hero-title-main">Work is hard.</span>
-      <span class="hero-title-sub">We make it easier.</span>
-    </h1>
-    <p class="hero-description">
-      Practical, no-BS guides for the conversations and situations nobody taught you how to handle.
-    </p>
+  <canvas id="fractal-canvas"></canvas>
+  <h1 class="hero-text animate">
+    <span class="text-dark">Stop asking. Start knowing.</span>
+    <span class="text-gray">AI that captures how humans actually decide—not what they say they'll do.</span>
+  </h1>
+</section>
+
+<!-- Showcase Cards -->
+<section class="showcase" id="about">
+  <div class="showcase-grid">
+    <div class="showcase-card animate">
+      <div class="card-preview light">
+        <div class="card-visual">
+          <svg class="abstract-viz" viewBox="0 0 200 200" fill="none">
+            <circle cx="100" cy="100" r="60" stroke="#e0e0e0" stroke-width="1"/>
+            <circle cx="100" cy="100" r="40" stroke="#d0d0d0" stroke-width="1"/>
+            <circle cx="100" cy="100" r="20" stroke="#c0c0c0" stroke-width="1"/>
+            <circle cx="100" cy="40" r="6" fill="#1a1a1a"/>
+            <circle cx="152" cy="70" r="5" fill="#666"/>
+            <circle cx="152" cy="130" r="5" fill="#666"/>
+            <circle cx="100" cy="160" r="6" fill="#1a1a1a"/>
+            <circle cx="48" cy="130" r="5" fill="#666"/>
+            <circle cx="48" cy="70" r="5" fill="#666"/>
+            <circle cx="100" cy="100" r="8" fill="#1a1a1a"/>
+            <line x1="100" y1="46" x2="100" y2="92" stroke="#ccc" stroke-width="1"/>
+            <line x1="100" y1="108" x2="100" y2="154" stroke="#ccc" stroke-width="1"/>
+            <line x1="147" y1="73" x2="106" y2="96" stroke="#ccc" stroke-width="1"/>
+            <line x1="53" y1="127" x2="94" y2="104" stroke="#ccc" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="card-label">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"/>
+            <circle cx="12" cy="5" r="2"/>
+            <circle cx="12" cy="19" r="2"/>
+            <circle cx="5" cy="12" r="2"/>
+            <circle cx="19" cy="12" r="2"/>
+          </svg>
+          <span>SonderSim</span>
+        </div>
+      </div>
+    </div>
+    <div class="showcase-card animate">
+      <div class="card-preview dark">
+        <div class="card-visual dark-visual">
+          <svg class="abstract-viz" viewBox="0 0 200 200" fill="none">
+            <rect x="30" y="60" width="40" height="80" rx="4" stroke="#444" stroke-width="1"/>
+            <rect x="80" y="40" width="40" height="120" rx="4" stroke="#555" stroke-width="1"/>
+            <rect x="130" y="70" width="40" height="60" rx="4" stroke="#444" stroke-width="1"/>
+            <path d="M70 100 L80 100" stroke="#666" stroke-width="1"/>
+            <path d="M120 100 L130 100" stroke="#666" stroke-width="1"/>
+            <circle cx="50" cy="80" r="3" fill="#fff" opacity="0.6"/>
+            <circle cx="50" cy="100" r="3" fill="#fff" opacity="0.8"/>
+            <circle cx="50" cy="120" r="3" fill="#fff" opacity="0.5"/>
+            <circle cx="100" cy="60" r="3" fill="#fff" opacity="0.7"/>
+            <circle cx="100" cy="90" r="4" fill="#fff" opacity="1"/>
+            <circle cx="100" cy="120" r="3" fill="#fff" opacity="0.6"/>
+            <circle cx="150" cy="90" r="3" fill="#fff" opacity="0.8"/>
+            <circle cx="150" cy="110" r="3" fill="#fff" opacity="0.5"/>
+          </svg>
+        </div>
+        <div class="card-label light-label">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <path d="M3 9h18M9 21V9"/>
+          </svg>
+          <span>WorkSim</span>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- Featured Article (Hero Card) -->
-{{ $posts := where .Site.RegularPages "Section" "blog" }}
-{{ with index $posts 0 }}
-<section class="featured-hero">
-  <div class="featured-hero-label">Latest Article</div>
-  <a href="{{ .Permalink }}" class="featured-hero-card">
-    <div class="featured-hero-content">
-      <span class="featured-hero-category">{{ .Params.category | humanize }}</span>
-      <h2>{{ .Title }}</h2>
-      <p>{{ .Params.description }}</p>
-      <div class="featured-hero-meta">
-        <span class="featured-hero-read">Read article →</span>
-        <span class="featured-hero-time">{{ math.Round (div (countwords .Content) 200.0) }} min read</span>
+<!-- Features -->
+<section class="features">
+  <h2 class="features-title animate">The <svg class="inline-logo" width="20" height="12" viewBox="0 0 28 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 8c0-2.5 2-4.5 4.5-4.5S16 5.5 16 8s-2 4.5-4.5 4.5S7 10.5 7 8z"/><path d="M12 8c0-2.5 2-4.5 4.5-4.5S21 5.5 21 8s-2 4.5-4.5 4.5S12 10.5 12 8z"/><line x1="1" y1="8" x2="27" y2="8" stroke-width="1" stroke-dasharray="2 2"/><polygon points="25,6 27,8 25,10" fill="currentColor" stroke="none"/></svg> cmul8 platform</h2>
+  <div class="features-grid">
+    <div class="feature animate">
+      <div class="feature-left">
+        <svg class="feature-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="12" cy="12" r="9"/>
+          <circle cx="12" cy="9" r="2"/>
+          <path d="M8 16c0-2.2 1.8-4 4-4s4 1.8 4 4"/>
+        </svg>
+        <div class="feature-header">
+          <span class="feature-number">01</span>
+          <h3>Reasoning Models</h3>
+        </div>
+      </div>
+      <p>We extract how your customers actually think—objections, anxieties, trade-offs—from real interviews and interactions. Not stereotypes. Real reasoning.</p>
+    </div>
+    <div class="feature animate">
+      <div class="feature-left">
+        <svg class="feature-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+        </svg>
+        <div class="feature-header">
+          <span class="feature-number">02</span>
+          <h3>Grounded Simulation</h3>
+        </div>
+      </div>
+      <p>Run thousands of scenarios in minutes. Predict responses to new products, pricing, messaging—before you launch. 85%+ accuracy on purchase decisions.</p>
+    </div>
+    <div class="feature animate">
+      <div class="feature-left">
+        <svg class="feature-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M9 12l2 2 4-4"/>
+          <circle cx="12" cy="12" r="9"/>
+        </svg>
+        <div class="feature-header">
+          <span class="feature-number">03</span>
+          <h3>Validated Outputs</h3>
+        </div>
+      </div>
+      <p>Every prediction benchmarked against real outcomes. No black boxes. You get a validated mirror of your market.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Trust Section -->
+<section class="trust-section">
+  <div class="trust-content animate">
+    <h2>The Architecture of Trust</h2>
+    <p class="trust-subtitle">Rigour is our foundation.</p>
+    <div class="trust-pillars">
+      <div class="trust-pillar">
+        <h4>Ethnographic Roots</h4>
+        <p>Anchored in real interviews, behaviors, and lived experience—not internet generalizations.</p>
+      </div>
+      <div class="trust-pillar">
+        <h4>Human Complexity</h4>
+        <p>Models that capture bias, hesitation, and irrationality—not just averages.</p>
+      </div>
+      <div class="trust-pillar">
+        <h4>Validated Outputs</h4>
+        <p>Benchmarked against real panels. Transparent methodology. No black boxes.</p>
       </div>
     </div>
-  </a>
+  </div>
+</section>
+
+<!-- Products Section -->
+<section class="products-section" id="products">
+  <div class="products-content animate">
+    <h2>Our Products</h2>
+    <div class="products-grid">
+      <a href="mailto:hello@cmul8.com?subject=SonderSim" class="product-card-new">
+        <h3>SonderSim</h3>
+        <p class="product-tagline">Consumer research, reimagined.</p>
+        <p>Simulate how real consumers will respond to your product, pricing, or campaign—before you spend a dollar on launch.</p>
+        <span class="product-cta-link">Learn More &rarr;</span>
+      </a>
+      <a href="https://cmul8.works" class="product-card-new">
+        <h3>WorkSim</h3>
+        <p class="product-tagline">Hiring that predicts real performance.</p>
+        <p>Candidates interact with AI coworkers in realistic work scenarios. See how they actually handle the job—before you hire.</p>
+        <span class="product-cta-link">Try WorkSim &rarr;</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Blog Preview -->
+{{ $posts := where .Site.RegularPages "Section" "blog" }}
+{{ if $posts }}
+<section class="blog-preview-section">
+  <div class="blog-preview-content animate">
+    <div class="section-header-inline">
+      <h2>From the Blog</h2>
+      <a href="/blog/" class="section-link">View all &rarr;</a>
+    </div>
+    <div class="blog-preview-grid">
+      {{ range first 3 $posts }}
+      <a href="{{ .Permalink }}" class="blog-preview-card">
+        <span class="blog-preview-category">{{ .Params.category | humanize }}</span>
+        <h3>{{ .Title }}</h3>
+        <p>{{ .Params.description | truncate 100 }}</p>
+      </a>
+      {{ end }}
+    </div>
+  </div>
 </section>
 {{ end }}
 
-<!-- Popular Articles -->
-<section class="popular-section">
-  <div class="section-header">
-    <h2>Popular Right Now</h2>
-    <a href="/blog/" class="section-link">View all →</a>
-  </div>
-  <div class="popular-grid">
-    {{ range first 3 $posts }}
-    <a href="{{ .Permalink }}" class="popular-card">
-      <span class="popular-number">{{ add 1 (index (seq 3) 0) }}</span>
-      <div class="popular-content">
-        <span class="popular-category">{{ .Params.category | humanize }}</span>
-        <h3>{{ .Title }}</h3>
-        <span class="popular-meta">{{ math.Round (div (countwords .Content) 200.0) }} min read</span>
-      </div>
-    </a>
-    {{ end }}
+<!-- CTA Section -->
+<section class="cta-section" id="contact">
+  <div class="cta-content animate">
+    <h2>Beyond Guesswork. Start Knowing.</h2>
+    <p class="text-gray">Every decision, validated; every scenario, lived. Master your market before you build.</p>
+    <a href="mailto:hello@cmul8.com" class="cta-button">Get in Touch</a>
   </div>
 </section>
 
-<!-- Browse by Topic -->
-<section class="topics-section">
-  <h2>What do you need help with?</h2>
-  <div class="topics-grid-new">
-    <a href="/categories/difficult-conversations/" class="topic-card-new">
-      <div class="topic-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-      </div>
-      <h3>Difficult Conversations</h3>
-      <p>Giving feedback, saying no, addressing performance</p>
-      <span class="topic-cta">Browse articles →</span>
-    </a>
+<script>
+// Pendulum Wave Animation
+(function() {
+  const canvas = document.getElementById('fractal-canvas');
+  if (!canvas) return;
 
-    <a href="/categories/leadership/" class="topic-card-new">
-      <div class="topic-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-      </div>
-      <h3>Leadership</h3>
-      <p>Managing people, building trust, handling conflict</p>
-      <span class="topic-cta">Browse articles →</span>
-    </a>
+  const ctx = canvas.getContext('2d');
+  const isMobile = window.innerWidth <= 768;
+  const width = isMobile ? window.innerWidth : 800;
+  const height = isMobile ? 400 : 800;
+  canvas.width = width;
+  canvas.height = height;
 
-    <a href="/categories/career/" class="topic-card-new">
-      <div class="topic-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="20" x2="12" y2="10"></line><line x1="18" y1="20" x2="18" y2="4"></line><line x1="6" y1="20" x2="6" y2="16"></line></svg>
-      </div>
-      <h3>Career Growth</h3>
-      <p>Getting promoted, negotiating, navigating politics</p>
-      <span class="topic-cta">Browse articles →</span>
-    </a>
+  let time = 0;
+  const pendulumCount = isMobile ? 25 : 35;
+  const centerX = width / 2;
+  const anchorY = isMobile ? 50 : 100;
 
-    <a href="/categories/interview-prep/" class="topic-card-new">
-      <div class="topic-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
-      </div>
-      <h3>Interview Prep</h3>
-      <p>Behavioral questions, PM/EM prep, case studies</p>
-      <span class="topic-cta">Browse articles →</span>
-    </a>
-  </div>
-</section>
+  function draw() {
+    ctx.fillStyle = '#fafafb';
+    ctx.fillRect(0, 0, width, height);
 
-<!-- All Articles -->
-<section class="all-articles">
-  <div class="section-header">
-    <h2>All Articles</h2>
-    <a href="/blog/" class="section-link">View all →</a>
-  </div>
-  <div class="articles-list">
-    {{ range $posts }}
-    <a href="{{ .Permalink }}" class="article-row">
-      <div class="article-row-main">
-        <span class="article-row-category">{{ .Params.category | humanize }}</span>
-        <h3>{{ .Title }}</h3>
-      </div>
-      <div class="article-row-meta">
-        <span>{{ .PublishDate.Format "Jan 2" }}</span>
-        <span>{{ math.Round (div (countwords .Content) 200.0) }} min</span>
-        <span class="article-row-arrow">→</span>
-      </div>
-    </a>
-    {{ else }}
-    <p class="no-articles">New articles coming soon.</p>
-    {{ end }}
-  </div>
-</section>
+    time += 0.015;
 
-<!-- Newsletter CTA -->
-<section class="newsletter-cta">
-  <div class="newsletter-cta-content">
-    <h2>Get smarter about work</h2>
-    <p>One practical article per week. No fluff, no spam.</p>
-    <form class="newsletter-form-inline" action="#" method="POST">
-      <input type="email" placeholder="you@example.com" required>
-      <button type="submit" class="btn btn-primary">Subscribe free</button>
-    </form>
-    <span class="newsletter-note">Join 1,000+ professionals</span>
-  </div>
-</section>
+    for (let i = 0; i < pendulumCount; i++) {
+      const margin = isMobile ? 40 : 100;
+      const x = margin + (i / (pendulumCount - 1)) * (width - margin * 2);
+      const frequency = 0.8 + i * 0.03;
+      const baseLength = isMobile ? 180 : 300;
+      const length = baseLength + Math.sin(i * 0.2) * (isMobile ? 30 : 50);
+      const angle = Math.sin(time * frequency) * 0.4;
+
+      const bobX = x + Math.sin(angle) * length;
+      const bobY = anchorY + Math.cos(angle) * length;
+
+      const centerDist = Math.abs(i - pendulumCount / 2) / (pendulumCount / 2);
+      const baseFade = 1 - centerDist * 0.6;
+
+      ctx.beginPath();
+      ctx.moveTo(x, anchorY);
+      ctx.lineTo(bobX, bobY);
+      ctx.strokeStyle = `rgba(26, 26, 26, ${0.12 * baseFade})`;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      const bobSize = isMobile ? (4 + (1 - centerDist) * 4) : (5 + (1 - centerDist) * 5);
+      ctx.beginPath();
+      ctx.arc(bobX, bobY, bobSize, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(26, 26, 26, ${0.2 * baseFade})`;
+      ctx.fill();
+
+      for (let t = 1; t <= 3; t++) {
+        const trailTime = time - t * 0.08;
+        const trailAngle = Math.sin(trailTime * frequency) * 0.4;
+        const trailX = x + Math.sin(trailAngle) * length;
+        const trailY = anchorY + Math.cos(trailAngle) * length;
+
+        ctx.beginPath();
+        ctx.arc(trailX, trailY, bobSize * 0.6, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(26, 26, 26, ${0.05 * baseFade / t})`;
+        ctx.fill();
+      }
+    }
+
+    const lineMargin = isMobile ? 30 : 80;
+    ctx.beginPath();
+    ctx.moveTo(lineMargin, anchorY);
+    ctx.lineTo(width - lineMargin, anchorY);
+    ctx.strokeStyle = 'rgba(26, 26, 26, 0.06)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    requestAnimationFrame(draw);
+  }
+
+  draw();
+})();
+
+// Scroll animations
+const observerOptions = {
+  threshold: 0.1,
+  rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, index) => {
+    if (entry.isIntersecting) {
+      const delay = entry.target.dataset.delay || 0;
+      setTimeout(() => {
+        entry.target.classList.add('visible');
+      }, delay * 100);
+    }
+  });
+}, observerOptions);
+
+document.querySelectorAll('.animate').forEach((el, index) => {
+  el.dataset.delay = index % 4;
+  observer.observe(el);
+});
+</script>
 {{ end }}
