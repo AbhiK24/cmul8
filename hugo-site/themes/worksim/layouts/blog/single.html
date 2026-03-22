@@ -116,14 +116,14 @@
     {{ .Content }}
   </div>
 
-  <!-- CTA Box -->
-  {{ with .Params.simulation_slug }}
-  <aside class="cta-box">
-    <h3>Practice This Scenario</h3>
-    <p>{{ with $.Params.cta_text }}{{ . }}{{ else }}Reading about this only gets you so far. Practice in a realistic AI simulation.{{ end }}</p>
-    <a href="{{ $.Site.Params.appUrl }}/simulations/{{ . }}" class="cta-button">Start Free Simulation</a>
+  <!-- WorkSim CTA -->
+  <aside class="worksim-cta">
+    <div class="worksim-cta-content">
+      <h3>Practice makes perfect</h3>
+      <p>Reading about workplace scenarios is helpful. Actually practicing them with AI coworkers? That's how you build real skills.</p>
+      <a href="https://cmul8.work" class="worksim-cta-button">Try WorkSim Free</a>
+    </div>
   </aside>
-  {{ end }}
 
   <!-- FAQ Section -->
   {{ with .Params.faq }}
@@ -139,15 +139,6 @@
     </div>
   </section>
   {{ end }}
-
-  <!-- WorkSim CTA -->
-  <aside class="worksim-cta">
-    <div class="worksim-cta-content">
-      <h3>Practice makes perfect</h3>
-      <p>Reading about workplace scenarios is helpful. Actually practicing them with AI coworkers? That's how you build real skills.</p>
-      <a href="https://cmul8.works" class="worksim-cta-button">Try WorkSim Free</a>
-    </div>
-  </aside>
 
   <!-- Author -->
   <footer class="article-footer">

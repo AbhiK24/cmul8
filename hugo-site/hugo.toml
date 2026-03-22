@@ -10,7 +10,7 @@ canonifyURLs = true
 [params]
   description = "We capture human reasoning at scale—data that doesn't exist anywhere else—to build AI that predicts what people will really do, not just what they say."
   author = "cmul8"
-  appUrl = "https://cmul8.works"
+  appUrl = "https://cmul8.work"
 
   # Open Graph / Social
   images = ["/images/og-default.png"]
