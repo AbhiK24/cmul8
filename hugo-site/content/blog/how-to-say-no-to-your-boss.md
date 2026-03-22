@@ -7,7 +7,7 @@ lastmod: 2026-03-22
 category: "difficult-conversations"
 tags: ["management", "communication", "career"]
 keywords: ["how to say no to your boss", "pushing back at work", "setting boundaries", "workplace communication"]
-image: "https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=1200&h=630&fit=crop"
+image: "/images/blog/say-no.jpg"
 
 tldr: "Never say 'no' without offering an alternative. Reframe the conversation around tradeoffs: 'I can do X, but it means Y won't happen this week. Which is more important?' This shows strategic thinking while protecting your capacity."
 
