@@ -4,11 +4,13 @@ BytePlus Seedream Image Generation Service
 Usage:
     python imagegen.py "your prompt here" output.jpg
     python imagegen.py --blog  # Generate all blog banners
+    python imagegen.py --ref image.png "prompt" output.jpg  # With reference image
 """
 
 import requests
 import sys
 import os
+import base64
 from pathlib import Path
 
 API_URL = "https://ark.ap-southeast.bytepluses.com/api/v3/images/generations"
@@ -19,7 +21,15 @@ if not API_KEY:
     print("Error: Set BYTEPLUS_API_KEY environment variable")
     sys.exit(1)
 
-def generate_image(prompt: str, output_path: str, size: str = "2K", watermark: bool = False) -> str:
+def image_to_base64(image_path: str) -> str:
+    """Convert image file to base64 data URI"""
+    with open(image_path, "rb") as f:
+        data = base64.b64encode(f.read()).decode()
+    ext = Path(image_path).suffix.lower()
+    mime = {"png": "image/png", "jpg": "image/jpeg", "jpeg": "image/jpeg", "webp": "image/webp"}.get(ext[1:], "image/png")
+    return f"data:{mime};base64,{data}"
+
+def generate_image(prompt: str, output_path: str, size: str = "2K", watermark: bool = False, reference_image: str = None) -> str:
     """Generate an image using BytePlus Seedream API"""
 
     headers = {
@@ -36,7 +46,11 @@ def generate_image(prompt: str, output_path: str, size: str = "2K", watermark: b
         "watermark": watermark
     }
 
-    print(f"Generating: {prompt[:50]}...")
+    if reference_image:
+        payload["image"] = [image_to_base64(reference_image)]
+        print(f"Using reference: {reference_image}")
+
+    print(f"Generating: {prompt[:60]}...")
     response = requests.post(API_URL, headers=headers, json=payload, timeout=120)
 
     if response.status_code != 200:
@@ -61,27 +75,29 @@ def generate_image(prompt: str, output_path: str, size: str = "2K", watermark: b
 
 
 def generate_blog_banners():
-    """Generate banners for all blog posts"""
+    """Generate banners for all blog posts using montage collage style"""
 
     base_path = Path(__file__).parent.parent / "static" / "images" / "blog"
+    ref_image = Path(__file__).parent.parent.parent / "reference.png"
 
+    # Montage collage style prompts inspired by reference
     banners = [
         {
-            "prompt": "Abstract geometric montage illustration, difficult conversation between two silhouettes, tension and resolution, muted earth tones brown and grey, minimalist editorial style, professional, no text, artistic",
+            "prompt": "Editorial collage montage style, vintage paper texture background, two business people in difficult conversation, speech bubbles, red and black geometric accents, cut-out photography style, retro magazine aesthetic, cream background, no text",
             "output": base_path / "negative-feedback.jpg"
         },
         {
-            "prompt": "Abstract geometric montage illustration, leadership growth journey, stepping stones ascending, warm amber and orange tones fading to purple, minimalist editorial style, professional, no text, artistic",
+            "prompt": "Editorial collage montage style, vintage paper texture background, person climbing ladder of success, desk and office elements, red geometric rectangle accent, black circle, cut-out photography style, retro magazine aesthetic, cream background, no text",
             "output": base_path / "first-time-manager.jpg"
         },
         {
-            "prompt": "Abstract geometric montage illustration, boundaries and balance, shield or barrier concept, cool blue and teal tones, minimalist editorial style, professional, no text, artistic",
+            "prompt": "Editorial collage montage style, vintage paper texture background, person with shield or boundary gesture, workplace scene, red and black geometric shapes, cut-out photography style, retro magazine aesthetic, cream background, no text",
             "output": base_path / "say-no.jpg"
         }
     ]
 
     for banner in banners:
-        generate_image(banner["prompt"], str(banner["output"]))
+        generate_image(banner["prompt"], str(banner["output"]), reference_image=str(ref_image) if ref_image.exists() else None)
 
     print("\nAll blog banners generated!")
 
@@ -90,13 +106,17 @@ if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Usage:")
         print("  python imagegen.py 'prompt' output.jpg")
+        print("  python imagegen.py --ref image.png 'prompt' output.jpg")
         print("  python imagegen.py --blog")
         sys.exit(1)
 
     if sys.argv[1] == "--blog":
         generate_blog_banners()
+    elif sys.argv[1] == "--ref" and len(sys.argv) >= 5:
+        generate_image(sys.argv[3], sys.argv[4], reference_image=sys.argv[2])
     elif len(sys.argv) >= 3:
         generate_image(sys.argv[1], sys.argv[2])
     else:
-        print("Error: Need output path")
+        print("Error: Invalid arguments")
         print("  python imagegen.py 'prompt' output.jpg")
+        print("  python imagegen.py --ref image.png 'prompt' output.jpg")
