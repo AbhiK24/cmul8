@@ -107,35 +107,101 @@
 </section>
 
 <script>
-// Pendulum Wave Animation
+// Pendulum Wave Animation - Responsive
 (function() {
   const canvas = document.getElementById('fractal-canvas');
   if (!canvas) return;
 
   const ctx = canvas.getContext('2d');
-  const isMobile = window.innerWidth <= 768;
-  const width = isMobile ? window.innerWidth : 800;
-  const height = isMobile ? 400 : 800;
-  canvas.width = width;
-  canvas.height = height;
-
   let time = 0;
-  const pendulumCount = isMobile ? 25 : 35;
-  const centerX = width / 2;
-  const anchorY = isMobile ? 50 : 100;
+  let animationId;
+
+  function getConfig() {
+    const vw = window.innerWidth;
+    const isSmallMobile = vw <= 480;
+    const isMobile = vw <= 768;
+    const isTablet = vw <= 1024;
+
+    if (isSmallMobile) {
+      return {
+        width: vw,
+        height: 280,
+        pendulumCount: 20,
+        margin: 20,
+        anchorY: 30,
+        baseLength: 140,
+        lengthVariation: 20,
+        bobBaseSize: 3,
+        bobSizeVariation: 3
+      };
+    } else if (isMobile) {
+      return {
+        width: vw,
+        height: 320,
+        pendulumCount: 25,
+        margin: 30,
+        anchorY: 40,
+        baseLength: 160,
+        lengthVariation: 25,
+        bobBaseSize: 3.5,
+        bobSizeVariation: 3.5
+      };
+    } else if (isTablet) {
+      return {
+        width: 600,
+        height: 600,
+        pendulumCount: 30,
+        margin: 60,
+        anchorY: 80,
+        baseLength: 250,
+        lengthVariation: 40,
+        bobBaseSize: 4,
+        bobSizeVariation: 4
+      };
+    } else {
+      return {
+        width: 800,
+        height: 800,
+        pendulumCount: 35,
+        margin: 100,
+        anchorY: 100,
+        baseLength: 300,
+        lengthVariation: 50,
+        bobBaseSize: 5,
+        bobSizeVariation: 5
+      };
+    }
+  }
+
+  let config = getConfig();
+
+  function resize() {
+    config = getConfig();
+    canvas.width = config.width;
+    canvas.height = config.height;
+  }
+
+  resize();
+
+  // Debounced resize handler
+  let resizeTimeout;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(resize, 150);
+  });
 
   function draw() {
+    const { width, height, pendulumCount, margin, anchorY, baseLength, lengthVariation, bobBaseSize, bobSizeVariation } = config;
+
     ctx.fillStyle = '#fafafb';
     ctx.fillRect(0, 0, width, height);
 
     time += 0.015;
 
     for (let i = 0; i < pendulumCount; i++) {
-      const margin = isMobile ? 40 : 100;
       const x = margin + (i / (pendulumCount - 1)) * (width - margin * 2);
       const frequency = 0.8 + i * 0.03;
-      const baseLength = isMobile ? 180 : 300;
-      const length = baseLength + Math.sin(i * 0.2) * (isMobile ? 30 : 50);
+      const length = baseLength + Math.sin(i * 0.2) * lengthVariation;
       const angle = Math.sin(time * frequency) * 0.4;
 
       const bobX = x + Math.sin(angle) * length;
@@ -151,7 +217,7 @@
       ctx.lineWidth = 1;
       ctx.stroke();
 
-      const bobSize = isMobile ? (4 + (1 - centerDist) * 4) : (5 + (1 - centerDist) * 5);
+      const bobSize = bobBaseSize + (1 - centerDist) * bobSizeVariation;
       ctx.beginPath();
       ctx.arc(bobX, bobY, bobSize, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(26, 26, 26, ${0.2 * baseFade})`;
@@ -170,7 +236,7 @@
       }
     }
 
-    const lineMargin = isMobile ? 30 : 80;
+    const lineMargin = margin * 0.75;
     ctx.beginPath();
     ctx.moveTo(lineMargin, anchorY);
     ctx.lineTo(width - lineMargin, anchorY);
@@ -178,7 +244,7 @@
     ctx.lineWidth = 1;
     ctx.stroke();
 
-    requestAnimationFrame(draw);
+    animationId = requestAnimationFrame(draw);
   }
 
   draw();

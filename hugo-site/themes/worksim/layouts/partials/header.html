@@ -20,7 +20,7 @@
       <a href="mailto:hello@cmul8.com" class="nav-cta">Get in Touch</a>
     </div>
 
-    <button class="nav-toggle" aria-label="Toggle menu">
+    <button class="nav-toggle" aria-label="Toggle menu" onclick="this.parentElement.parentElement.querySelector('.mobile-menu').classList.toggle('active')">
       <span></span>
       <span></span>
     </button>
@@ -31,5 +31,6 @@
     {{ range .Site.Menus.main }}
     <a href="{{ .URL }}" class="mobile-link">{{ .Name }}</a>
     {{ end }}
+    <a href="mailto:hello@cmul8.com" class="mobile-cta">Get in Touch</a>
   </div>
 </header>
