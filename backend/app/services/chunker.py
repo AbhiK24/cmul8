@@ -108,11 +108,12 @@ def _flatten_nested_dict(obj: Dict, metadata: Dict[str, Any], prefix: str = "") 
 
         elif isinstance(value, list):
             # Handle lists - create chunk for each item or combine small lists
+            path_context = path.replace("_", " ").replace(".", " > ").title() if prefix else key.replace('_', ' ').title()
             if len(value) <= 5 and all(isinstance(v, (str, int, float)) for v in value):
                 # Small list of primitives - one chunk
                 chunks.append({
                     "id": f"{source_id}_{path.replace('.', '_')}",
-                    "text": f"{key.replace('_', ' ').title()}: {', '.join(str(v) for v in value)}",
+                    "text": f"{path_context}: {', '.join(str(v) for v in value)}",
                     "metadata": {**(metadata or {}), "path": path}
                 })
             else:
@@ -122,22 +123,25 @@ def _flatten_nested_dict(obj: Dict, metadata: Dict[str, Any], prefix: str = "") 
                         item_text = "\n".join(f"{k}: {v}" for k, v in item.items() if not isinstance(v, (dict, list)))
                         chunks.append({
                             "id": f"{source_id}_{path.replace('.', '_')}_{i}",
-                            "text": f"{key.replace('_', ' ').title()} [{i+1}]:\n{item_text}",
+                            "text": f"{path_context} [{i+1}]:\n{item_text}",
                             "metadata": {**(metadata or {}), "path": f"{path}[{i}]"}
                         })
                     else:
                         chunks.append({
                             "id": f"{source_id}_{path.replace('.', '_')}_{i}",
-                            "text": f"{key.replace('_', ' ').title()}: {item}",
+                            "text": f"{path_context}: {item}",
                             "metadata": {**(metadata or {}), "path": f"{path}[{i}]"}
                         })
 
         else:
             # Primitive value - create chunk if substantial
             if value is not None and str(value).strip():
+                # Include path context for better semantic search
+                path_context = path.replace("_", " ").replace(".", " > ").title() if prefix else ""
+                text = f"{path_context}: {value}" if path_context else f"{key.replace('_', ' ').title()}: {value}"
                 chunks.append({
                     "id": f"{source_id}_{path.replace('.', '_')}",
-                    "text": f"{key.replace('_', ' ').title()}: {value}",
+                    "text": text,
                     "metadata": {**(metadata or {}), "path": path}
                 })
 
