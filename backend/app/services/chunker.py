@@ -2,7 +2,7 @@
 Text chunking service for RAG
 """
 
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Union
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 from app.config import get_settings
@@ -36,35 +36,110 @@ def chunk_text(text: str, metadata: Dict[str, Any] = None) -> List[Dict[str, Any
     ]
 
 
-def chunk_structured_data(records: List[Dict], columns: List[Dict], metadata: Dict[str, Any] = None) -> List[Dict[str, Any]]:
+def chunk_structured_data(data: Any, columns: List[Dict], metadata: Dict[str, Any] = None) -> List[Dict[str, Any]]:
     """
-    Convert structured data (CSV rows) into text chunks for embedding.
-    Each row becomes a chunk with natural language representation.
+    Convert structured data into text chunks for embedding.
+    Handles both list of records (CSV) and nested objects (JSON).
     """
     chunks = []
 
-    for i, record in enumerate(records):
-        # Convert record to natural language
-        lines = []
-        for col in columns:
-            col_name = col["name"]
-            if col_name in record and record[col_name] is not None:
-                value = record[col_name]
-                # Clean up column name for readability
-                readable_name = col_name.replace("_", " ").title()
-                lines.append(f"{readable_name}: {value}")
+    # If data is a list of records (CSV-style)
+    if isinstance(data, list):
+        for i, record in enumerate(data):
+            if isinstance(record, dict):
+                lines = []
+                for col in columns:
+                    col_name = col["name"]
+                    if col_name in record and record[col_name] is not None:
+                        value = record[col_name]
+                        readable_name = col_name.replace("_", " ").title()
+                        lines.append(f"{readable_name}: {value}")
+                text = "\n".join(lines)
+            else:
+                text = str(record)
 
-        text = "\n".join(lines)
+            chunks.append({
+                "id": f"{metadata.get('source_id', 'unknown')}_row_{i}",
+                "text": text,
+                "metadata": {**(metadata or {}), "row_index": i}
+            })
 
-        chunks.append({
-            "id": f"{metadata.get('source_id', 'unknown')}_row_{i}",
-            "text": text,
-            "metadata": {
-                **(metadata or {}),
-                "row_index": i,
-                "record": record
-            }
-        })
+    # If data is a nested object (env JSON style)
+    elif isinstance(data, dict):
+        chunks.extend(_flatten_nested_dict(data, metadata))
+
+    return chunks
+
+
+def _flatten_nested_dict(obj: Dict, metadata: Dict[str, Any], prefix: str = "") -> List[Dict[str, Any]]:
+    """
+    Recursively flatten a nested dict into chunks.
+    Each leaf value or small nested structure becomes a chunk.
+    """
+    chunks = []
+    source_id = metadata.get('source_id', 'unknown') if metadata else 'unknown'
+
+    for key, value in obj.items():
+        path = f"{prefix}.{key}" if prefix else key
+
+        if isinstance(value, dict):
+            # Check if it's a "stat" object with value/source/quote
+            if "value" in value and ("source" in value or "quote" in value):
+                # This is a named stat - create a chunk
+                text_parts = [f"Statistic: {key.replace('_', ' ').title()}"]
+                text_parts.append(f"Value: {value.get('value')}")
+                if value.get('value_type'):
+                    text_parts.append(f"Type: {value.get('value_type')}")
+                if value.get('source'):
+                    text_parts.append(f"Source: {value.get('source')}")
+                if value.get('quote'):
+                    text_parts.append(f"Quote: {value.get('quote')}")
+                if value.get('notes'):
+                    text_parts.append(f"Notes: {value.get('notes')}")
+
+                chunks.append({
+                    "id": f"{source_id}_{path.replace('.', '_')}",
+                    "text": "\n".join(text_parts),
+                    "metadata": {**(metadata or {}), "path": path, "stat_name": key}
+                })
+            else:
+                # Recurse into nested dict
+                chunks.extend(_flatten_nested_dict(value, metadata, path))
+
+        elif isinstance(value, list):
+            # Handle lists - create chunk for each item or combine small lists
+            if len(value) <= 5 and all(isinstance(v, (str, int, float)) for v in value):
+                # Small list of primitives - one chunk
+                chunks.append({
+                    "id": f"{source_id}_{path.replace('.', '_')}",
+                    "text": f"{key.replace('_', ' ').title()}: {', '.join(str(v) for v in value)}",
+                    "metadata": {**(metadata or {}), "path": path}
+                })
+            else:
+                # Larger list - chunk each item
+                for i, item in enumerate(value):
+                    if isinstance(item, dict):
+                        item_text = "\n".join(f"{k}: {v}" for k, v in item.items() if not isinstance(v, (dict, list)))
+                        chunks.append({
+                            "id": f"{source_id}_{path.replace('.', '_')}_{i}",
+                            "text": f"{key.replace('_', ' ').title()} [{i+1}]:\n{item_text}",
+                            "metadata": {**(metadata or {}), "path": f"{path}[{i}]"}
+                        })
+                    else:
+                        chunks.append({
+                            "id": f"{source_id}_{path.replace('.', '_')}_{i}",
+                            "text": f"{key.replace('_', ' ').title()}: {item}",
+                            "metadata": {**(metadata or {}), "path": f"{path}[{i}]"}
+                        })
+
+        else:
+            # Primitive value - create chunk if substantial
+            if value is not None and str(value).strip():
+                chunks.append({
+                    "id": f"{source_id}_{path.replace('.', '_')}",
+                    "text": f"{key.replace('_', ' ').title()}: {value}",
+                    "metadata": {**(metadata or {}), "path": path}
+                })
 
     return chunks
 
