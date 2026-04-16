@@ -128,3 +128,70 @@ export async function deleteEnvironment(envId: string): Promise<void> {
   })
   if (!res.ok) throw new Error("Failed to delete environment")
 }
+
+// Conversation types
+export interface ConversationMessage {
+  id: string
+  role: "user" | "assistant"
+  content: string
+  sources?: Array<{ chunk_id: string; text: string; score: number; dataset: string }>
+  created_at: string
+}
+
+export interface Conversation {
+  id: string
+  title: string
+  mode: string
+  environment_id?: string
+  created_at: string
+  messages?: ConversationMessage[]
+}
+
+export interface SendMessageResponse {
+  conversation_id: string
+  message: ConversationMessage
+  sources?: Array<{ chunk_id: string; text: string; score: number; dataset: string }>
+}
+
+// Conversation API functions
+export async function fetchConversations(projectId = "default"): Promise<Conversation[]> {
+  const res = await fetch(`${API_BASE}/api/chat/conversations?project_id=${projectId}`)
+  if (!res.ok) throw new Error("Failed to fetch conversations")
+  return res.json()
+}
+
+export async function getConversation(conversationId: string): Promise<Conversation> {
+  const res = await fetch(`${API_BASE}/api/chat/conversations/${conversationId}`)
+  if (!res.ok) throw new Error("Failed to fetch conversation")
+  return res.json()
+}
+
+export async function sendMessage(
+  environmentId: string,
+  content: string,
+  conversationId?: string,
+  mode: string = "query"
+): Promise<SendMessageResponse> {
+  const res = await fetch(`${API_BASE}/api/chat/message`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      environment_id: environmentId,
+      content,
+      conversation_id: conversationId,
+      mode,
+    }),
+  })
+  if (!res.ok) {
+    const error = await res.json().catch(() => ({}))
+    throw new Error(error.detail || "Failed to send message")
+  }
+  return res.json()
+}
+
+export async function deleteConversation(conversationId: string): Promise<void> {
+  const res = await fetch(`${API_BASE}/api/chat/conversations/${conversationId}`, {
+    method: "DELETE",
+  })
+  if (!res.ok) throw new Error("Failed to delete conversation")
+}

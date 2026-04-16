@@ -8,15 +8,15 @@ import {
   PollResponse,
   SimulationResponse,
 } from "@/components/messages"
-import {
-  cohorts,
-  mockSynthesis,
-  modes,
-} from "@/lib/mockData"
+import { cohorts, mockSynthesis, modes } from "@/lib/mockData"
 import {
   fetchEnvironments,
-  queryEnvironment,
+  fetchConversations,
+  getConversation,
+  sendMessage,
   type Environment,
+  type Conversation,
+  type ConversationMessage,
 } from "@/lib/api"
 
 type MessageType = "user" | "env" | "poll" | "sim"
@@ -38,14 +38,15 @@ interface Message {
 
 export default function Home() {
   const [sidebarOpen, setSidebarOpen] = useState(true)
-  const [selectedConversation, setSelectedConversation] = useState<string | null>(null)
+  const [selectedConversationId, setSelectedConversationId] = useState<string | null>(null)
   const [messages, setMessages] = useState<Message[]>([])
   const [isProcessing, setIsProcessing] = useState(false)
   const [environments, setEnvironments] = useState<Environment[]>([])
   const [selectedEnvId, setSelectedEnvId] = useState<string | null>(null)
+  const [conversations, setConversations] = useState<Conversation[]>([])
   const chatEndRef = useRef<HTMLDivElement>(null)
 
-  // Fetch environments on mount
+  // Fetch environments and conversations on mount
   useEffect(() => {
     fetchEnvironments()
       .then((envs) => {
@@ -53,6 +54,67 @@ export default function Home() {
         if (envs.length > 0) setSelectedEnvId(envs[0].id)
       })
       .catch(console.error)
+
+    loadConversations()
+  }, [])
+
+  const loadConversations = async () => {
+    try {
+      const convs = await fetchConversations()
+      setConversations(convs)
+    } catch (error) {
+      console.error("Failed to load conversations:", error)
+    }
+  }
+
+  // Load messages when selecting a conversation
+  const handleSelectConversation = useCallback(async (convId: string | null) => {
+    setSelectedConversationId(convId)
+
+    if (!convId) {
+      setMessages([])
+      return
+    }
+
+    try {
+      const conv = await getConversation(convId)
+      if (conv.environment_id) {
+        setSelectedEnvId(conv.environment_id)
+      }
+
+      // Convert conversation messages to UI messages
+      const uiMessages: Message[] = (conv.messages || []).map((msg: ConversationMessage) => {
+        if (msg.role === "user") {
+          return {
+            id: msg.id,
+            type: "user" as const,
+            content: msg.content,
+            mode: "ask",
+          }
+        } else {
+          return {
+            id: msg.id,
+            type: "env" as const,
+            content: msg.content,
+            mode: "ask",
+            data: {
+              text: msg.content,
+              source: "Environment Data",
+            },
+          }
+        }
+      })
+
+      setMessages(uiMessages)
+    } catch (error) {
+      console.error("Failed to load conversation:", error)
+    }
+  }, [])
+
+  // Handle new chat
+  const handleNewChat = useCallback(() => {
+    setSelectedConversationId(null)
+    setMessages([])
   }, [])
 
   useEffect(() => {
@@ -86,19 +148,30 @@ export default function Home() {
           throw new Error("No environment selected. Please create an environment first.")
         }
 
-        const result = await queryEnvironment(envId, message, "simple")
+        // Use sendMessage API which handles conversation creation
+        const result = await sendMessage(
+          envId,
+          message,
+          selectedConversationId || undefined,
+          "query"
+        )
+
+        // If this was a new conversation, update state
+        if (!selectedConversationId && result.conversation_id) {
+          setSelectedConversationId(result.conversation_id)
+          loadConversations() // Refresh sidebar
+        }
+
         const env = environments.find(e => e.id === envId)
 
         responseMessage = {
-          id: `msg-${Date.now()}-response`,
+          id: result.message.id,
           type: "env",
           content: message,
           mode,
           data: {
-            text: result.answer,
-            chart: result.chart,
+            text: result.message.content,
             source: env?.name || "Environment Data",
-            steps: result.steps,
           },
         }
       } else if (mode === "sim") {
@@ -150,7 +223,7 @@ export default function Home() {
     } finally {
       setIsProcessing(false)
     }
-  }, [selectedEnvId, environments])
+  }, [selectedEnvId, environments, selectedConversationId])
 
   const handleSuggestionClick = (suggestion: string, mode: string) => {
     const modeObj = modes.find((m) => m.id === mode)
@@ -173,8 +246,11 @@ export default function Home() {
       <div className="flex-1 flex overflow-hidden">
         <Sidebar
           open={sidebarOpen}
-          selectedConversation={selectedConversation}
-          onSelectConversation={setSelectedConversation}
+          selectedConversation={selectedConversationId}
+          onSelectConversation={handleSelectConversation}
+          conversations={conversations}
+          onConversationsChange={loadConversations}
+          onNewChat={handleNewChat}
         />
 
         <main className="flex-1 flex flex-col overflow-hidden">
