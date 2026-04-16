@@ -177,6 +177,68 @@ def query_env(
         raise HTTPException(status_code=500, detail=f"Query failed: {str(e)}")
 
 
+@router.post("/{env_id}/reindex")
+def reindex_environment(env_id: str, db: Session = Depends(get_db)):
+    """Re-index an environment with updated chunking."""
+    environment = db.query(Environment).filter(Environment.id == env_id).first()
+    if not environment:
+        raise HTTPException(status_code=404, detail="Environment not found")
+
+    # Delete existing chunks
+    delete_environment_chunks(environment.id, db)
+
+    environment.status = "building"
+    db.commit()
+
+    # Re-process each dataset
+    datasets = db.query(Dataset).filter(Dataset.id.in_(environment.dataset_ids)).all()
+    total_chunks = 0
+
+    try:
+        for dataset in datasets:
+            content = download_file(dataset.file_path)
+            if not content:
+                try:
+                    with open(dataset.file_path, "rb") as f:
+                        content = f.read()
+                except:
+                    continue
+
+            parsed = parse_file(content, dataset.original_filename or f"file.{dataset.type}")
+
+            metadata = {
+                "source_id": dataset.id,
+                "source_name": dataset.name,
+                "source_type": dataset.type
+            }
+
+            if dataset.type in ["csv", "json", "xlsx"]:
+                chunks = chunk_structured_data(
+                    parsed.get("data", []),
+                    parsed.get("columns", []),
+                    metadata
+                )
+            elif dataset.type == "pdf":
+                chunks = chunk_pdf_pages(parsed.get("pages", []), metadata)
+            else:
+                chunks = chunk_text(parsed.get("full_text", ""), metadata)
+
+            added = add_chunks(env_id, chunks, db)
+            total_chunks += added
+
+        environment.chunk_count = total_chunks
+        environment.status = "ready"
+        db.commit()
+
+    except Exception as e:
+        environment.status = "failed"
+        environment.error_message = str(e)
+        db.commit()
+        raise HTTPException(status_code=500, detail=f"Failed to reindex: {str(e)}")
+
+    return {"status": "reindexed", "chunk_count": total_chunks}
+
+
 @router.delete("/{env_id}")
 def delete_environment(env_id: str, db: Session = Depends(get_db)):
     """Delete an environment and its vector store."""
