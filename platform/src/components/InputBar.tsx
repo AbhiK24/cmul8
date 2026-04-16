@@ -105,14 +105,14 @@ export function InputBar({ onSend, isProcessing = false, onStop }: InputBarProps
         )}
 
         {/* Input Container */}
-        <div className="relative bg-[#141414] border border-[rgba(255,255,255,0.1)] rounded-2xl focus-within:border-[rgba(255,255,255,0.2)] transition-colors">
+        <div className="relative bg-[#141414] border border-[rgba(255,255,255,0.08)] rounded-2xl focus-within:border-[rgba(255,255,255,0.15)] transition-colors">
           <textarea
             ref={textareaRef}
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Ask a question or describe a scenario..."
-            className="w-full bg-transparent px-4 pt-4 pb-14 text-[15px] text-white placeholder-[rgba(255,255,255,0.35)] resize-none focus:outline-none min-h-[56px] max-h-[200px]"
+            className="w-full bg-transparent px-4 pt-4 pb-14 text-[15px] text-white placeholder-[rgba(255,255,255,0.35)] resize-none outline-none ring-0 focus:outline-none focus:ring-0 min-h-[56px] max-h-[200px]"
             rows={1}
           />
 

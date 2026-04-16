@@ -60,10 +60,16 @@ body {
   background: rgba(255, 255, 255, 0.15);
 }
 
-/* Focus states */
-*:focus-visible {
-  outline: 2px solid rgba(255, 255, 255, 0.3);
+/* Focus states - only for interactive elements, not inputs */
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.2);
   outline-offset: 2px;
+}
+
+textarea:focus-visible,
+input:focus-visible {
+  outline: none;
 }
 
 /* Selection */
