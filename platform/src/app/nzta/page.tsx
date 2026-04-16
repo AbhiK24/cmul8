@@ -86,7 +86,7 @@ export default function Home() {
           throw new Error("No environment selected. Please create an environment first.")
         }
 
-        const result = await queryEnvironment(envId, message, "analyze")
+        const result = await queryEnvironment(envId, message, "simple")
         const env = environments.find(e => e.id === envId)
 
         responseMessage = {
