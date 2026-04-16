@@ -11,7 +11,7 @@ import uuid
 from app.db.database import get_db
 from app.models.message import Conversation, Message
 from app.models.environment import Environment
-from app.services.data_analyst import analyze_environment
+from app.services.rag import query_environment
 
 router = APIRouter()
 
@@ -68,8 +68,8 @@ def send_message(
     # Generate response based on mode
     if request.mode == "query":
         try:
-            # Use multi-step data analyst agent
-            result = analyze_environment(
+            # Use simple RAG query (fast ~8s)
+            result = query_environment(
                 environment.id,
                 request.content
             )
@@ -89,9 +89,6 @@ def send_message(
                 "conversation_id": conversation.id,
                 "message": assistant_message.to_dict(),
                 "sources": result.get("sources", []),
-                "analysis_steps": result.get("steps", []),
-                "plan": result.get("plan"),
-                "validation": result.get("validation")
             }
 
         except Exception as e:
