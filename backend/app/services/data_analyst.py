@@ -452,8 +452,8 @@ def analyze_environment(
     Returns:
         Dict with answer, sources, steps taken, and metadata
     """
-    if not claude_client:
-        raise ValueError("Anthropic API key not configured")
+    if not llm_client:
+        raise ValueError("No LLM API key configured (Doubao, Moonshot, or Anthropic)")
 
     ctx = AnalysisContext(
         question=question,
