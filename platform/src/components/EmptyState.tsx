@@ -11,19 +11,19 @@ interface EmptyStateProps {
 const suggestions = [
   {
     icon: Users,
-    label: "Poll agents",
+    label: "Poll populations",
     prompt: "Would you support a congestion charge in exchange for improved public transit?",
     mode: "poll",
   },
   {
     icon: Database,
-    label: "Query environment",
+    label: "Query scenarios",
     prompt: "What is the median income distribution across District 7 zones?",
     mode: "ask",
   },
   {
     icon: Play,
-    label: "Run simulation",
+    label: "Run simulations",
     prompt: "Simulate the impact of a $5 daily congestion charge on commuter behavior",
     mode: "sim",
   },
@@ -41,27 +41,27 @@ export function EmptyState({ onSuggestionClick }: EmptyStateProps) {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.1 }}
-        className="flex items-center gap-3 mb-3"
+        className="mb-6"
       >
-        <Logo size="lg" className="opacity-50" />
+        <Logo size="lg" className="opacity-40" />
       </motion.div>
 
       <motion.h1
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.15 }}
-        className="text-[28px] font-medium text-white tracking-[-0.02em] mb-2"
+        className="text-[32px] font-medium text-white tracking-[-0.03em] mb-3 text-center"
       >
-        What would you like to simulate?
+        Test scenarios. Perfect decisions.
       </motion.h1>
 
       <motion.p
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
-        className="text-[15px] text-[rgba(255,255,255,0.5)] mb-10"
+        className="text-[15px] text-[rgba(255,255,255,0.45)] mb-12 text-center max-w-md leading-relaxed"
       >
-        Poll agents, query data, or run policy scenarios
+        Poll synthetic populations, explore policy scenarios, and run game-theoretic simulations.
       </motion.p>
 
       <div className="flex flex-wrap gap-3 justify-center max-w-xl">
@@ -72,9 +72,9 @@ export function EmptyState({ onSuggestionClick }: EmptyStateProps) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.25 + i * 0.05 }}
             onClick={() => onSuggestionClick(suggestion.prompt, suggestion.mode)}
-            className="flex items-center gap-2.5 px-4 py-3 bg-[#141414] border border-[rgba(255,255,255,0.08)] rounded-xl hover:border-[rgba(255,255,255,0.15)] hover:bg-[#1a1a1a] transition-all text-[14px] text-[rgba(255,255,255,0.7)] hover:text-white group"
+            className="flex items-center gap-2.5 px-4 py-2.5 bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.06)] rounded-full hover:border-[rgba(255,255,255,0.12)] hover:bg-[rgba(255,255,255,0.06)] transition-all text-[13px] text-[rgba(255,255,255,0.6)] hover:text-white group"
           >
-            <suggestion.icon className="w-4 h-4 opacity-50 group-hover:opacity-70 transition-opacity" />
+            <suggestion.icon className="w-4 h-4 opacity-40 group-hover:opacity-70 transition-opacity" />
             <span>{suggestion.label}</span>
           </motion.button>
         ))}
