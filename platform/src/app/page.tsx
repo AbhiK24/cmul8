@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef, useEffect, useCallback } from "react"
 import { TopNav, Sidebar, InputBar, EmptyState } from "@/components"
 import {
   UserMessage,
@@ -10,10 +10,14 @@ import {
 } from "@/components/messages"
 import {
   cohorts,
-  mockEnvResponse,
   mockSynthesis,
   modes,
 } from "@/lib/mockData"
+import {
+  fetchEnvironments,
+  queryEnvironment,
+  type Environment,
+} from "@/lib/api"
 
 type MessageType = "user" | "env" | "poll" | "sim"
 
@@ -37,17 +41,29 @@ export default function Home() {
   const [selectedConversation, setSelectedConversation] = useState<string | null>(null)
   const [messages, setMessages] = useState<Message[]>([])
   const [isProcessing, setIsProcessing] = useState(false)
+  const [environments, setEnvironments] = useState<Environment[]>([])
+  const [selectedEnvId, setSelectedEnvId] = useState<string | null>(null)
   const chatEndRef = useRef<HTMLDivElement>(null)
+
+  // Fetch environments on mount
+  useEffect(() => {
+    fetchEnvironments()
+      .then((envs) => {
+        setEnvironments(envs)
+        if (envs.length > 0) setSelectedEnvId(envs[0].id)
+      })
+      .catch(console.error)
+  }, [])
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }, [messages])
 
-  const handleSend = (
+  const handleSend = useCallback(async (
     message: string,
     mode: string,
     selectedCohorts: string[],
-    selectedDatasets: string[],
+    selectedEnvIds: string[],
     attachments: Attachment[]
   ) => {
     const userMessage: Message = {
@@ -60,19 +76,33 @@ export default function Home() {
     setMessages((prev) => [...prev, userMessage])
     setIsProcessing(true)
 
-    // Simulate response after delay
-    setTimeout(() => {
+    try {
       let responseMessage: Message
 
       if (mode === "ask") {
+        // Use real API for environment queries
+        const envId = selectedEnvIds[0] || selectedEnvId
+        if (!envId) {
+          throw new Error("No environment selected. Please create an environment first.")
+        }
+
+        const result = await queryEnvironment(envId, message, "analyze")
+        const env = environments.find(e => e.id === envId)
+
         responseMessage = {
           id: `msg-${Date.now()}-response`,
           type: "env",
           content: message,
           mode,
-          data: mockEnvResponse,
+          data: {
+            text: result.answer,
+            chart: result.chart,
+            source: env?.name || "Environment Data",
+            steps: result.steps,
+          },
         }
       } else if (mode === "sim") {
+        // Simulation mode (mock for now)
         responseMessage = {
           id: `msg-${Date.now()}-response`,
           type: "sim",
@@ -81,7 +111,7 @@ export default function Home() {
           data: { scenario: message, envReady: true, agentsReady: true },
         }
       } else {
-        // Poll mode (default)
+        // Poll mode (mock for now)
         const selectedCohortData = cohorts.filter((c) =>
           selectedCohorts.includes(c.id)
         )
@@ -104,9 +134,23 @@ export default function Home() {
       }
 
       setMessages((prev) => [...prev, responseMessage])
+    } catch (error) {
+      // Show error message
+      const errorMessage: Message = {
+        id: `msg-${Date.now()}-error`,
+        type: "env",
+        content: message,
+        mode,
+        data: {
+          text: `Error: ${error instanceof Error ? error.message : "Something went wrong"}`,
+          source: "System",
+        },
+      }
+      setMessages((prev) => [...prev, errorMessage])
+    } finally {
       setIsProcessing(false)
-    }, 1500)
-  }
+    }
+  }, [selectedEnvId, environments])
 
   const handleSuggestionClick = (suggestion: string, mode: string) => {
     const modeObj = modes.find((m) => m.id === mode)
@@ -151,7 +195,12 @@ export default function Home() {
                     )
                   }
                   if (message.type === "env") {
-                    const data = message.data as typeof mockEnvResponse
+                    const data = message.data as {
+                      text: string
+                      chart?: { type: "bar"; data: Array<{ zone: string; value: number }> }
+                      source: string
+                      steps?: Array<{ step: string; status: string; output?: string }>
+                    }
                     return (
                       <EnvResponse
                         key={message.id}
@@ -216,6 +265,12 @@ export default function Home() {
             onSend={handleSend}
             isProcessing={isProcessing}
             onStop={handleStop}
+            environments={environments}
+            onEnvironmentsChange={() => {
+              fetchEnvironments()
+                .then(setEnvironments)
+                .catch(console.error)
+            }}
           />
         </main>
       </div>
