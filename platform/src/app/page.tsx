@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useRef, useEffect, useCallback } from "react"
-import { TopNav, Sidebar, InputBar, EmptyState } from "@/components"
+import { TopNav, Sidebar, InputBar, EmptyState, ThinkingIndicator } from "@/components"
 import {
   UserMessage,
   EnvResponse,
@@ -246,16 +246,7 @@ export default function Home() {
                   }
                   return null
                 })}
-                {isProcessing && (
-                  <div className="flex items-center gap-2.5 py-4">
-                    <div className="flex gap-1">
-                      <span className="w-1.5 h-1.5 bg-white/50 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
-                      <span className="w-1.5 h-1.5 bg-white/50 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
-                      <span className="w-1.5 h-1.5 bg-white/50 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
-                    </div>
-                    <span className="text-[13px] text-[rgba(255,255,255,0.4)]">Thinking...</span>
-                  </div>
-                )}
+                {isProcessing && <ThinkingIndicator />}
                 <div ref={chatEndRef} />
               </div>
             </div>
