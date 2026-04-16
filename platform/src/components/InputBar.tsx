@@ -105,7 +105,7 @@ export function InputBar({ onSend, isProcessing = false, onStop }: InputBarProps
         )}
 
         {/* Input Container */}
-        <div className="relative bg-[#141414] border border-[rgba(255,255,255,0.1)] rounded-2xl overflow-hidden focus-within:border-[rgba(255,255,255,0.2)] transition-colors">
+        <div className="relative bg-[#141414] border border-[rgba(255,255,255,0.1)] rounded-2xl focus-within:border-[rgba(255,255,255,0.2)] transition-colors">
           <textarea
             ref={textareaRef}
             value={message}
