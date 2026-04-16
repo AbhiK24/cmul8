@@ -124,7 +124,6 @@ export default function Home() {
       <TopNav
         sidebarOpen={sidebarOpen}
         onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
-        isLive={isProcessing}
       />
 
       <div className="flex-1 flex overflow-hidden">
@@ -199,13 +198,13 @@ export default function Home() {
                   return null
                 })}
                 {isProcessing && (
-                  <div className="flex items-center gap-2 text-[#a1a1aa] py-4">
+                  <div className="flex items-center gap-2.5 py-4">
                     <div className="flex gap-1">
-                      <span className="w-2 h-2 bg-[#00e5a0] rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
-                      <span className="w-2 h-2 bg-[#00e5a0] rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
-                      <span className="w-2 h-2 bg-[#00e5a0] rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
+                      <span className="w-1.5 h-1.5 bg-white/50 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
+                      <span className="w-1.5 h-1.5 bg-white/50 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
+                      <span className="w-1.5 h-1.5 bg-white/50 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
                     </div>
-                    <span className="text-sm">Processing...</span>
+                    <span className="text-[13px] text-[rgba(255,255,255,0.4)]">Thinking...</span>
                   </div>
                 )}
                 <div ref={chatEndRef} />

@@ -1,6 +1,8 @@
 "use client"
 
 import { motion } from "framer-motion"
+import { Logo } from "./Logo"
+import { Users, Database, Play } from "lucide-react"
 
 interface EmptyStateProps {
   onSuggestionClick: (suggestion: string, mode: string) => void
@@ -8,17 +10,20 @@ interface EmptyStateProps {
 
 const suggestions = [
   {
-    label: "Poll your agents",
+    icon: Users,
+    label: "Poll agents",
     prompt: "Would you support a congestion charge in exchange for improved public transit?",
     mode: "poll",
   },
   {
-    label: "Ask your environment",
+    icon: Database,
+    label: "Query environment",
     prompt: "What is the median income distribution across District 7 zones?",
     mode: "ask",
   },
   {
-    label: "Run a scenario",
+    icon: Play,
+    label: "Run simulation",
     prompt: "Simulate the impact of a $5 daily congestion charge on commuter behavior",
     mode: "sim",
   },
@@ -27,25 +32,50 @@ const suggestions = [
 export function EmptyState({ onSuggestionClick }: EmptyStateProps) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
       transition={{ duration: 0.4 }}
       className="flex-1 flex flex-col items-center justify-center px-4"
     >
-      <h1 className="text-4xl font-bold mb-4 tracking-tight">CMUL8</h1>
-      <p className="text-[#a1a1aa] text-lg mb-8">What would you like to simulate?</p>
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.1 }}
+        className="flex items-center gap-3 mb-3"
+      >
+        <Logo size="lg" className="opacity-50" />
+      </motion.div>
 
-      <div className="flex flex-wrap gap-3 justify-center max-w-2xl">
+      <motion.h1
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.15 }}
+        className="text-[28px] font-medium text-white tracking-[-0.02em] mb-2"
+      >
+        What would you like to simulate?
+      </motion.h1>
+
+      <motion.p
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+        className="text-[15px] text-[rgba(255,255,255,0.5)] mb-10"
+      >
+        Poll agents, query data, or run policy scenarios
+      </motion.p>
+
+      <div className="flex flex-wrap gap-3 justify-center max-w-xl">
         {suggestions.map((suggestion, i) => (
           <motion.button
             key={i}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: 0.1 + i * 0.1 }}
+            transition={{ duration: 0.4, delay: 0.25 + i * 0.05 }}
             onClick={() => onSuggestionClick(suggestion.prompt, suggestion.mode)}
-            className="px-4 py-2.5 bg-[#18181b] border border-[#27272a] rounded-xl hover:border-[#3f3f46] hover:bg-[#1f1f23] transition-all text-sm text-[#a1a1aa] hover:text-[#fafafa]"
+            className="flex items-center gap-2.5 px-4 py-3 bg-[#141414] border border-[rgba(255,255,255,0.08)] rounded-xl hover:border-[rgba(255,255,255,0.15)] hover:bg-[#1a1a1a] transition-all text-[14px] text-[rgba(255,255,255,0.7)] hover:text-white group"
           >
-            {suggestion.label}
+            <suggestion.icon className="w-4 h-4 opacity-50 group-hover:opacity-70 transition-opacity" />
+            <span>{suggestion.label}</span>
           </motion.button>
         ))}
       </div>

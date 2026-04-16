@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { motion } from "framer-motion"
-import { ChevronDown, ChevronUp, AlertTriangle, User, Eye } from "lucide-react"
+import { ChevronDown, ChevronUp, AlertTriangle, User, Eye, Download, ArrowRight } from "lucide-react"
 import type { Agent } from "@/lib/mockData"
 
 interface PollResponseProps {
@@ -18,35 +18,35 @@ function AgentCard({ agent, index }: { agent: Agent; index: number }) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 10 }}
+      initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.2, delay: index * 0.05 }}
-      className="py-4 border-b border-dashed border-[#27272a] last:border-b-0"
+      transition={{ duration: 0.2, delay: index * 0.03 }}
+      className="py-4 border-b border-[rgba(255,255,255,0.06)] last:border-b-0"
     >
       <div className="flex items-start justify-between mb-2">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-full bg-[#27272a] flex items-center justify-center">
-            <User className="w-4 h-4 text-[#a1a1aa]" />
+        <div className="flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-full bg-[rgba(255,255,255,0.06)] flex items-center justify-center">
+            <User className="w-4 h-4 text-[rgba(255,255,255,0.4)]" />
           </div>
-          <span className="font-medium">{agent.name}</span>
+          <span className="font-medium text-[14px] text-white">{agent.name}</span>
         </div>
-        <span className="text-sm font-mono text-[#a1a1aa]">
-          Confidence {agent.confidence}%
+        <span className="text-[12px] text-[rgba(255,255,255,0.4)]">
+          {agent.confidence}% confident
         </span>
       </div>
 
-      <p className="text-[#fafafa] mb-3 pl-10">"{agent.response}"</p>
+      <p className="text-[15px] text-[rgba(255,255,255,0.85)] mb-3 pl-[42px] leading-relaxed">"{agent.response}"</p>
 
-      <div className="pl-10">
+      <div className="pl-[42px]">
         <button
           onClick={() => setReasoningOpen(!reasoningOpen)}
-          className="flex items-center gap-1 text-sm text-[#a1a1aa] hover:text-[#fafafa] transition-colors"
+          className="flex items-center gap-1.5 text-[13px] text-[rgba(255,255,255,0.4)] hover:text-[rgba(255,255,255,0.7)] transition-colors"
         >
-          <span>Reasoning</span>
+          <span>View reasoning</span>
           {reasoningOpen ? (
-            <ChevronUp className="w-4 h-4" />
+            <ChevronUp className="w-3.5 h-3.5" />
           ) : (
-            <ChevronDown className="w-4 h-4" />
+            <ChevronDown className="w-3.5 h-3.5" />
           )}
         </button>
 
@@ -54,14 +54,15 @@ function AgentCard({ agent, index }: { agent: Agent; index: number }) {
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
-            className="mt-2"
+            transition={{ duration: 0.2 }}
+            className="mt-3"
           >
-            <p className="text-sm text-[#a1a1aa] mb-2">{agent.reasoning}</p>
+            <p className="text-[13px] text-[rgba(255,255,255,0.5)] mb-3 leading-relaxed">{agent.reasoning}</p>
             <div className="flex flex-wrap gap-1.5 mb-2">
               {agent.drivers.map((driver) => (
                 <span
                   key={driver}
-                  className="px-2 py-0.5 bg-[#27272a] rounded text-xs font-mono text-[#a1a1aa] hover:bg-[#3f3f46] cursor-pointer transition-colors"
+                  className="px-2.5 py-1 bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.06)] rounded-md text-[11px] text-[rgba(255,255,255,0.5)] hover:border-[rgba(255,255,255,0.1)] transition-colors cursor-default"
                 >
                   {driver}
                 </span>
@@ -70,16 +71,16 @@ function AgentCard({ agent, index }: { agent: Agent; index: number }) {
           </motion.div>
         )}
 
-        <div className="flex items-center gap-2 mt-2 text-xs text-[#52525b]">
+        <div className="flex items-center gap-2 mt-2.5 text-[11px] text-[rgba(255,255,255,0.3)]">
           <span>{agent.cohort}</span>
-          <span>·</span>
+          <span className="opacity-50">·</span>
           <span>{agent.version}</span>
           {agent.isOutlier && (
             <>
-              <span>·</span>
-              <span className="flex items-center gap-1 text-[#fb7185]">
+              <span className="opacity-50">·</span>
+              <span className="flex items-center gap-1 text-rose-400/70">
                 <AlertTriangle className="w-3 h-3" />
-                outlier vs cohort
+                outlier
               </span>
             </>
           )}
@@ -98,48 +99,57 @@ export function PollResponse({
 }: PollResponseProps) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 10 }}
+      initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      className="mb-4"
+      transition={{ duration: 0.25 }}
+      className="mb-6"
     >
-      <div className="bg-[#18181b] border border-[#27272a] rounded-xl overflow-hidden border-l-4 border-l-[#fbbf24]">
-        <div className="px-4 py-3 border-b border-[#27272a] flex items-center justify-between">
-          <span className="text-xs font-mono text-[#fbbf24] uppercase tracking-wider">
-            Poll Results
-          </span>
+      <div className="bg-[#141414] border border-[rgba(255,255,255,0.08)] rounded-2xl overflow-hidden">
+        {/* Header */}
+        <div className="px-5 py-3 border-b border-[rgba(255,255,255,0.06)] flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+            <span className="text-[12px] font-medium text-amber-400 uppercase tracking-wider">
+              Poll Results
+            </span>
+          </div>
           {hasAttachment && (
-            <span className="flex items-center gap-1 text-xs text-[#a1a1aa]">
+            <span className="flex items-center gap-1.5 text-[11px] text-[rgba(255,255,255,0.4)]">
               <Eye className="w-3 h-3" />
-              Visual stimulus attached
+              Visual attached
             </span>
           )}
         </div>
 
-        <div className="p-4 border-b border-[#27272a]">
-          <p className="text-[#fafafa] font-medium mb-2">"{question}"</p>
-          <p className="text-sm text-[#a1a1aa]">
-            Cohorts: {cohortNames.join(" · ")}
+        {/* Question */}
+        <div className="px-5 py-4 border-b border-[rgba(255,255,255,0.06)]">
+          <p className="text-[15px] text-white font-medium mb-1.5">"{question}"</p>
+          <p className="text-[12px] text-[rgba(255,255,255,0.4)]">
+            {cohortNames.join(" · ")}
           </p>
         </div>
 
-        <div className="p-4 max-h-96 overflow-y-auto">
+        {/* Agents */}
+        <div className="px-5 max-h-[400px] overflow-y-auto">
           {agents.map((agent, i) => (
             <AgentCard key={agent.id} agent={agent} index={i} />
           ))}
         </div>
 
-        <div className="px-4 py-3 border-t border-[#27272a] bg-[#0f0f11]">
-          <div className="text-xs font-mono text-[#fbbf24] uppercase tracking-wider mb-2">
+        {/* Synthesis */}
+        <div className="px-5 py-4 border-t border-[rgba(255,255,255,0.06)] bg-[#0f0f0f]">
+          <div className="text-[11px] font-medium text-amber-400/80 uppercase tracking-wider mb-2">
             Synthesis
           </div>
-          <p className="text-[#fafafa] text-sm">{synthesis}</p>
-          <div className="flex gap-2 mt-3">
-            <button className="px-3 py-1.5 bg-[#27272a] hover:bg-[#3f3f46] rounded-lg text-xs font-mono transition-colors">
-              Export JSON
+          <p className="text-[14px] text-[rgba(255,255,255,0.85)] leading-relaxed">{synthesis}</p>
+          <div className="flex gap-2 mt-4">
+            <button className="flex items-center gap-1.5 px-3 py-1.5 bg-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.08)] rounded-lg text-[12px] text-[rgba(255,255,255,0.6)] hover:text-white transition-all">
+              <Download className="w-3.5 h-3.5" />
+              Export
             </button>
-            <button className="px-3 py-1.5 bg-[#27272a] hover:bg-[#3f3f46] rounded-lg text-xs font-mono transition-colors">
-              Ask a follow-up →
+            <button className="flex items-center gap-1.5 px-3 py-1.5 bg-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.08)] border border-[rgba(255,255,255,0.08)] rounded-lg text-[12px] text-[rgba(255,255,255,0.6)] hover:text-white transition-all">
+              Follow-up
+              <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>

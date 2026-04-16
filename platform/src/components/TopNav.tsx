@@ -1,87 +1,85 @@
 "use client"
 
-import { Menu, ChevronDown, User } from "lucide-react"
+import { Menu, ChevronDown } from "lucide-react"
+import { Logo } from "./Logo"
 import { workspaces } from "@/lib/mockData"
-import { useState } from "react"
+import { useState, useRef, useEffect } from "react"
 
 interface TopNavProps {
   sidebarOpen: boolean
   onToggleSidebar: () => void
-  isLive?: boolean
 }
 
-export function TopNav({ sidebarOpen, onToggleSidebar, isLive = true }: TopNavProps) {
+export function TopNav({ sidebarOpen, onToggleSidebar }: TopNavProps) {
   const [workspaceDropdownOpen, setWorkspaceDropdownOpen] = useState(false)
   const [currentWorkspace, setCurrentWorkspace] = useState(workspaces[0])
+  const dropdownRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setWorkspaceDropdownOpen(false)
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [])
 
   return (
-    <header className="h-14 border-b border-[#27272a] bg-[#09090b] flex items-center justify-between px-4">
-      <div className="flex items-center gap-4">
-        <button
-          onClick={onToggleSidebar}
-          className="p-2 hover:bg-[#27272a] rounded-md transition-colors"
-          aria-label="Toggle sidebar"
-        >
-          <Menu className="w-5 h-5 text-[#a1a1aa]" />
-        </button>
+    <header className="h-14 border-b border-[rgba(255,255,255,0.08)] bg-[#0a0a0a] flex items-center px-4 gap-4">
+      <button
+        onClick={onToggleSidebar}
+        className="p-2 -ml-2 rounded-lg hover:bg-[rgba(255,255,255,0.05)] transition-colors"
+        aria-label="Toggle sidebar"
+      >
+        <Menu className="w-5 h-5 text-[rgba(255,255,255,0.5)]" />
+      </button>
 
-        <div className="flex items-center gap-2">
-          <span className="font-semibold text-lg tracking-tight">CMUL8</span>
-          <span className="text-[#52525b]">·</span>
+      <div className="flex items-center gap-3">
+        <a href="/" className="flex items-center gap-2 text-[rgba(255,255,255,0.9)] hover:text-white transition-colors">
+          <Logo size="sm" className="opacity-70" />
+          <span className="font-medium text-[15px] tracking-[-0.01em]">cmul8</span>
+        </a>
 
-          <div className="relative">
-            <button
-              onClick={() => setWorkspaceDropdownOpen(!workspaceDropdownOpen)}
-              className="flex items-center gap-1 px-2 py-1 hover:bg-[#27272a] rounded-md transition-colors text-[#a1a1aa]"
-            >
-              <span>{currentWorkspace.name}</span>
-              <ChevronDown className="w-4 h-4" />
-            </button>
+        <span className="text-[rgba(255,255,255,0.2)]">/</span>
 
-            {workspaceDropdownOpen && (
-              <div className="absolute top-full left-0 mt-1 w-56 bg-[#18181b] border border-[#27272a] rounded-lg shadow-xl z-50">
-                <div className="py-1">
-                  {workspaces.map((ws) => (
-                    <button
-                      key={ws.id}
-                      onClick={() => {
-                        setCurrentWorkspace(ws)
-                        setWorkspaceDropdownOpen(false)
-                      }}
-                      className={`w-full text-left px-4 py-2 hover:bg-[#27272a] transition-colors ${
-                        ws.id === currentWorkspace.id ? "text-[#00e5a0]" : "text-[#fafafa]"
-                      }`}
-                    >
-                      {ws.name}
-                    </button>
-                  ))}
-                  <div className="border-t border-[#27272a] mt-1 pt-1">
-                    <button className="w-full text-left px-4 py-2 hover:bg-[#27272a] transition-colors text-[#a1a1aa]">
-                      + New Workspace
-                    </button>
-                  </div>
-                </div>
+        <div className="relative" ref={dropdownRef}>
+          <button
+            onClick={() => setWorkspaceDropdownOpen(!workspaceDropdownOpen)}
+            className="flex items-center gap-1.5 px-2 py-1 -ml-2 rounded-lg hover:bg-[rgba(255,255,255,0.05)] transition-colors text-[rgba(255,255,255,0.7)] hover:text-white"
+          >
+            <span className="text-[15px]">{currentWorkspace.name}</span>
+            <ChevronDown className="w-4 h-4 opacity-50" />
+          </button>
+
+          {workspaceDropdownOpen && (
+            <div className="absolute top-full left-0 mt-2 w-56 bg-[#141414] border border-[rgba(255,255,255,0.1)] rounded-xl shadow-2xl overflow-hidden z-50">
+              <div className="p-1">
+                {workspaces.map((ws) => (
+                  <button
+                    key={ws.id}
+                    onClick={() => {
+                      setCurrentWorkspace(ws)
+                      setWorkspaceDropdownOpen(false)
+                    }}
+                    className={`w-full text-left px-3 py-2 rounded-lg transition-colors text-[14px] ${
+                      ws.id === currentWorkspace.id
+                        ? "bg-[rgba(255,255,255,0.08)] text-white"
+                        : "text-[rgba(255,255,255,0.7)] hover:bg-[rgba(255,255,255,0.05)] hover:text-white"
+                    }`}
+                  >
+                    {ws.name}
+                  </button>
+                ))}
               </div>
-            )}
-          </div>
+              <div className="border-t border-[rgba(255,255,255,0.08)] p-1">
+                <button className="w-full text-left px-3 py-2 rounded-lg text-[14px] text-[rgba(255,255,255,0.5)] hover:bg-[rgba(255,255,255,0.05)] hover:text-[rgba(255,255,255,0.7)] transition-colors">
+                  + New Workspace
+                </button>
+              </div>
+            </div>
+          )}
         </div>
-      </div>
-
-      <div className="flex items-center gap-4">
-        <div className="flex items-center gap-2">
-          <span
-            className={`w-2 h-2 rounded-full ${
-              isLive ? "bg-[#00e5a0] animate-pulse-jade" : "bg-[#52525b]"
-            }`}
-          />
-          <span className="text-sm font-mono text-[#a1a1aa]">
-            {isLive ? "Live" : "Idle"}
-          </span>
-        </div>
-
-        <button className="w-8 h-8 rounded-full bg-[#27272a] flex items-center justify-center hover:bg-[#3f3f46] transition-colors">
-          <User className="w-4 h-4 text-[#a1a1aa]" />
-        </button>
       </div>
     </header>
   )

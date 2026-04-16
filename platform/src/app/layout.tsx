@@ -1,16 +1,10 @@
 import type { Metadata } from "next"
-import { Syne, JetBrains_Mono } from "next/font/google"
+import { Inter } from "next/font/google"
 import "./globals.css"
 
-const syne = Syne({
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-syne",
-  display: "swap",
-})
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-jetbrains",
+  variable: "--font-inter",
   display: "swap",
 })
 
@@ -25,10 +19,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${syne.variable} ${jetbrainsMono.variable} h-full`}>
-      <body className="h-full bg-[#09090b] text-[#fafafa] antialiased font-sans">
-        {children}
-      </body>
+    <html lang="en" className={`${inter.variable} h-full`}>
+      <body className="h-full antialiased">{children}</body>
     </html>
   )
 }

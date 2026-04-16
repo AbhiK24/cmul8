@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Check, Circle, Plus, ChevronDown } from "lucide-react"
+import { Check, Circle, Plus, ChevronDown, Play } from "lucide-react"
 
 interface SimulationResponseProps {
   scenario: string
@@ -18,85 +18,98 @@ export function SimulationResponse({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 10 }}
+      initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      className="mb-4"
+      transition={{ duration: 0.25 }}
+      className="mb-6"
     >
-      <div className="bg-[#18181b] border border-[#27272a] rounded-xl overflow-hidden border-l-4 border-l-[#a78bfa]">
-        <div className="px-4 py-2 border-b border-[#27272a]">
-          <span className="text-xs font-mono text-[#a78bfa] uppercase tracking-wider">
-            Simulation
-          </span>
+      <div className="bg-[#141414] border border-[rgba(255,255,255,0.08)] rounded-2xl overflow-hidden">
+        {/* Header */}
+        <div className="px-5 py-3 border-b border-[rgba(255,255,255,0.06)]">
+          <div className="flex items-center gap-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-violet-400" />
+            <span className="text-[12px] font-medium text-violet-400 uppercase tracking-wider">
+              Simulation Setup
+            </span>
+          </div>
         </div>
 
-        <div className="p-4">
-          <h3 className="text-[#fafafa] font-medium mb-4">
-            Configure your simulation run
+        {/* Content */}
+        <div className="p-5">
+          <h3 className="text-[15px] text-white font-medium mb-5">
+            Configure your simulation
           </h3>
 
-          <div className="space-y-3">
-            <div className="flex items-center justify-between py-2 border-b border-[#27272a]">
-              <span className="text-[#a1a1aa]">Scenario:</span>
-              <span className="text-[#fafafa] text-sm max-w-md truncate">
+          <div className="space-y-0">
+            {/* Scenario */}
+            <div className="flex items-center justify-between py-3 border-b border-[rgba(255,255,255,0.06)]">
+              <span className="text-[13px] text-[rgba(255,255,255,0.5)]">Scenario</span>
+              <span className="text-[13px] text-white max-w-md truncate">
                 {scenario}
               </span>
             </div>
 
-            <div className="flex items-center justify-between py-2 border-b border-[#27272a]">
-              <span className="text-[#a1a1aa]">Env:</span>
-              <div className="flex items-center gap-2">
-                <span className="text-[#fafafa] text-sm">District 7</span>
+            {/* Environment */}
+            <div className="flex items-center justify-between py-3 border-b border-[rgba(255,255,255,0.06)]">
+              <span className="text-[13px] text-[rgba(255,255,255,0.5)]">Environment</span>
+              <div className="flex items-center gap-2.5">
+                <span className="text-[13px] text-white">District 7</span>
                 {envReady ? (
-                  <Check className="w-4 h-4 text-[#00e5a0]" />
+                  <div className="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center">
+                    <Check className="w-3 h-3 text-emerald-400" />
+                  </div>
                 ) : (
-                  <Circle className="w-4 h-4 text-[#52525b]" />
+                  <Circle className="w-4 h-4 text-[rgba(255,255,255,0.2)]" />
                 )}
               </div>
             </div>
 
-            <div className="flex items-center justify-between py-2 border-b border-[#27272a]">
-              <span className="text-[#a1a1aa]">Agents:</span>
-              <div className="flex items-center gap-2">
-                <span className="text-[#fafafa] text-sm">
+            {/* Agents */}
+            <div className="flex items-center justify-between py-3 border-b border-[rgba(255,255,255,0.06)]">
+              <span className="text-[13px] text-[rgba(255,255,255,0.5)]">Agents</span>
+              <div className="flex items-center gap-2.5">
+                <span className="text-[13px] text-white">
                   NZTA Drivers V1 + Non-Drivers V1
                 </span>
                 {agentsReady ? (
-                  <Check className="w-4 h-4 text-[#00e5a0]" />
+                  <div className="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center">
+                    <Check className="w-3 h-3 text-emerald-400" />
+                  </div>
                 ) : (
-                  <Circle className="w-4 h-4 text-[#52525b]" />
+                  <Circle className="w-4 h-4 text-[rgba(255,255,255,0.2)]" />
                 )}
               </div>
             </div>
 
-            <div className="flex items-center justify-between py-2 border-b border-[#27272a]">
-              <span className="text-[#a1a1aa]">Policy:</span>
-              <button className="flex items-center gap-1 text-sm text-[#a1a1aa] hover:text-[#fafafa] transition-colors">
+            {/* Policy */}
+            <div className="flex items-center justify-between py-3 border-b border-[rgba(255,255,255,0.06)]">
+              <span className="text-[13px] text-[rgba(255,255,255,0.5)]">Policy lever</span>
+              <button className="flex items-center gap-1.5 text-[13px] text-[rgba(255,255,255,0.4)] hover:text-white transition-colors">
                 <Plus className="w-4 h-4" />
                 <span>Add lever</span>
-                <Circle className="w-4 h-4 text-[#52525b] ml-2" />
               </button>
             </div>
 
-            <div className="flex items-center justify-between py-2">
-              <span className="text-[#a1a1aa]">Model:</span>
-              <button className="flex items-center gap-1 px-3 py-1 bg-[#27272a] rounded text-sm text-[#fafafa] hover:bg-[#3f3f46] transition-colors">
-                <span>Nash</span>
-                <ChevronDown className="w-4 h-4" />
-                <Circle className="w-4 h-4 text-[#52525b] ml-2" />
+            {/* Model */}
+            <div className="flex items-center justify-between py-3">
+              <span className="text-[13px] text-[rgba(255,255,255,0.5)]">Model</span>
+              <button className="flex items-center gap-1.5 px-3 py-1.5 bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.08)] rounded-lg text-[13px] text-white hover:bg-[rgba(255,255,255,0.08)] transition-colors">
+                <span>Nash Equilibrium</span>
+                <ChevronDown className="w-3.5 h-3.5 opacity-50" />
               </button>
             </div>
           </div>
 
           <button
             disabled={!allReady}
-            className={`w-full mt-4 py-2.5 rounded-lg font-medium transition-colors ${
+            className={`w-full mt-5 py-3 rounded-xl font-medium text-[14px] transition-all flex items-center justify-center gap-2 ${
               allReady
-                ? "bg-[#a78bfa] hover:bg-[#8b5cf6] text-white"
-                : "bg-[#27272a] text-[#52525b] cursor-not-allowed"
+                ? "bg-violet-500 hover:bg-violet-600 text-white"
+                : "bg-[rgba(255,255,255,0.05)] text-[rgba(255,255,255,0.3)] cursor-not-allowed"
             }`}
           >
-            Launch Simulation →
+            <Play className="w-4 h-4" />
+            Launch Simulation
           </button>
         </div>
       </div>

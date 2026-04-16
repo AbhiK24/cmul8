@@ -17,22 +17,28 @@ interface EnvResponseProps {
 export function EnvResponse({ text, chart, source }: EnvResponseProps) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 10 }}
+      initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      className="mb-4"
+      transition={{ duration: 0.25 }}
+      className="mb-6"
     >
-      <div className="bg-[#18181b] border border-[#27272a] rounded-xl overflow-hidden border-l-4 border-l-[#00e5a0]">
-        <div className="px-4 py-2 border-b border-[#27272a]">
-          <span className="text-xs font-mono text-[#00e5a0] uppercase tracking-wider">
-            ENV
-          </span>
+      <div className="bg-[#141414] border border-[rgba(255,255,255,0.08)] rounded-2xl overflow-hidden">
+        {/* Header */}
+        <div className="px-5 py-3 border-b border-[rgba(255,255,255,0.06)]">
+          <div className="flex items-center gap-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+            <span className="text-[12px] font-medium text-emerald-400 uppercase tracking-wider">
+              Environment Query
+            </span>
+          </div>
         </div>
-        <div className="p-4">
-          <p className="text-[#fafafa] mb-4 leading-relaxed">{text}</p>
+
+        {/* Content */}
+        <div className="p-5">
+          <p className="text-[15px] text-[rgba(255,255,255,0.85)] leading-relaxed mb-4">{text}</p>
 
           {chart && chart.type === "bar" && (
-            <div className="bg-[#09090b] rounded-lg p-4 mb-4">
+            <div className="bg-[#0a0a0a] rounded-xl p-4 mb-4 border border-[rgba(255,255,255,0.04)]">
               <ResponsiveContainer width="100%" height={120}>
                 <BarChart
                   data={chart.data}
@@ -43,23 +49,24 @@ export function EnvResponse({ text, chart, source }: EnvResponseProps) {
                   <YAxis
                     type="category"
                     dataKey="zone"
-                    tick={{ fill: "#a1a1aa", fontSize: 12 }}
+                    tick={{ fill: "rgba(255,255,255,0.5)", fontSize: 12 }}
                     axisLine={false}
                     tickLine={false}
                   />
-                  <Bar dataKey="value" radius={[0, 4, 4, 0]} maxBarSize={20}>
+                  <Bar dataKey="value" radius={[0, 6, 6, 0]} maxBarSize={18}>
                     {chart.data.map((entry, index) => (
                       <Cell
                         key={`cell-${index}`}
-                        fill={index === 0 ? "#00e5a0" : "#3f3f46"}
+                        fill={index === 0 ? "#34d399" : "rgba(255,255,255,0.15)"}
                       />
                     ))}
                   </Bar>
                 </BarChart>
               </ResponsiveContainer>
-              <div className="flex justify-end gap-4 mt-2 text-xs text-[#a1a1aa]">
+              <div className="flex justify-end gap-4 mt-3 text-[11px] text-[rgba(255,255,255,0.4)]">
                 {chart.data.map((entry, i) => (
-                  <span key={i}>
+                  <span key={i} className="flex items-center gap-1.5">
+                    <span className={`w-2 h-2 rounded-sm ${i === 0 ? "bg-emerald-400" : "bg-[rgba(255,255,255,0.15)]"}`} />
                     {entry.zone}: {entry.value}%
                   </span>
                 ))}
@@ -67,7 +74,9 @@ export function EnvResponse({ text, chart, source }: EnvResponseProps) {
             </div>
           )}
 
-          <div className="text-xs text-[#52525b]">Source: {source}</div>
+          <div className="text-[11px] text-[rgba(255,255,255,0.3)]">
+            Source: {source}
+          </div>
         </div>
       </div>
     </motion.div>
