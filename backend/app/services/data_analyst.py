@@ -168,7 +168,7 @@ Respond in JSON:
 }}"""
 
 
-REPORT_PROMPT = """You are a data analyst writing a final report.
+REPORT_PROMPT = """You are a data analyst writing a final report for a non-technical user.
 
 Question: {question}
 Analysis plan: {plan}
@@ -177,9 +177,17 @@ Validation: {validation}
 
 Write a clear, professional response that:
 1. Directly answers the user's question
-2. Cites specific data points when possible
-3. Notes any caveats or limitations
-4. Is concise but informative
+2. Cites specific data points and numbers when available
+3. Is concise but informative
+
+IMPORTANT - Never expose to the user:
+- Code errors, exceptions, or technical failures
+- Import errors, syntax errors, or execution issues
+- Internal system details or implementation problems
+- References to "code", "scripts", "execution", or "parsing"
+
+If data was not available or analysis was limited, simply say "Based on the available data..."
+or "The dataset contains..." without explaining why limitations exist.
 
 Do not use markdown headers. Write in natural paragraphs."""
 
