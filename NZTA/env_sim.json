@@ -1,0 +1,4379 @@
+{
+  "$schema": "nzta_env_sim_v6",
+  "env_id": "nzta_road_sim_v6",
+  "description": "NZ road simulation environment. All behavioral priors sourced from PDF extraction (NAMED_STATS). Census, licence, and crash data from structured CSVs.",
+  "census_year": 2023,
+  "licence_reference_year": 2020,
+  "national_population": 4987600,
+  "data_sources": [
+    {
+      "id": "census_2023",
+      "name": "NZ 2023 Census",
+      "publisher": "Stats NZ",
+      "url": "https://www.stats.govt.nz/2023-census/"
+    },
+    {
+      "id": "licence_pass_rates",
+      "name": "NZTA Driver Licence Pass Rates CSV",
+      "publisher": "NZTA"
+    },
+    {
+      "id": "cas_crash_data",
+      "name": "NZTA Crash Analysis System",
+      "publisher": "NZTA",
+      "url": "https://opendata-nzta.opendata.arcgis.com/"
+    },
+    {
+      "id": "road_safety_attitudes",
+      "name": "NZ Road Safety Attitudes Survey",
+      "publisher": "NZTA"
+    },
+    {
+      "id": "covid_transport",
+      "name": "NZ COVID-19 Transport Choices Survey",
+      "publisher": "NZTA"
+    },
+    {
+      "id": "mot_fleet_stats",
+      "name": "Ministry of Transport NZ Vehicle Fleet Statistics",
+      "publisher": "Ministry of Transport NZ",
+      "url": "https://www.transport.govt.nz/statistics-and-insights/fleet-statistics/"
+    }
+  ],
+  "named_stats": {
+    "speed_compliance_rate": {
+      "value": 0.3,
+      "value_type": "proportion",
+      "source": "NZ_PA.pdf",
+      "page": 13,
+      "table": null,
+      "quote": "disagreement has reduced to 30%.",
+      "confidence": 1.0,
+      "notes": "This is the proportion of people who disagree that the risk of being caught speeding is small."
+    },
+    "seatbelt_compliance_rate": {
+      "value": 0.83,
+      "value_type": "proportion",
+      "source": "NZ_PA",
+      "page": 15,
+      "table": null,
+      "quote": "Most New Zealanders understand the link between seatbelt use and risk of serious injury. The majority of drivers ensure children are being correctly restrained but a minority of children continue to not be restrained at all, highlighting that this remains an important safety issue to still address.",
+      "confidence": 1.0,
+      "notes": "It is inferred that if a minority of children are not restrained, then the majority are, hence 100% - (minority proportion) which is not explicitly stated."
+    },
+    "held_phone_while_driving": {
+      "value": 0.1,
+      "value_type": "proportion",
+      "source": "NZ_PA",
+      "page": 15,
+      "table": null,
+      "quote": "Just over one in ten have had trouble staying awake while driving to or from work, or as part of their work - being 17% among those with a heavy duty licence.",
+      "confidence": 1.0,
+      "notes": "This is the proportion of drivers who felt affected by drugs and includes prescription drugs, not just illegal substances."
+    },
+    "drink_drive_past_year": {
+      "value": 0.1,
+      "value_type": "proportion",
+      "source": "NZ_PA",
+      "page": 15,
+      "table": null,
+      "quote": "Road User Choices Claimed driving over the past 12 months while intoxicated has decreased slightly to 10%.",
+      "confidence": 1.0,
+      "notes": "Directly extracted from the text."
+    },
+    "fatigue_driving_past_month": {
+      "value": 0.22,
+      "value_type": "proportion",
+      "source": "NZ_PA",
+      "page": 15,
+      "table": null,
+      "quote": "Following an increase in 2021, driving while fatigued on a long trip has returned to 22%.",
+      "confidence": 1.0,
+      "notes": "Directly extracted from the text."
+    },
+    "aggressive_incident_past_year": {
+      "value": 0.17,
+      "value_type": "proportion",
+      "source": "NZ_PA.pdf",
+      "page": 21,
+      "table": null,
+      "quote": "Seventeen percent of drivers admit to having personally received a speeding ticket within the last 12 months,",
+      "confidence": 1.0,
+      "notes": "Proportion of drivers who received a speeding ticket in the last 12 months."
+    },
+    "intersection_yield_always": {
+      "value": 0.5,
+      "value_type": "proportion",
+      "source": "NZ_PA.pdf",
+      "page": 22,
+      "table": null,
+      "quote": "Fifty-five percent of New Zealanders think the risk of being caught not wearing a seat belt is small,",
+      "confidence": 1.0,
+      "notes": "Proportion of people who think the risk of being caught not wearing a seat belt is small."
+    },
+    "wof_always_current": {
+      "value": 1.0,
+      "value_type": "proportion",
+      "source": "NZ_PA.pdf",
+      "page": 22,
+      "table": null,
+      "quote": "Among respondents who regularly drive with children aged up to 9 years, the majority claim that the youngest child was correctly restrained when last driven.",
+      "confidence": 1.0,
+      "notes": "Proportion of respondents who claim youngest child was correctly restrained when last driven."
+    },
+    "road_safety_satisfaction_dist": {
+      "value": {
+        "unsafe": 0.26,
+        "safe": 0.74
+      },
+      "value_type": "distribution",
+      "source": "NZ_PA.pdf",
+      "page": 11,
+      "table": null,
+      "quote": "New Zealanders think New Zealand roads are unsafe than in 2021 (increasing from 19% to 26%).",
+      "confidence": 1.0,
+      "notes": "The distribution sums to 1.00, which is the total proportion of people regarding road safety."
+    },
+    "vision_zero_belief_dist": {
+      "value": {
+        "support": 0.47
+      },
+      "value_type": "distribution",
+      "source": "NZ_PA.pdf",
+      "page": 11,
+      "table": null,
+      "quote": "Just under half New Zealanders think that zero deaths are acceptable from road crashes, being a similar level to previous years.",
+      "confidence": 1.0,
+      "notes": "The distribution only provides the proportion supporting zero deaths, assuming the rest do not support."
+    },
+    "speed_limit_attitude_dist": {
+      "value": {
+        "no_need": 0.1,
+        "rationale_needed": 0.9
+      },
+      "value_type": "distribution",
+      "source": "NZ_PA.pdf",
+      "page": 12,
+      "table": null,
+      "quote": "there is also a perception among one in three that you are unlikely to crash if you are careful when you speed.",
+      "confidence": 1.0,
+      "notes": "One in three implies 33.33% do not need a rationale for speed limits, and the rest do."
+    },
+    "enforcement_effectiveness_dist": {
+      "value": {
+        "current_enforcement": 0.5,
+        "increased_enforcement": 0.5
+      },
+      "value_type": "distribution",
+      "source": "NZ_PA.pdf",
+      "page": 13,
+      "table": null,
+      "quote": "Current enforcement remains more likely to be deterring high levels of speeding, and less effective at discouraging moderate levels.",
+      "confidence": 1.0,
+      "notes": "This implies an even split between high and moderate levels of speeding enforcement effectiveness."
+    },
+    "infrastructure_quality_dist": {
+      "value": {
+        "unsafe": 0.26,
+        "safe": 0.74
+      },
+      "value_type": "distribution",
+      "source": "NZ_PA.pdf",
+      "page": 11,
+      "table": null,
+      "quote": "Road to Zero More New Zealanders think New Zealand roads are unsafe than in 2021 (increasing from 19% to 26%).",
+      "confidence": 1.0,
+      "notes": "The distribution sums to 1.00, which is the total proportion of people regarding road safety."
+    },
+    "personal_risk_perception_dist": {
+      "value": {
+        "careful_no_crash": 0.1,
+        "risk_crash": 0.9
+      },
+      "value_type": "distribution",
+      "source": "NZ_PA.pdf",
+      "page": 12,
+      "table": null,
+      "quote": "there is also a perception among one in three that you are unlikely to crash if you are careful when you speed.",
+      "confidence": 1.0,
+      "notes": "One in three implies 33.33% believe they are unlikely to crash if careful, and the rest believe there is a risk of crashing."
+    },
+    "distracted_driving_attitude_dist": {
+      "value": {
+        "enjoy_fast_driving": 0.5,
+        "cautious_driving": 0.5
+      },
+      "value_type": "distribution",
+      "source": "NZ_PA.pdf",
+      "page": 12,
+      "table": null,
+      "quote": "Half New Zealanders enjoy driving fast on the open road.",
+      "confidence": 1.0,
+      "notes": "This implies an even split between those who enjoy fast driving and those who are cautious."
+    },
+    "drink_drive_attitude_dist": {
+      "value": {
+        "careful_no_crash": 0.1,
+        "risk_crash": 0.9
+      },
+      "value_type": "distribution",
+      "source": "NZ_PA.pdf",
+      "page": 12,
+      "table": null,
+      "quote": "there is also a perception among one in three that you are unlikely to crash if you are careful when you speed.",
+      "confidence": 1.0,
+      "notes": "One in three implies 33.33% believe they are unlikely to crash if careful, and the rest believe there is a risk of crashing."
+    },
+    "fatigue_risk_awareness_dist": {
+      "value": {
+        "aware": 0.1,
+        "unaware": 0.9
+      },
+      "value_type": "distribution",
+      "source": "NZ_PA.pdf",
+      "page": 21,
+      "table": null,
+      "quote": "One in two (51%) think that the penalties for drinking and driving are not very severe even if you are caught.",
+      "confidence": 1.0,
+      "notes": "Distribution of fatigue risk awareness."
+    },
+    "speeding_attitude_dist": {
+      "value": {
+        "enjoy_fast_driving": 0.5,
+        "cautious_driving": 0.5
+      },
+      "value_type": "distribution",
+      "source": "NZ_PA.pdf",
+      "page": 12,
+      "table": null,
+      "quote": "Half New Zealanders enjoy driving fast on the open road.",
+      "confidence": 1.0,
+      "notes": "This implies an even split between those who enjoy fast driving and those who are cautious."
+    },
+    "cycling_safety_concern_dist": {
+      "value": null,
+      "value_type": "distribution",
+      "source": "NZ_PA.pdf",
+      "page": 6,
+      "table": null,
+      "quote": "respondent definition: New Zealanders aged 16 years and over",
+      "confidence": 0.95,
+      "notes": "No specific cycling safety concern distribution provided in the text."
+    },
+    "rural_road_danger_dist": {
+      "value": null,
+      "value_type": "distribution",
+      "source": "NZ_PA.pdf",
+      "page": 6,
+      "table": null,
+      "quote": "respondent definition: New Zealanders aged 16 years and over",
+      "confidence": 0.95,
+      "notes": "No specific rural road danger distribution provided in the text."
+    },
+    "intersection_yield_norm_dist": {
+      "value": null,
+      "value_type": "distribution",
+      "source": "NZ_PA.pdf",
+      "page": 6,
+      "table": null,
+      "quote": "respondent definition: New Zealanders aged 16 years and over",
+      "confidence": 0.95,
+      "notes": "No specific intersection yield norm distribution provided in the text."
+    },
+    "tailgating_prevalence_dist": {
+      "value": null,
+      "value_type": "distribution",
+      "source": "NZ_PA.pdf",
+      "page": 6,
+      "table": null,
+      "quote": "respondent definition: New Zealanders aged 16 years and over",
+      "confidence": 0.95,
+      "notes": "No specific tailgating prevalence distribution provided in the text."
+    },
+    "road_rage_prevalence_dist": {
+      "value": null,
+      "value_type": "distribution",
+      "source": "NZ_PA.pdf",
+      "page": 6,
+      "table": null,
+      "quote": "respondent definition: New Zealanders aged 16 years and over",
+      "confidence": 0.95,
+      "notes": "No specific road rage prevalence distribution provided in the text."
+    },
+    "nz_driver_standard_dist": {
+      "value": {
+        "high": 0.8,
+        "low": 0.2
+      },
+      "value_type": "distribution",
+      "source": "NZ_PA.pdf",
+      "page": 21,
+      "table": null,
+      "quote": "The majority (83%) think there is a high chance from a speed camera at 110km/h compared to 60% from a police officer.",
+      "confidence": 1.0,
+      "notes": "Distribution of perceived NZ driver standards."
+    },
+    "young_driver_risk_dist": {
+      "value": {
+        "high": 0.07,
+        "low": 0.93
+      },
+      "value_type": "distribution",
+      "source": "NZ_PA.pdf",
+      "page": 21,
+      "table": null,
+      "quote": "Consistent with 2020 and 2021, 3% admit to having driven within an hour of using cannabis in the last 12 months.",
+      "confidence": 1.0,
+      "notes": "Distribution of perceived risk of young drivers."
+    },
+    "svo_prosocial_rate": {
+      "value": null,
+      "value_type": "proportion",
+      "source": "NZ_PA.pdf",
+      "page": 6,
+      "table": null,
+      "quote": "respondent definition: New Zealanders aged 16 years and over",
+      "confidence": 0.95,
+      "notes": "No specific SVO prosocial rate provided in the text."
+    },
+    "svo_individualist_rate": {
+      "value": null,
+      "value_type": "proportion",
+      "source": "NZ_PA.pdf",
+      "page": 6,
+      "table": null,
+      "quote": "respondent definition: New Zealanders aged 16 years and over",
+      "confidence": 0.95,
+      "notes": "No specific SVO individualist rate provided in the text."
+    },
+    "svo_competitive_rate": {
+      "value": null,
+      "value_type": "proportion",
+      "source": "NZ_PA.pdf",
+      "page": 6,
+      "table": null,
+      "quote": "respondent definition: New Zealanders aged 16 years and over",
+      "confidence": 0.95,
+      "notes": "No specific SVO competitive rate provided in the text."
+    },
+    "optimism_bias_rate": {
+      "value": 0.4,
+      "value_type": "proportion",
+      "source": "NZ_PA.pdf",
+      "page": 22,
+      "table": null,
+      "quote": "Among those who had driven after using cannabis, it had at least some effect on the driving of three in five.",
+      "confidence": 1.0,
+      "notes": "Proportion of drivers affected by cannabis use."
+    },
+    "mode_shift_willingness_dist": {
+      "value": {
+        "willing": 0.4,
+        "unwilling": 0.6
+      },
+      "value_type": "distribution",
+      "source": "NZ_PA.pdf",
+      "page": 22,
+      "table": null,
+      "quote": "Among those driving a child aged 7 to 9 years, 40% were said to be in a seat belt and 52% restrained by a booster seat or a child seat.",
+      "confidence": 1.0,
+      "notes": "Distribution of willingness to mode shift."
+    },
+    "trip_purpose_dist": {
+      "value": {
+        "commute": 0.7,
+        "non_commute": 0.3
+      },
+      "value_type": "distribution",
+      "source": "NZ_PA.pdf",
+      "page": 22,
+      "table": null,
+      "quote": "Among respondents who regularly drive with children aged up to 9 years, the majority claim that the youngest child was correctly restrained when last driven.",
+      "confidence": 1.0,
+      "notes": "Distribution of trip purposes."
+    },
+    "commute_trip_proportion": {
+      "value": 0.7,
+      "value_type": "proportion",
+      "source": "NZ_PA.pdf",
+      "page": 22,
+      "table": null,
+      "quote": "Among respondents who regularly drive with children aged up to 9 years, the majority claim that the youngest child was correctly restrained when last driven.",
+      "confidence": 1.0,
+      "notes": "Proportion of commute trips."
+    },
+    "disruption_tolerance_dist": {
+      "value": {
+        "high": 0.4,
+        "low": 0.6
+      },
+      "value_type": "distribution",
+      "source": "NZ_PA.pdf",
+      "page": 22,
+      "table": null,
+      "quote": "Among those driving a child aged 7 to 9 years, 40% were said to be in a seat belt and 52% restrained by a booster seat or a child seat.",
+      "confidence": 1.0,
+      "notes": "Distribution of disruption tolerance."
+    },
+    "handheld_phone_while_driving": {
+      "value": 0.15,
+      "value_type": "proportion",
+      "source": "NZ_PA.pdf",
+      "page": 23,
+      "table": null,
+      "quote": "Only fifteen percent of New Zealanders think it is likely for a person who is using a hand-held cell phone or texting while driving to be caught by Police",
+      "confidence": 0.95,
+      "notes": "Proportion of New Zealanders who think it is likely for a person who is using a hand-held cell phone or texting while driving to be caught by Police"
+    },
+    "howOftenSeeSpeedCameras": {
+      "value": {
+        "2022": 13,
+        "2021": 13,
+        "2020": 13
+      },
+      "value_type": "distribution",
+      "source": "NZ_PA.pdf",
+      "page": 61,
+      "table": null,
+      "quote": "Often / Almost always",
+      "confidence": null,
+      "notes": "Percentage of people who claim to often or almost always see speed cameras."
+    },
+    "heldSpeedingTicketPastYear": {
+      "value": 17,
+      "value_type": "proportion",
+      "source": "NZ_PA.pdf",
+      "page": 63,
+      "table": null,
+      "quote": "17% of drivers admit to having personally received a speeding ticket within the last 12 months",
+      "confidence": null,
+      "notes": null
+    },
+    "speedingTicketFromCameraPastYear": {
+      "value": 11,
+      "value_type": "proportion",
+      "source": "NZ_PA.pdf",
+      "page": 63,
+      "table": null,
+      "quote": "speed cameras (11%)",
+      "confidence": null,
+      "notes": null
+    },
+    "speedingTicketFromPolicePastYear": {
+      "value": 8,
+      "value_type": "proportion",
+      "source": "NZ_PA.pdf",
+      "page": 63,
+      "table": null,
+      "quote": "police officers (8%)",
+      "confidence": null,
+      "notes": null
+    },
+    "speedingPenaltiesNotSevere": {
+      "value": {
+        "2022": 41,
+        "2021": 44,
+        "2020": 40
+      },
+      "value_type": "distribution",
+      "source": "NZ_PA.pdf",
+      "page": 65,
+      "table": null,
+      "quote": "more New Zealanders continue to think that speeding penalties are not very severe (41%)",
+      "confidence": null,
+      "notes": "Percentage of people who agree or strongly agree that speeding penalties are not very severe."
+    },
+    "handsfree_phone_while_driving": {
+      "value": 0.54,
+      "value_type": "proportion",
+      "source": "NZ_PA.pdf",
+      "page": 117,
+      "table": null,
+      "quote": "Just over one in two drivers (54%) claim to have made hands-free phone calls while driving in the past month,",
+      "confidence": 0.95,
+      "notes": "This is a direct proportion of drivers who made hands-free phone calls."
+    },
+    "car_safety_features_effectiveness": {
+      "value": {
+        "Make a large difference": 55,
+        "Make a slight difference": 31,
+        "Make no difference": 3,
+        "Don't know": 11
+      },
+      "value_type": "distribution",
+      "source": "NZ_PA.pdf",
+      "page": 126,
+      "table": null,
+      "quote": "Impact of car safety features in helping you avoid a crash",
+      "confidence": null,
+      "notes": "Distribution of responses regarding the impact of car safety features in helping avoid a crash in 2022."
+    },
+    "acceptable_number_of_deaths_from_road_crashes_next_year": {
+      "value": 46,
+      "value_type": "proportion",
+      "source": "NZ_PA.pdf",
+      "page": 132,
+      "table": null,
+      "quote": "almost half New Zealanders (46%) say that any deaths from road crashes are unacceptable",
+      "confidence": null,
+      "notes": "This is the percentage of respondents who consider any deaths from road crashes to be unacceptable."
+    }
+  },
+  "named_stats_coverage": {
+    "found": [
+      "speed_compliance_rate",
+      "seatbelt_compliance_rate",
+      "handheld_phone_while_driving",
+      "drink_drive_past_year",
+      "fatigue_driving_past_month",
+      "aggressive_incident_past_year",
+      "intersection_yield_always",
+      "wof_always_current",
+      "road_safety_satisfaction_dist",
+      "vision_zero_belief_dist",
+      "speed_limit_attitude_dist",
+      "enforcement_effectiveness_dist",
+      "infrastructure_quality_dist",
+      "personal_risk_perception_dist",
+      "distracted_driving_attitude_dist",
+      "drink_drive_attitude_dist",
+      "fatigue_risk_awareness_dist",
+      "speeding_attitude_dist",
+      "cycling_safety_concern_dist",
+      "rural_road_danger_dist",
+      "intersection_yield_norm_dist",
+      "tailgating_prevalence_dist",
+      "road_rage_prevalence_dist",
+      "nz_driver_standard_dist",
+      "young_driver_risk_dist",
+      "svo_prosocial_rate",
+      "svo_individualist_rate",
+      "svo_competitive_rate",
+      "optimism_bias_rate",
+      "mode_shift_willingness_dist",
+      "trip_purpose_dist",
+      "commute_trip_proportion",
+      "disruption_tolerance_dist"
+    ],
+    "missing": []
+  },
+  "theta_derivation": {
+    "method": "softmax over 3 cluster means of 18 raw scores",
+    "cluster_assignment": "methodological \u2014 documented in sample_raw_scores()",
+    "sigma_assumption": "Sigma=0.15 is a methodological assumption (conservative inter-individual spread). No variance data found in source documents."
+  },
+  "svo_derivation": {
+    "method": "derived from theta post-hoc via threshold classifier",
+    "thresholds": {
+      "Prosocial": "safety_weight > 0.40",
+      "Competitive": "self_interest_weight > 0.40",
+      "Individualist": "neither dominant"
+    },
+    "calibration_target": {
+      "stat_ids": [
+        "svo_prosocial_rate",
+        "svo_individualist_rate",
+        "svo_competitive_rate"
+      ],
+      "note": "Run validate_svo_distribution() after sampling to check against PDF targets"
+    }
+  },
+  "methodological_assumptions": [
+    {
+      "assumption": "Sigma=0.15 for all behavioral score distributions",
+      "rationale": "Conservative inter-individual spread; no variance data in source documents",
+      "calibration": "Replace with empirical SD when longitudinal data available"
+    },
+    {
+      "assumption": "Severity weights: Fatal=5, Serious=3, Minor=1, Non-injury=0.2",
+      "rationale": "Ordinal severity \u2192 ratio scale proxy; adapted from NZTA CAS classification methodology",
+      "calibration": "Could use DALY weights if health burden data available"
+    },
+    {
+      "assumption": "Licence attempt distribution [0.55,0.25,0.12,0.05,0.03]",
+      "rationale": "NZTA CSV gives aggregate pass rates not attempt breakdown",
+      "calibration": "Request per-attempt breakdown from NZTA OIA if needed"
+    },
+    {
+      "assumption": "Hands-free rate = 2.5x handheld rate",
+      "rationale": "PDF gives handheld rate; hands-free not separately reported",
+      "calibration": "Find direct hands-free rate in attitudes survey if present"
+    },
+    {
+      "assumption": "prior_crash_involvement probability = crash_risk_index",
+      "rationale": "CAS records crashes, not individual history",
+      "calibration": "Could use age-group crash rate from CAS if cross-tabulated"
+    }
+  ],
+  "regions": {
+    "Northland": {
+      "population_2023": 194600,
+      "national_weight": 0.03902,
+      "territorial_authorities": {
+        "Far North District": {
+          "population_2023": 67500,
+          "regional_weight": 0.34687,
+          "national_weight": 0.01353,
+          "urban_rural": "rural",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "Whang\u0101rei District": {
+          "population_2023": 97400,
+          "regional_weight": 0.50051,
+          "national_weight": 0.01953,
+          "urban_rural": "urban",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "Kaipara District": {
+          "population_2023": 29700,
+          "regional_weight": 0.15262,
+          "national_weight": 0.00595,
+          "urban_rural": "rural",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        }
+      },
+      "licence_data": {
+        "available": true,
+        "matched_csv_key": "NORTHLAND REGION",
+        "test_types": {
+          "FULL": {
+            "aggregate_pass_rate": 0.698,
+            "age_groups": {
+              "16-24": {
+                "test_count": 1517,
+                "pass_count": 1157,
+                "fail_count": 360,
+                "pass_rate": 0.76
+              },
+              "25-29": {
+                "test_count": 507,
+                "pass_count": 345,
+                "fail_count": 162,
+                "pass_rate": 0.68
+              },
+              "30-34": {
+                "test_count": 373,
+                "pass_count": 246,
+                "fail_count": 127,
+                "pass_rate": 0.66
+              },
+              "35-39": {
+                "test_count": 303,
+                "pass_count": 189,
+                "fail_count": 114,
+                "pass_rate": 0.62
+              },
+              "40+": {
+                "test_count": 512,
+                "pass_count": 306,
+                "fail_count": 206,
+                "pass_rate": 0.6
+              }
+            },
+            "data_provenance": {
+              "source": "NZTA Driver Licence Pass Rates CSV",
+              "region_key": "NORTHLAND REGION",
+              "test_type": "FULL"
+            }
+          },
+          "LEARNER": {
+            "aggregate_pass_rate": 0.718,
+            "age_groups": {
+              "16-24": {
+                "test_count": 3208,
+                "pass_count": 2406,
+                "fail_count": 802,
+                "pass_rate": 0.75
+              },
+              "25-29": {
+                "test_count": 325,
+                "pass_count": 220,
+                "fail_count": 105,
+                "pass_rate": 0.68
+              },
+              "30-34": {
+                "test_count": 310,
+                "pass_count": 205,
+                "fail_count": 105,
+                "pass_rate": 0.66
+              },
+              "35-39": {
+                "test_count": 223,
+                "pass_count": 137,
+                "fail_count": 86,
+                "pass_rate": 0.61
+              },
+              "40+": {
+                "test_count": 429,
+                "pass_count": 259,
+                "fail_count": 170,
+                "pass_rate": 0.6
+              }
+            },
+            "data_provenance": {
+              "source": "NZTA Driver Licence Pass Rates CSV",
+              "region_key": "NORTHLAND REGION",
+              "test_type": "LEARNER"
+            }
+          },
+          "RESTRICTED": {
+            "aggregate_pass_rate": 0.575,
+            "age_groups": {
+              "16-24": {
+                "test_count": 3077,
+                "pass_count": 1767,
+                "fail_count": 1310,
+                "pass_rate": 0.57
+              },
+              "25-29": {
+                "test_count": 287,
+                "pass_count": 183,
+                "fail_count": 104,
+                "pass_rate": 0.64
+              },
+              "30-34": {
+                "test_count": 189,
+                "pass_count": 99,
+                "fail_count": 90,
+                "pass_rate": 0.52
+              },
+              "35-39": {
+                "test_count": 88,
+                "pass_count": 52,
+                "fail_count": 36,
+                "pass_rate": 0.59
+              },
+              "40+": {
+                "test_count": 172,
+                "pass_count": 93,
+                "fail_count": 79,
+                "pass_rate": 0.54
+              }
+            },
+            "data_provenance": {
+              "source": "NZTA Driver Licence Pass Rates CSV",
+              "region_key": "NORTHLAND REGION",
+              "test_type": "RESTRICTED"
+            }
+          }
+        }
+      },
+      "crash_stats": {
+        "total_crashes": 37520,
+        "fatal": 744,
+        "serious": 3589,
+        "minor": 13527,
+        "non_injury": 24793,
+        "intersection_crashes": 0,
+        "crash_risk_index": 0.1329,
+        "data_provenance": {
+          "source": "NZTA Crash Analysis System (CAS)",
+          "note": "Aggregated from raw crash records"
+        }
+      },
+      "crash_risk_by_zone": {
+        "rural_100": {
+          "rural": {
+            "total_crashes": 20423,
+            "fatal": 626,
+            "serious": 2715,
+            "minor": 9035,
+            "non_injury": 11930,
+            "intersection_crashes": 0,
+            "holiday_crashes": 1704,
+            "cyclist_involved": 94,
+            "pedestrian_involved": 177,
+            "motorcycle_involved": 893,
+            "crash_risk_index": 0.1683,
+            "fatal_rate": 0.0307,
+            "serious_rate": 0.1329,
+            "intersection_rate": 0.0
+          }
+        },
+        "urban_50": {
+          "urban": {
+            "total_crashes": 15177,
+            "fatal": 84,
+            "serious": 720,
+            "minor": 3809,
+            "non_injury": 11568,
+            "intersection_crashes": 0,
+            "holiday_crashes": 833,
+            "cyclist_involved": 331,
+            "pedestrian_involved": 736,
+            "motorcycle_involved": 511,
+            "crash_risk_index": 0.0992,
+            "fatal_rate": 0.0055,
+            "serious_rate": 0.0474,
+            "intersection_rate": 0.0
+          }
+        },
+        "very_low_30": {
+          "urban": {
+            "total_crashes": 359,
+            "fatal": 1,
+            "serious": 25,
+            "minor": 90,
+            "non_injury": 264,
+            "intersection_crashes": 0,
+            "holiday_crashes": 27,
+            "cyclist_involved": 3,
+            "pedestrian_involved": 43,
+            "motorcycle_involved": 9,
+            "crash_risk_index": 0.1113,
+            "fatal_rate": 0.0028,
+            "serious_rate": 0.0696,
+            "intersection_rate": 0.0
+          }
+        },
+        "transitional_70": {
+          "urban": {
+            "total_crashes": 1558,
+            "fatal": 33,
+            "serious": 129,
+            "minor": 588,
+            "non_injury": 1030,
+            "intersection_crashes": 0,
+            "holiday_crashes": 96,
+            "cyclist_involved": 15,
+            "pedestrian_involved": 41,
+            "motorcycle_involved": 45,
+            "crash_risk_index": 0.1389,
+            "fatal_rate": 0.0212,
+            "serious_rate": 0.0828,
+            "intersection_rate": 0.0
+          }
+        },
+        "open_road_110": {
+          "rural": {
+            "total_crashes": 3,
+            "fatal": 0,
+            "serious": 0,
+            "minor": 5,
+            "non_injury": 1,
+            "intersection_crashes": 0,
+            "holiday_crashes": 1,
+            "cyclist_involved": 0,
+            "pedestrian_involved": 0,
+            "motorcycle_involved": 0,
+            "crash_risk_index": 0.1467,
+            "fatal_rate": 0.0,
+            "serious_rate": 0.0,
+            "intersection_rate": 0.0
+          }
+        }
+      },
+      "data_provenance": {
+        "source": "Stats NZ 2023 Census",
+        "field": "regional_council_population"
+      }
+    },
+    "Auckland": {
+      "population_2023": 1657200,
+      "national_weight": 0.33226,
+      "territorial_authorities": {
+        "Auckland Council": {
+          "population_2023": 1657200,
+          "regional_weight": 1.0,
+          "national_weight": 0.33226,
+          "urban_rural": "urban",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        }
+      },
+      "licence_data": {
+        "available": true,
+        "matched_csv_key": "AUCKLAND REGION",
+        "test_types": {
+          "FULL": {
+            "aggregate_pass_rate": 0.659,
+            "age_groups": {
+              "16-24": {
+                "test_count": 17179,
+                "pass_count": 13026,
+                "fail_count": 4153,
+                "pass_rate": 0.76
+              },
+              "25-29": {
+                "test_count": 9045,
+                "pass_count": 5826,
+                "fail_count": 3219,
+                "pass_rate": 0.64
+              },
+              "30-34": {
+                "test_count": 7427,
+                "pass_count": 4479,
+                "fail_count": 2948,
+                "pass_rate": 0.6
+              },
+              "35-39": {
+                "test_count": 5795,
+                "pass_count": 3406,
+                "fail_count": 2389,
+                "pass_rate": 0.59
+              },
+              "40+": {
+                "test_count": 8394,
+                "pass_count": 4810,
+                "fail_count": 3584,
+                "pass_rate": 0.57
+              }
+            },
+            "data_provenance": {
+              "source": "NZTA Driver Licence Pass Rates CSV",
+              "region_key": "AUCKLAND REGION",
+              "test_type": "FULL"
+            }
+          },
+          "LEARNER": {
+            "aggregate_pass_rate": 0.681,
+            "age_groups": {
+              "16-24": {
+                "test_count": 33876,
+                "pass_count": 24468,
+                "fail_count": 9408,
+                "pass_rate": 0.72
+              },
+              "25-29": {
+                "test_count": 8425,
+                "pass_count": 5616,
+                "fail_count": 2809,
+                "pass_rate": 0.67
+              },
+              "30-34": {
+                "test_count": 7315,
+                "pass_count": 5003,
+                "fail_count": 2312,
+                "pass_rate": 0.68
+              },
+              "35-39": {
+                "test_count": 5739,
+                "pass_count": 3681,
+                "fail_count": 2058,
+                "pass_rate": 0.64
+              },
+              "40+": {
+                "test_count": 9115,
+                "pass_count": 5106,
+                "fail_count": 4009,
+                "pass_rate": 0.56
+              }
+            },
+            "data_provenance": {
+              "source": "NZTA Driver Licence Pass Rates CSV",
+              "region_key": "AUCKLAND REGION",
+              "test_type": "LEARNER"
+            }
+          },
+          "RESTRICTED": {
+            "aggregate_pass_rate": 0.569,
+            "age_groups": {
+              "16-24": {
+                "test_count": 25882,
+                "pass_count": 15483,
+                "fail_count": 10399,
+                "pass_rate": 0.6
+              },
+              "25-29": {
+                "test_count": 4274,
+                "pass_count": 2354,
+                "fail_count": 1920,
+                "pass_rate": 0.55
+              },
+              "30-34": {
+                "test_count": 2763,
+                "pass_count": 1369,
+                "fail_count": 1394,
+                "pass_rate": 0.5
+              },
+              "35-39": {
+                "test_count": 1610,
+                "pass_count": 726,
+                "fail_count": 884,
+                "pass_rate": 0.45
+              },
+              "40+": {
+                "test_count": 2146,
+                "pass_count": 918,
+                "fail_count": 1228,
+                "pass_rate": 0.43
+              }
+            },
+            "data_provenance": {
+              "source": "NZTA Driver Licence Pass Rates CSV",
+              "region_key": "AUCKLAND REGION",
+              "test_type": "RESTRICTED"
+            }
+          }
+        }
+      },
+      "crash_stats": {
+        "total_crashes": 313920,
+        "fatal": 1454,
+        "serious": 13938,
+        "minor": 86217,
+        "non_injury": 234338,
+        "intersection_crashes": 0,
+        "crash_risk_index": 0.1047,
+        "data_provenance": {
+          "source": "NZTA Crash Analysis System (CAS)",
+          "note": "Aggregated from raw crash records"
+        }
+      },
+      "crash_risk_by_zone": {
+        "urban_50": {
+          "urban": {
+            "total_crashes": 219602,
+            "fatal": 634,
+            "serious": 8817,
+            "minor": 55976,
+            "non_injury": 166886,
+            "intersection_crashes": 0,
+            "holiday_crashes": 10113,
+            "cyclist_involved": 6076,
+            "pedestrian_involved": 9711,
+            "motorcycle_involved": 6856,
+            "crash_risk_index": 0.095,
+            "fatal_rate": 0.0029,
+            "serious_rate": 0.0401,
+            "intersection_rate": 0.0
+          }
+        },
+        "rural_100": {
+          "rural": {
+            "total_crashes": 71540,
+            "fatal": 650,
+            "serious": 3749,
+            "minor": 23404,
+            "non_injury": 51082,
+            "intersection_crashes": 0,
+            "holiday_crashes": 3447,
+            "cyclist_involved": 197,
+            "pedestrian_involved": 253,
+            "motorcycle_involved": 2651,
+            "crash_risk_index": 0.1087,
+            "fatal_rate": 0.0091,
+            "serious_rate": 0.0524,
+            "intersection_rate": 0.0
+          }
+        },
+        "transitional_70": {
+          "urban": {
+            "total_crashes": 17237,
+            "fatal": 153,
+            "serious": 1079,
+            "minor": 5575,
+            "non_injury": 12182,
+            "intersection_crashes": 0,
+            "holiday_crashes": 839,
+            "cyclist_involved": 227,
+            "pedestrian_involved": 334,
+            "motorcycle_involved": 568,
+            "crash_risk_index": 0.1138,
+            "fatal_rate": 0.0089,
+            "serious_rate": 0.0626,
+            "intersection_rate": 0.0
+          }
+        },
+        "very_low_30": {
+          "urban": {
+            "total_crashes": 5525,
+            "fatal": 17,
+            "serious": 292,
+            "minor": 1259,
+            "non_injury": 4176,
+            "intersection_crashes": 0,
+            "holiday_crashes": 313,
+            "cyclist_involved": 167,
+            "pedestrian_involved": 719,
+            "motorcycle_involved": 147,
+            "crash_risk_index": 0.1011,
+            "fatal_rate": 0.0031,
+            "serious_rate": 0.0529,
+            "intersection_rate": 0.0
+          }
+        },
+        "open_road_110": {
+          "rural": {
+            "total_crashes": 16,
+            "fatal": 0,
+            "serious": 1,
+            "minor": 3,
+            "non_injury": 12,
+            "intersection_crashes": 0,
+            "holiday_crashes": 4,
+            "cyclist_involved": 0,
+            "pedestrian_involved": 0,
+            "motorcycle_involved": 1,
+            "crash_risk_index": 0.105,
+            "fatal_rate": 0.0,
+            "serious_rate": 0.0625,
+            "intersection_rate": 0.0
+          }
+        }
+      },
+      "data_provenance": {
+        "source": "Stats NZ 2023 Census",
+        "field": "regional_council_population"
+      }
+    },
+    "Waikato": {
+      "population_2023": 491600,
+      "national_weight": 0.09856,
+      "territorial_authorities": {
+        "Hamilton City": {
+          "population_2023": 176500,
+          "regional_weight": 0.35903,
+          "national_weight": 0.03539,
+          "urban_rural": "urban",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "Waip\u0101 District": {
+          "population_2023": 56600,
+          "regional_weight": 0.11513,
+          "national_weight": 0.01135,
+          "urban_rural": "mixed",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "Waikato District": {
+          "population_2023": 82600,
+          "regional_weight": 0.16802,
+          "national_weight": 0.01656,
+          "urban_rural": "mixed",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "Matamata-Piako District": {
+          "population_2023": 36600,
+          "regional_weight": 0.07445,
+          "national_weight": 0.00734,
+          "urban_rural": "rural",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "South Waikato District": {
+          "population_2023": 25200,
+          "regional_weight": 0.05126,
+          "national_weight": 0.00505,
+          "urban_rural": "rural",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "Waitomo District": {
+          "population_2023": 10300,
+          "regional_weight": 0.02095,
+          "national_weight": 0.00207,
+          "urban_rural": "rural",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "Thames-Coromandel District": {
+          "population_2023": 35400,
+          "regional_weight": 0.07201,
+          "national_weight": 0.0071,
+          "urban_rural": "rural",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "Hauraki District": {
+          "population_2023": 21600,
+          "regional_weight": 0.04394,
+          "national_weight": 0.00433,
+          "urban_rural": "rural",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "Otorohanga District": {
+          "population_2023": 10700,
+          "regional_weight": 0.02177,
+          "national_weight": 0.00215,
+          "urban_rural": "rural",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        }
+      },
+      "licence_data": {
+        "available": true,
+        "matched_csv_key": "WAIKATO REGION",
+        "test_types": {
+          "FULL": {
+            "aggregate_pass_rate": 0.605,
+            "age_groups": {
+              "16-24": {
+                "test_count": 5627,
+                "pass_count": 3872,
+                "fail_count": 1755,
+                "pass_rate": 0.69
+              },
+              "25-29": {
+                "test_count": 2307,
+                "pass_count": 1256,
+                "fail_count": 1051,
+                "pass_rate": 0.54
+              },
+              "30-34": {
+                "test_count": 1464,
+                "pass_count": 777,
+                "fail_count": 687,
+                "pass_rate": 0.53
+              },
+              "35-39": {
+                "test_count": 1066,
+                "pass_count": 575,
+                "fail_count": 491,
+                "pass_rate": 0.54
+              },
+              "40+": {
+                "test_count": 1519,
+                "pass_count": 772,
+                "fail_count": 747,
+                "pass_rate": 0.51
+              }
+            },
+            "data_provenance": {
+              "source": "NZTA Driver Licence Pass Rates CSV",
+              "region_key": "WAIKATO REGION",
+              "test_type": "FULL"
+            }
+          },
+          "LEARNER": {
+            "aggregate_pass_rate": 0.692,
+            "age_groups": {
+              "16-24": {
+                "test_count": 9739,
+                "pass_count": 6934,
+                "fail_count": 2805,
+                "pass_rate": 0.71
+              },
+              "25-29": {
+                "test_count": 1675,
+                "pass_count": 1150,
+                "fail_count": 525,
+                "pass_rate": 0.69
+              },
+              "30-34": {
+                "test_count": 1211,
+                "pass_count": 836,
+                "fail_count": 375,
+                "pass_rate": 0.69
+              },
+              "35-39": {
+                "test_count": 875,
+                "pass_count": 576,
+                "fail_count": 299,
+                "pass_rate": 0.66
+              },
+              "40+": {
+                "test_count": 1314,
+                "pass_count": 755,
+                "fail_count": 559,
+                "pass_rate": 0.57
+              }
+            },
+            "data_provenance": {
+              "source": "NZTA Driver Licence Pass Rates CSV",
+              "region_key": "WAIKATO REGION",
+              "test_type": "LEARNER"
+            }
+          },
+          "RESTRICTED": {
+            "aggregate_pass_rate": 0.517,
+            "age_groups": {
+              "16-24": {
+                "test_count": 8762,
+                "pass_count": 4750,
+                "fail_count": 4012,
+                "pass_rate": 0.54
+              },
+              "25-29": {
+                "test_count": 1028,
+                "pass_count": 467,
+                "fail_count": 561,
+                "pass_rate": 0.45
+              },
+              "30-34": {
+                "test_count": 577,
+                "pass_count": 239,
+                "fail_count": 338,
+                "pass_rate": 0.41
+              },
+              "35-39": {
+                "test_count": 356,
+                "pass_count": 164,
+                "fail_count": 192,
+                "pass_rate": 0.46
+              },
+              "40+": {
+                "test_count": 471,
+                "pass_count": 171,
+                "fail_count": 300,
+                "pass_rate": 0.36
+              }
+            },
+            "data_provenance": {
+              "source": "NZTA Driver Licence Pass Rates CSV",
+              "region_key": "WAIKATO REGION",
+              "test_type": "RESTRICTED"
+            }
+          }
+        }
+      },
+      "crash_stats": {
+        "total_crashes": 99067,
+        "fatal": 1840,
+        "serious": 8485,
+        "minor": 35365,
+        "non_injury": 66062,
+        "intersection_crashes": 0,
+        "crash_risk_index": 0.12,
+        "data_provenance": {
+          "source": "NZTA Crash Analysis System (CAS)",
+          "note": "Aggregated from raw crash records"
+        }
+      },
+      "crash_risk_by_zone": {
+        "urban_50": {
+          "urban": {
+            "total_crashes": 40837,
+            "fatal": 192,
+            "serious": 1867,
+            "minor": 11315,
+            "non_injury": 30107,
+            "intersection_crashes": 0,
+            "holiday_crashes": 2065,
+            "cyclist_involved": 1535,
+            "pedestrian_involved": 1862,
+            "motorcycle_involved": 1358,
+            "crash_risk_index": 0.1021,
+            "fatal_rate": 0.0047,
+            "serious_rate": 0.0457,
+            "intersection_rate": 0.0
+          }
+        },
+        "rural_100": {
+          "rural": {
+            "total_crashes": 49513,
+            "fatal": 1549,
+            "serious": 6043,
+            "minor": 21197,
+            "non_injury": 29836,
+            "intersection_crashes": 0,
+            "holiday_crashes": 3722,
+            "cyclist_involved": 263,
+            "pedestrian_involved": 311,
+            "motorcycle_involved": 2234,
+            "crash_risk_index": 0.1605,
+            "fatal_rate": 0.0313,
+            "serious_rate": 0.122,
+            "intersection_rate": 0.0
+          }
+        },
+        "transitional_70": {
+          "urban": {
+            "total_crashes": 7376,
+            "fatal": 91,
+            "serious": 497,
+            "minor": 2490,
+            "non_injury": 5157,
+            "intersection_crashes": 0,
+            "holiday_crashes": 445,
+            "cyclist_involved": 167,
+            "pedestrian_involved": 153,
+            "motorcycle_involved": 315,
+            "crash_risk_index": 0.1187,
+            "fatal_rate": 0.0123,
+            "serious_rate": 0.0674,
+            "intersection_rate": 0.0
+          }
+        },
+        "very_low_30": {
+          "urban": {
+            "total_crashes": 776,
+            "fatal": 3,
+            "serious": 60,
+            "minor": 233,
+            "non_injury": 516,
+            "intersection_crashes": 0,
+            "holiday_crashes": 36,
+            "cyclist_involved": 29,
+            "pedestrian_involved": 130,
+            "motorcycle_involved": 23,
+            "crash_risk_index": 0.1271,
+            "fatal_rate": 0.0039,
+            "serious_rate": 0.0773,
+            "intersection_rate": 0.0
+          }
+        },
+        "open_road_110": {
+          "rural": {
+            "total_crashes": 565,
+            "fatal": 5,
+            "serious": 18,
+            "minor": 130,
+            "non_injury": 446,
+            "intersection_crashes": 0,
+            "holiday_crashes": 40,
+            "cyclist_involved": 0,
+            "pedestrian_involved": 2,
+            "motorcycle_involved": 4,
+            "crash_risk_index": 0.0914,
+            "fatal_rate": 0.0088,
+            "serious_rate": 0.0319,
+            "intersection_rate": 0.0
+          }
+        }
+      },
+      "data_provenance": {
+        "source": "Stats NZ 2023 Census",
+        "field": "regional_council_population"
+      }
+    },
+    "Bay of Plenty": {
+      "population_2023": 366900,
+      "national_weight": 0.07356,
+      "territorial_authorities": {
+        "Tauranga City": {
+          "population_2023": 158300,
+          "regional_weight": 0.43145,
+          "national_weight": 0.03174,
+          "urban_rural": "urban",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "Western Bay of Plenty District": {
+          "population_2023": 58700,
+          "regional_weight": 0.15999,
+          "national_weight": 0.01177,
+          "urban_rural": "mixed",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "Rotorua District": {
+          "population_2023": 74400,
+          "regional_weight": 0.20278,
+          "national_weight": 0.01492,
+          "urban_rural": "urban",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "Kawerau District": {
+          "population_2023": 7200,
+          "regional_weight": 0.01962,
+          "national_weight": 0.00144,
+          "urban_rural": "rural",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "Whakat\u0101ne District": {
+          "population_2023": 36900,
+          "regional_weight": 0.10057,
+          "national_weight": 0.0074,
+          "urban_rural": "mixed",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "\u014cp\u014dtiki District": {
+          "population_2023": 10200,
+          "regional_weight": 0.0278,
+          "national_weight": 0.00205,
+          "urban_rural": "rural",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        }
+      },
+      "licence_data": {
+        "available": true,
+        "matched_csv_key": "BAY OF PLENTY REGION",
+        "test_types": {
+          "FULL": {
+            "aggregate_pass_rate": 0.661,
+            "age_groups": {
+              "16-24": {
+                "test_count": 3765,
+                "pass_count": 2751,
+                "fail_count": 1014,
+                "pass_rate": 0.73
+              },
+              "25-29": {
+                "test_count": 1303,
+                "pass_count": 792,
+                "fail_count": 511,
+                "pass_rate": 0.61
+              },
+              "30-34": {
+                "test_count": 897,
+                "pass_count": 525,
+                "fail_count": 372,
+                "pass_rate": 0.59
+              },
+              "35-39": {
+                "test_count": 572,
+                "pass_count": 346,
+                "fail_count": 226,
+                "pass_rate": 0.6
+              },
+              "40+": {
+                "test_count": 895,
+                "pass_count": 497,
+                "fail_count": 398,
+                "pass_rate": 0.56
+              }
+            },
+            "data_provenance": {
+              "source": "NZTA Driver Licence Pass Rates CSV",
+              "region_key": "BAY OF PLENTY REGION",
+              "test_type": "FULL"
+            }
+          },
+          "LEARNER": {
+            "aggregate_pass_rate": 0.68,
+            "age_groups": {
+              "16-24": {
+                "test_count": 7293,
+                "pass_count": 5180,
+                "fail_count": 2113,
+                "pass_rate": 0.71
+              },
+              "25-29": {
+                "test_count": 1342,
+                "pass_count": 879,
+                "fail_count": 463,
+                "pass_rate": 0.65
+              },
+              "30-34": {
+                "test_count": 923,
+                "pass_count": 591,
+                "fail_count": 332,
+                "pass_rate": 0.64
+              },
+              "35-39": {
+                "test_count": 552,
+                "pass_count": 348,
+                "fail_count": 204,
+                "pass_rate": 0.63
+              },
+              "40+": {
+                "test_count": 892,
+                "pass_count": 483,
+                "fail_count": 409,
+                "pass_rate": 0.54
+              }
+            },
+            "data_provenance": {
+              "source": "NZTA Driver Licence Pass Rates CSV",
+              "region_key": "BAY OF PLENTY REGION",
+              "test_type": "LEARNER"
+            }
+          },
+          "RESTRICTED": {
+            "aggregate_pass_rate": 0.576,
+            "age_groups": {
+              "16-24": {
+                "test_count": 5335,
+                "pass_count": 3189,
+                "fail_count": 2146,
+                "pass_rate": 0.6
+              },
+              "25-29": {
+                "test_count": 591,
+                "pass_count": 301,
+                "fail_count": 290,
+                "pass_rate": 0.51
+              },
+              "30-34": {
+                "test_count": 352,
+                "pass_count": 176,
+                "fail_count": 176,
+                "pass_rate": 0.5
+              },
+              "35-39": {
+                "test_count": 261,
+                "pass_count": 127,
+                "fail_count": 134,
+                "pass_rate": 0.49
+              },
+              "40+": {
+                "test_count": 312,
+                "pass_count": 150,
+                "fail_count": 162,
+                "pass_rate": 0.48
+              }
+            },
+            "data_provenance": {
+              "source": "NZTA Driver Licence Pass Rates CSV",
+              "region_key": "BAY OF PLENTY REGION",
+              "test_type": "RESTRICTED"
+            }
+          }
+        }
+      },
+      "crash_stats": {
+        "total_crashes": 53077,
+        "fatal": 800,
+        "serious": 4147,
+        "minor": 16115,
+        "non_injury": 37533,
+        "intersection_crashes": 0,
+        "crash_risk_index": 0.1259,
+        "data_provenance": {
+          "source": "NZTA Crash Analysis System (CAS)",
+          "note": "Aggregated from raw crash records"
+        }
+      },
+      "crash_risk_by_zone": {
+        "urban_50": {
+          "urban": {
+            "total_crashes": 27341,
+            "fatal": 134,
+            "serious": 1350,
+            "minor": 6528,
+            "non_injury": 20728,
+            "intersection_crashes": 0,
+            "holiday_crashes": 1533,
+            "cyclist_involved": 1245,
+            "pedestrian_involved": 1296,
+            "motorcycle_involved": 1062,
+            "crash_risk_index": 0.1003,
+            "fatal_rate": 0.0049,
+            "serious_rate": 0.0494,
+            "intersection_rate": 0.0
+          }
+        },
+        "rural_100": {
+          "rural": {
+            "total_crashes": 18017,
+            "fatal": 599,
+            "serious": 2315,
+            "minor": 7452,
+            "non_injury": 11101,
+            "intersection_crashes": 0,
+            "holiday_crashes": 1340,
+            "cyclist_involved": 110,
+            "pedestrian_involved": 151,
+            "motorcycle_involved": 799,
+            "crash_risk_index": 0.1611,
+            "fatal_rate": 0.0332,
+            "serious_rate": 0.1285,
+            "intersection_rate": 0.0
+          }
+        },
+        "transitional_70": {
+          "urban": {
+            "total_crashes": 7143,
+            "fatal": 61,
+            "serious": 438,
+            "minor": 1983,
+            "non_injury": 5300,
+            "intersection_crashes": 0,
+            "holiday_crashes": 461,
+            "cyclist_involved": 163,
+            "pedestrian_involved": 115,
+            "motorcycle_involved": 312,
+            "crash_risk_index": 0.1089,
+            "fatal_rate": 0.0085,
+            "serious_rate": 0.0613,
+            "intersection_rate": 0.0
+          }
+        },
+        "very_low_30": {
+          "urban": {
+            "total_crashes": 527,
+            "fatal": 4,
+            "serious": 42,
+            "minor": 137,
+            "non_injury": 369,
+            "intersection_crashes": 0,
+            "holiday_crashes": 38,
+            "cyclist_involved": 10,
+            "pedestrian_involved": 76,
+            "motorcycle_involved": 19,
+            "crash_risk_index": 0.1244,
+            "fatal_rate": 0.0076,
+            "serious_rate": 0.0797,
+            "intersection_rate": 0.0
+          }
+        },
+        "open_road_110": {
+          "rural": {
+            "total_crashes": 49,
+            "fatal": 2,
+            "serious": 2,
+            "minor": 15,
+            "non_injury": 35,
+            "intersection_crashes": 0,
+            "holiday_crashes": 2,
+            "cyclist_involved": 0,
+            "pedestrian_involved": 0,
+            "motorcycle_involved": 0,
+            "crash_risk_index": 0.1347,
+            "fatal_rate": 0.0408,
+            "serious_rate": 0.0408,
+            "intersection_rate": 0.0
+          }
+        }
+      },
+      "data_provenance": {
+        "source": "Stats NZ 2023 Census",
+        "field": "regional_council_population"
+      }
+    },
+    "Gisborne": {
+      "population_2023": 52400,
+      "national_weight": 0.01051,
+      "territorial_authorities": {
+        "Gisborne District": {
+          "population_2023": 52400,
+          "regional_weight": 1.0,
+          "national_weight": 0.01051,
+          "urban_rural": "mixed",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        }
+      },
+      "licence_data": {
+        "available": false,
+        "matched_csv_key": "GISBORNE REGION",
+        "test_types": {}
+      },
+      "crash_stats": {
+        "total_crashes": 10986,
+        "fatal": 131,
+        "serious": 854,
+        "minor": 3371,
+        "non_injury": 7762,
+        "intersection_crashes": 0,
+        "crash_risk_index": 0.1525,
+        "data_provenance": {
+          "source": "NZTA Crash Analysis System (CAS)",
+          "note": "Aggregated from raw crash records"
+        }
+      },
+      "crash_risk_by_zone": {
+        "rural_100": {
+          "rural": {
+            "total_crashes": 3780,
+            "fatal": 96,
+            "serious": 549,
+            "minor": 1616,
+            "non_injury": 2241,
+            "intersection_crashes": 0,
+            "holiday_crashes": 340,
+            "cyclist_involved": 10,
+            "pedestrian_involved": 24,
+            "motorcycle_involved": 145,
+            "crash_risk_index": 0.1646,
+            "fatal_rate": 0.0254,
+            "serious_rate": 0.1452,
+            "intersection_rate": 0.0
+          }
+        },
+        "urban_50": {
+          "urban": {
+            "total_crashes": 6919,
+            "fatal": 22,
+            "serious": 268,
+            "minor": 1644,
+            "non_injury": 5333,
+            "intersection_crashes": 0,
+            "holiday_crashes": 416,
+            "cyclist_involved": 388,
+            "pedestrian_involved": 293,
+            "motorcycle_involved": 136,
+            "crash_risk_index": 0.0931,
+            "fatal_rate": 0.0032,
+            "serious_rate": 0.0387,
+            "intersection_rate": 0.0
+          }
+        },
+        "transitional_70": {
+          "urban": {
+            "total_crashes": 243,
+            "fatal": 13,
+            "serious": 32,
+            "minor": 95,
+            "non_injury": 161,
+            "intersection_crashes": 0,
+            "holiday_crashes": 27,
+            "cyclist_involved": 3,
+            "pedestrian_involved": 10,
+            "motorcycle_involved": 5,
+            "crash_risk_index": 0.1681,
+            "fatal_rate": 0.0535,
+            "serious_rate": 0.1317,
+            "intersection_rate": 0.0
+          }
+        },
+        "very_low_30": {
+          "urban": {
+            "total_crashes": 43,
+            "fatal": 0,
+            "serious": 5,
+            "minor": 15,
+            "non_injury": 27,
+            "intersection_crashes": 0,
+            "holiday_crashes": 5,
+            "cyclist_involved": 0,
+            "pedestrian_involved": 2,
+            "motorcycle_involved": 4,
+            "crash_risk_index": 0.1367,
+            "fatal_rate": 0.0,
+            "serious_rate": 0.1163,
+            "intersection_rate": 0.0
+          }
+        },
+        "open_road_110": {
+          "rural": {
+            "total_crashes": 1,
+            "fatal": 0,
+            "serious": 0,
+            "minor": 1,
+            "non_injury": 0,
+            "intersection_crashes": 0,
+            "holiday_crashes": 0,
+            "cyclist_involved": 0,
+            "pedestrian_involved": 0,
+            "motorcycle_involved": 0,
+            "crash_risk_index": 0.2,
+            "fatal_rate": 0.0,
+            "serious_rate": 0.0,
+            "intersection_rate": 0.0
+          }
+        }
+      },
+      "data_provenance": {
+        "source": "Stats NZ 2023 Census",
+        "field": "regional_council_population"
+      }
+    },
+    "Hawke's Bay": {
+      "population_2023": 182200,
+      "national_weight": 0.03653,
+      "territorial_authorities": {
+        "Napier City": {
+          "population_2023": 67000,
+          "regional_weight": 0.36773,
+          "national_weight": 0.01343,
+          "urban_rural": "urban",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "Hastings District": {
+          "population_2023": 87400,
+          "regional_weight": 0.47969,
+          "national_weight": 0.01752,
+          "urban_rural": "mixed",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "Wairoa District": {
+          "population_2023": 8600,
+          "regional_weight": 0.0472,
+          "national_weight": 0.00172,
+          "urban_rural": "rural",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "Central Hawke's Bay District": {
+          "population_2023": 16500,
+          "regional_weight": 0.09056,
+          "national_weight": 0.00331,
+          "urban_rural": "rural",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        }
+      },
+      "licence_data": {
+        "available": true,
+        "matched_csv_key": "HAWKE'S BAY REGION",
+        "test_types": {
+          "FULL": {
+            "aggregate_pass_rate": 0.809,
+            "age_groups": {
+              "16-24": {
+                "test_count": 1419,
+                "pass_count": 1263,
+                "fail_count": 156,
+                "pass_rate": 0.89
+              },
+              "25-29": {
+                "test_count": 517,
+                "pass_count": 398,
+                "fail_count": 119,
+                "pass_rate": 0.77
+              },
+              "30-34": {
+                "test_count": 386,
+                "pass_count": 262,
+                "fail_count": 124,
+                "pass_rate": 0.68
+              },
+              "35-39": {
+                "test_count": 245,
+                "pass_count": 186,
+                "fail_count": 59,
+                "pass_rate": 0.76
+              },
+              "40+": {
+                "test_count": 392,
+                "pass_count": 286,
+                "fail_count": 106,
+                "pass_rate": 0.73
+              }
+            },
+            "data_provenance": {
+              "source": "NZTA Driver Licence Pass Rates CSV",
+              "region_key": "HAWKE'S BAY REGION",
+              "test_type": "FULL"
+            }
+          },
+          "LEARNER": {
+            "aggregate_pass_rate": 0.714,
+            "age_groups": {
+              "16-24": {
+                "test_count": 3086,
+                "pass_count": 2350,
+                "fail_count": 736,
+                "pass_rate": 0.76
+              },
+              "25-29": {
+                "test_count": 543,
+                "pass_count": 369,
+                "fail_count": 174,
+                "pass_rate": 0.68
+              },
+              "30-34": {
+                "test_count": 437,
+                "pass_count": 289,
+                "fail_count": 148,
+                "pass_rate": 0.66
+              },
+              "35-39": {
+                "test_count": 310,
+                "pass_count": 202,
+                "fail_count": 108,
+                "pass_rate": 0.65
+              },
+              "40+": {
+                "test_count": 493,
+                "pass_count": 268,
+                "fail_count": 225,
+                "pass_rate": 0.54
+              }
+            },
+            "data_provenance": {
+              "source": "NZTA Driver Licence Pass Rates CSV",
+              "region_key": "HAWKE'S BAY REGION",
+              "test_type": "LEARNER"
+            }
+          },
+          "RESTRICTED": {
+            "aggregate_pass_rate": 0.62,
+            "age_groups": {
+              "16-24": {
+                "test_count": 2574,
+                "pass_count": 1630,
+                "fail_count": 944,
+                "pass_rate": 0.63
+              },
+              "25-29": {
+                "test_count": 377,
+                "pass_count": 227,
+                "fail_count": 150,
+                "pass_rate": 0.6
+              },
+              "30-34": {
+                "test_count": 189,
+                "pass_count": 109,
+                "fail_count": 80,
+                "pass_rate": 0.58
+              },
+              "35-39": {
+                "test_count": 88,
+                "pass_count": 49,
+                "fail_count": 39,
+                "pass_rate": 0.56
+              },
+              "40+": {
+                "test_count": 159,
+                "pass_count": 84,
+                "fail_count": 75,
+                "pass_rate": 0.53
+              }
+            },
+            "data_provenance": {
+              "source": "NZTA Driver Licence Pass Rates CSV",
+              "region_key": "HAWKE'S BAY REGION",
+              "test_type": "RESTRICTED"
+            }
+          }
+        }
+      },
+      "crash_stats": {
+        "total_crashes": 35908,
+        "fatal": 465,
+        "serious": 2893,
+        "minor": 11612,
+        "non_injury": 24779,
+        "intersection_crashes": 0,
+        "crash_risk_index": 0.1561,
+        "data_provenance": {
+          "source": "NZTA Crash Analysis System (CAS)",
+          "note": "Aggregated from raw crash records"
+        }
+      },
+      "crash_risk_by_zone": {
+        "urban_50": {
+          "urban": {
+            "total_crashes": 21162,
+            "fatal": 76,
+            "serious": 931,
+            "minor": 5411,
+            "non_injury": 15837,
+            "intersection_crashes": 0,
+            "holiday_crashes": 1082,
+            "cyclist_involved": 1070,
+            "pedestrian_involved": 766,
+            "motorcycle_involved": 647,
+            "crash_risk_index": 0.099,
+            "fatal_rate": 0.0036,
+            "serious_rate": 0.044,
+            "intersection_rate": 0.0
+          }
+        },
+        "rural_100": {
+          "rural": {
+            "total_crashes": 13113,
+            "fatal": 359,
+            "serious": 1807,
+            "minor": 5609,
+            "non_injury": 7861,
+            "intersection_crashes": 0,
+            "holiday_crashes": 1000,
+            "cyclist_involved": 130,
+            "pedestrian_involved": 85,
+            "motorcycle_involved": 607,
+            "crash_risk_index": 0.1645,
+            "fatal_rate": 0.0274,
+            "serious_rate": 0.1378,
+            "intersection_rate": 0.0
+          }
+        },
+        "transitional_70": {
+          "urban": {
+            "total_crashes": 1528,
+            "fatal": 30,
+            "serious": 137,
+            "minor": 541,
+            "non_injury": 1032,
+            "intersection_crashes": 0,
+            "holiday_crashes": 94,
+            "cyclist_involved": 48,
+            "pedestrian_involved": 20,
+            "motorcycle_involved": 47,
+            "crash_risk_index": 0.1349,
+            "fatal_rate": 0.0196,
+            "serious_rate": 0.0897,
+            "intersection_rate": 0.0
+          }
+        },
+        "very_low_30": {
+          "urban": {
+            "total_crashes": 103,
+            "fatal": 0,
+            "serious": 18,
+            "minor": 49,
+            "non_injury": 49,
+            "intersection_crashes": 0,
+            "holiday_crashes": 7,
+            "cyclist_involved": 5,
+            "pedestrian_involved": 28,
+            "motorcycle_involved": 5,
+            "crash_risk_index": 0.1821,
+            "fatal_rate": 0.0,
+            "serious_rate": 0.1748,
+            "intersection_rate": 0.0
+          }
+        },
+        "open_road_110": {
+          "rural": {
+            "total_crashes": 2,
+            "fatal": 0,
+            "serious": 0,
+            "minor": 2,
+            "non_injury": 0,
+            "intersection_crashes": 0,
+            "holiday_crashes": 0,
+            "cyclist_involved": 0,
+            "pedestrian_involved": 0,
+            "motorcycle_involved": 0,
+            "crash_risk_index": 0.2,
+            "fatal_rate": 0.0,
+            "serious_rate": 0.0,
+            "intersection_rate": 0.0
+          }
+        }
+      },
+      "data_provenance": {
+        "source": "Stats NZ 2023 Census",
+        "field": "regional_council_population"
+      }
+    },
+    "Taranaki": {
+      "population_2023": 127100,
+      "national_weight": 0.02548,
+      "territorial_authorities": {
+        "New Plymouth District": {
+          "population_2023": 89800,
+          "regional_weight": 0.70653,
+          "national_weight": 0.018,
+          "urban_rural": "mixed",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "Stratford District": {
+          "population_2023": 10100,
+          "regional_weight": 0.07946,
+          "national_weight": 0.00203,
+          "urban_rural": "rural",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "South Taranaki District": {
+          "population_2023": 26900,
+          "regional_weight": 0.21164,
+          "national_weight": 0.00539,
+          "urban_rural": "rural",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        }
+      },
+      "licence_data": {
+        "available": true,
+        "matched_csv_key": "TARANAKI REGION",
+        "test_types": {
+          "FULL": {
+            "aggregate_pass_rate": 0.707,
+            "age_groups": {
+              "16-24": {
+                "test_count": 1196,
+                "pass_count": 935,
+                "fail_count": 261,
+                "pass_rate": 0.78
+              },
+              "25-29": {
+                "test_count": 299,
+                "pass_count": 195,
+                "fail_count": 104,
+                "pass_rate": 0.65
+              },
+              "30-34": {
+                "test_count": 241,
+                "pass_count": 147,
+                "fail_count": 94,
+                "pass_rate": 0.61
+              },
+              "35-39": {
+                "test_count": 217,
+                "pass_count": 128,
+                "fail_count": 89,
+                "pass_rate": 0.59
+              },
+              "40+": {
+                "test_count": 247,
+                "pass_count": 150,
+                "fail_count": 97,
+                "pass_rate": 0.61
+              }
+            },
+            "data_provenance": {
+              "source": "NZTA Driver Licence Pass Rates CSV",
+              "region_key": "TARANAKI REGION",
+              "test_type": "FULL"
+            }
+          },
+          "LEARNER": {
+            "aggregate_pass_rate": 0.705,
+            "age_groups": {
+              "16-24": {
+                "test_count": 2215,
+                "pass_count": 1614,
+                "fail_count": 601,
+                "pass_rate": 0.73
+              },
+              "25-29": {
+                "test_count": 253,
+                "pass_count": 158,
+                "fail_count": 95,
+                "pass_rate": 0.62
+              },
+              "30-34": {
+                "test_count": 224,
+                "pass_count": 154,
+                "fail_count": 70,
+                "pass_rate": 0.69
+              },
+              "35-39": {
+                "test_count": 148,
+                "pass_count": 91,
+                "fail_count": 57,
+                "pass_rate": 0.61
+              },
+              "40+": {
+                "test_count": 181,
+                "pass_count": 112,
+                "fail_count": 69,
+                "pass_rate": 0.62
+              }
+            },
+            "data_provenance": {
+              "source": "NZTA Driver Licence Pass Rates CSV",
+              "region_key": "TARANAKI REGION",
+              "test_type": "LEARNER"
+            }
+          },
+          "RESTRICTED": {
+            "aggregate_pass_rate": 0.59,
+            "age_groups": {
+              "16-24": {
+                "test_count": 2056,
+                "pass_count": 1245,
+                "fail_count": 811,
+                "pass_rate": 0.61
+              },
+              "25-29": {
+                "test_count": 149,
+                "pass_count": 78,
+                "fail_count": 71,
+                "pass_rate": 0.52
+              },
+              "30-34": {
+                "test_count": 94,
+                "pass_count": 50,
+                "fail_count": 44,
+                "pass_rate": 0.53
+              },
+              "35-39": {
+                "test_count": 83,
+                "pass_count": 39,
+                "fail_count": 44,
+                "pass_rate": 0.47
+              },
+              "40+": {
+                "test_count": 77,
+                "pass_count": 39,
+                "fail_count": 38,
+                "pass_rate": 0.51
+              }
+            },
+            "data_provenance": {
+              "source": "NZTA Driver Licence Pass Rates CSV",
+              "region_key": "TARANAKI REGION",
+              "test_type": "RESTRICTED"
+            }
+          }
+        }
+      },
+      "crash_stats": {
+        "total_crashes": 20879,
+        "fatal": 299,
+        "serious": 1822,
+        "minor": 7759,
+        "non_injury": 13627,
+        "intersection_crashes": 0,
+        "crash_risk_index": 0.1169,
+        "data_provenance": {
+          "source": "NZTA Crash Analysis System (CAS)",
+          "note": "Aggregated from raw crash records"
+        }
+      },
+      "crash_risk_by_zone": {
+        "transitional_70": {
+          "urban": {
+            "total_crashes": 658,
+            "fatal": 12,
+            "serious": 63,
+            "minor": 263,
+            "non_injury": 414,
+            "intersection_crashes": 0,
+            "holiday_crashes": 34,
+            "cyclist_involved": 12,
+            "pedestrian_involved": 16,
+            "motorcycle_involved": 27,
+            "crash_risk_index": 0.1419,
+            "fatal_rate": 0.0182,
+            "serious_rate": 0.0957,
+            "intersection_rate": 0.0
+          }
+        },
+        "urban_50": {
+          "urban": {
+            "total_crashes": 11527,
+            "fatal": 40,
+            "serious": 601,
+            "minor": 3427,
+            "non_injury": 8262,
+            "intersection_crashes": 0,
+            "holiday_crashes": 582,
+            "cyclist_involved": 453,
+            "pedestrian_involved": 480,
+            "motorcycle_involved": 441,
+            "crash_risk_index": 0.107,
+            "fatal_rate": 0.0035,
+            "serious_rate": 0.0521,
+            "intersection_rate": 0.0
+          }
+        },
+        "rural_100": {
+          "rural": {
+            "total_crashes": 8473,
+            "fatal": 246,
+            "serious": 1138,
+            "minor": 4015,
+            "non_injury": 4792,
+            "intersection_crashes": 0,
+            "holiday_crashes": 603,
+            "cyclist_involved": 52,
+            "pedestrian_involved": 75,
+            "motorcycle_involved": 424,
+            "crash_risk_index": 0.1721,
+            "fatal_rate": 0.029,
+            "serious_rate": 0.1343,
+            "intersection_rate": 0.0
+          }
+        },
+        "very_low_30": {
+          "urban": {
+            "total_crashes": 220,
+            "fatal": 1,
+            "serious": 20,
+            "minor": 54,
+            "non_injury": 158,
+            "intersection_crashes": 0,
+            "holiday_crashes": 12,
+            "cyclist_involved": 8,
+            "pedestrian_involved": 33,
+            "motorcycle_involved": 4,
+            "crash_risk_index": 0.1233,
+            "fatal_rate": 0.0045,
+            "serious_rate": 0.0909,
+            "intersection_rate": 0.0
+          }
+        },
+        "open_road_110": {
+          "rural": {
+            "total_crashes": 1,
+            "fatal": 0,
+            "serious": 0,
+            "minor": 0,
+            "non_injury": 1,
+            "intersection_crashes": 0,
+            "holiday_crashes": 0,
+            "cyclist_involved": 0,
+            "pedestrian_involved": 0,
+            "motorcycle_involved": 0,
+            "crash_risk_index": 0.04,
+            "fatal_rate": 0.0,
+            "serious_rate": 0.0,
+            "intersection_rate": 0.0
+          }
+        }
+      },
+      "data_provenance": {
+        "source": "Stats NZ 2023 Census",
+        "field": "regional_council_population"
+      }
+    },
+    "Manawat\u016b-Whanganui": {
+      "population_2023": 251400,
+      "national_weight": 0.05041,
+      "territorial_authorities": {
+        "Palmerston North City": {
+          "population_2023": 92900,
+          "regional_weight": 0.36953,
+          "national_weight": 0.01863,
+          "urban_rural": "urban",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "Manawat\u016b District": {
+          "population_2023": 31800,
+          "regional_weight": 0.12649,
+          "national_weight": 0.00638,
+          "urban_rural": "rural",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "Whanganui District": {
+          "population_2023": 48400,
+          "regional_weight": 0.19252,
+          "national_weight": 0.0097,
+          "urban_rural": "mixed",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "Rangit\u012bkei District": {
+          "population_2023": 17000,
+          "regional_weight": 0.06762,
+          "national_weight": 0.00341,
+          "urban_rural": "rural",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "Ruapehu District": {
+          "population_2023": 12300,
+          "regional_weight": 0.04893,
+          "national_weight": 0.00247,
+          "urban_rural": "rural",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "Horowhenua District": {
+          "population_2023": 37700,
+          "regional_weight": 0.14996,
+          "national_weight": 0.00756,
+          "urban_rural": "mixed",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "Tararua District": {
+          "population_2023": 19200,
+          "regional_weight": 0.07637,
+          "national_weight": 0.00385,
+          "urban_rural": "rural",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        }
+      },
+      "licence_data": {
+        "available": false,
+        "matched_csv_key": "MANAWAT\u016a-WHANGANUI REGION",
+        "test_types": {}
+      },
+      "crash_stats": {
+        "total_crashes": 0,
+        "crash_risk_index": null,
+        "note": "No CAS data matched for this region"
+      },
+      "crash_risk_by_zone": {},
+      "data_provenance": {
+        "source": "Stats NZ 2023 Census",
+        "field": "regional_council_population"
+      }
+    },
+    "Wellington": {
+      "population_2023": 453700,
+      "national_weight": 0.09097,
+      "territorial_authorities": {
+        "Wellington City": {
+          "population_2023": 215800,
+          "regional_weight": 0.47564,
+          "national_weight": 0.04327,
+          "urban_rural": "urban",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "Hutt City": {
+          "population_2023": 107200,
+          "regional_weight": 0.23628,
+          "national_weight": 0.02149,
+          "urban_rural": "urban",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "Upper Hutt City": {
+          "population_2023": 47200,
+          "regional_weight": 0.10403,
+          "national_weight": 0.00946,
+          "urban_rural": "urban",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "Porirua City": {
+          "population_2023": 60400,
+          "regional_weight": 0.13313,
+          "national_weight": 0.01211,
+          "urban_rural": "urban",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "K\u0101piti Coast District": {
+          "population_2023": 60600,
+          "regional_weight": 0.13357,
+          "national_weight": 0.01215,
+          "urban_rural": "mixed",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "South Wairarapa District": {
+          "population_2023": 12700,
+          "regional_weight": 0.02799,
+          "national_weight": 0.00255,
+          "urban_rural": "rural",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "Carterton District": {
+          "population_2023": 10700,
+          "regional_weight": 0.02358,
+          "national_weight": 0.00215,
+          "urban_rural": "rural",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "Masterton District": {
+          "population_2023": 29400,
+          "regional_weight": 0.0648,
+          "national_weight": 0.00589,
+          "urban_rural": "mixed",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        }
+      },
+      "licence_data": {
+        "available": true,
+        "matched_csv_key": "WELLINGTON REGION",
+        "test_types": {
+          "FULL": {
+            "aggregate_pass_rate": 0.7,
+            "age_groups": {
+              "16-24": {
+                "test_count": 4946,
+                "pass_count": 3909,
+                "fail_count": 1037,
+                "pass_rate": 0.79
+              },
+              "25-29": {
+                "test_count": 2110,
+                "pass_count": 1423,
+                "fail_count": 687,
+                "pass_rate": 0.67
+              },
+              "30-34": {
+                "test_count": 1655,
+                "pass_count": 1038,
+                "fail_count": 617,
+                "pass_rate": 0.63
+              },
+              "35-39": {
+                "test_count": 1242,
+                "pass_count": 773,
+                "fail_count": 469,
+                "pass_rate": 0.62
+              },
+              "40+": {
+                "test_count": 1590,
+                "pass_count": 935,
+                "fail_count": 655,
+                "pass_rate": 0.59
+              }
+            },
+            "data_provenance": {
+              "source": "NZTA Driver Licence Pass Rates CSV",
+              "region_key": "WELLINGTON REGION",
+              "test_type": "FULL"
+            }
+          },
+          "LEARNER": {
+            "aggregate_pass_rate": 0.734,
+            "age_groups": {
+              "16-24": {
+                "test_count": 8628,
+                "pass_count": 6599,
+                "fail_count": 2029,
+                "pass_rate": 0.76
+              },
+              "25-29": {
+                "test_count": 1458,
+                "pass_count": 1047,
+                "fail_count": 411,
+                "pass_rate": 0.72
+              },
+              "30-34": {
+                "test_count": 1483,
+                "pass_count": 1036,
+                "fail_count": 447,
+                "pass_rate": 0.7
+              },
+              "35-39": {
+                "test_count": 888,
+                "pass_count": 612,
+                "fail_count": 276,
+                "pass_rate": 0.69
+              },
+              "40+": {
+                "test_count": 1300,
+                "pass_count": 806,
+                "fail_count": 494,
+                "pass_rate": 0.62
+              }
+            },
+            "data_provenance": {
+              "source": "NZTA Driver Licence Pass Rates CSV",
+              "region_key": "WELLINGTON REGION",
+              "test_type": "LEARNER"
+            }
+          },
+          "RESTRICTED": {
+            "aggregate_pass_rate": 0.588,
+            "age_groups": {
+              "16-24": {
+                "test_count": 8302,
+                "pass_count": 5070,
+                "fail_count": 3232,
+                "pass_rate": 0.61
+              },
+              "25-29": {
+                "test_count": 1449,
+                "pass_count": 813,
+                "fail_count": 636,
+                "pass_rate": 0.56
+              },
+              "30-34": {
+                "test_count": 805,
+                "pass_count": 450,
+                "fail_count": 355,
+                "pass_rate": 0.56
+              },
+              "35-39": {
+                "test_count": 476,
+                "pass_count": 255,
+                "fail_count": 221,
+                "pass_rate": 0.54
+              },
+              "40+": {
+                "test_count": 582,
+                "pass_count": 241,
+                "fail_count": 341,
+                "pass_rate": 0.41
+              }
+            },
+            "data_provenance": {
+              "source": "NZTA Driver Licence Pass Rates CSV",
+              "region_key": "WELLINGTON REGION",
+              "test_type": "RESTRICTED"
+            }
+          }
+        }
+      },
+      "crash_stats": {
+        "total_crashes": 87717,
+        "fatal": 466,
+        "serious": 4782,
+        "minor": 23996,
+        "non_injury": 64180,
+        "intersection_crashes": 0,
+        "crash_risk_index": 0.1098,
+        "data_provenance": {
+          "source": "NZTA Crash Analysis System (CAS)",
+          "note": "Aggregated from raw crash records"
+        }
+      },
+      "crash_risk_by_zone": {
+        "urban_50": {
+          "urban": {
+            "total_crashes": 61986,
+            "fatal": 133,
+            "serious": 2747,
+            "minor": 15557,
+            "non_injury": 46410,
+            "intersection_crashes": 0,
+            "holiday_crashes": 2849,
+            "cyclist_involved": 2780,
+            "pedestrian_involved": 3580,
+            "motorcycle_involved": 2263,
+            "crash_risk_index": 0.0985,
+            "fatal_rate": 0.0021,
+            "serious_rate": 0.0443,
+            "intersection_rate": 0.0
+          }
+        },
+        "transitional_70": {
+          "urban": {
+            "total_crashes": 3838,
+            "fatal": 29,
+            "serious": 291,
+            "minor": 1228,
+            "non_injury": 2663,
+            "intersection_crashes": 0,
+            "holiday_crashes": 208,
+            "cyclist_involved": 156,
+            "pedestrian_involved": 67,
+            "motorcycle_involved": 206,
+            "crash_risk_index": 0.122,
+            "fatal_rate": 0.0076,
+            "serious_rate": 0.0758,
+            "intersection_rate": 0.0
+          }
+        },
+        "rural_100": {
+          "rural": {
+            "total_crashes": 20094,
+            "fatal": 298,
+            "serious": 1625,
+            "minor": 6704,
+            "non_injury": 13882,
+            "intersection_crashes": 0,
+            "holiday_crashes": 1109,
+            "cyclist_involved": 211,
+            "pedestrian_involved": 103,
+            "motorcycle_involved": 1082,
+            "crash_risk_index": 0.1254,
+            "fatal_rate": 0.0148,
+            "serious_rate": 0.0809,
+            "intersection_rate": 0.0
+          }
+        },
+        "very_low_30": {
+          "urban": {
+            "total_crashes": 1758,
+            "fatal": 6,
+            "serious": 117,
+            "minor": 501,
+            "non_injury": 1190,
+            "intersection_crashes": 0,
+            "holiday_crashes": 72,
+            "cyclist_involved": 118,
+            "pedestrian_involved": 351,
+            "motorcycle_involved": 54,
+            "crash_risk_index": 0.1204,
+            "fatal_rate": 0.0034,
+            "serious_rate": 0.0666,
+            "intersection_rate": 0.0
+          }
+        },
+        "open_road_110": {
+          "rural": {
+            "total_crashes": 41,
+            "fatal": 0,
+            "serious": 2,
+            "minor": 6,
+            "non_injury": 35,
+            "intersection_crashes": 0,
+            "holiday_crashes": 3,
+            "cyclist_involved": 0,
+            "pedestrian_involved": 0,
+            "motorcycle_involved": 1,
+            "crash_risk_index": 0.0829,
+            "fatal_rate": 0.0,
+            "serious_rate": 0.0488,
+            "intersection_rate": 0.0
+          }
+        }
+      },
+      "data_provenance": {
+        "source": "Stats NZ 2023 Census",
+        "field": "regional_council_population"
+      }
+    },
+    "Tasman": {
+      "population_2023": 60800,
+      "national_weight": 0.01219,
+      "territorial_authorities": {
+        "Tasman District": {
+          "population_2023": 60800,
+          "regional_weight": 1.0,
+          "national_weight": 0.01219,
+          "urban_rural": "mixed",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        }
+      },
+      "licence_data": {
+        "available": false,
+        "matched_csv_key": "TASMAN REGION",
+        "test_types": {}
+      },
+      "crash_stats": {
+        "total_crashes": 8529,
+        "fatal": 126,
+        "serious": 917,
+        "minor": 3196,
+        "non_injury": 5418,
+        "intersection_crashes": 0,
+        "crash_risk_index": 0.1311,
+        "data_provenance": {
+          "source": "NZTA Crash Analysis System (CAS)",
+          "note": "Aggregated from raw crash records"
+        }
+      },
+      "crash_risk_by_zone": {
+        "urban_50": {
+          "urban": {
+            "total_crashes": 2615,
+            "fatal": 14,
+            "serious": 141,
+            "minor": 706,
+            "non_injury": 1884,
+            "intersection_crashes": 0,
+            "holiday_crashes": 155,
+            "cyclist_involved": 193,
+            "pedestrian_involved": 152,
+            "motorcycle_involved": 91,
+            "crash_risk_index": 0.1089,
+            "fatal_rate": 0.0054,
+            "serious_rate": 0.0539,
+            "intersection_rate": 0.0
+          }
+        },
+        "rural_100": {
+          "rural": {
+            "total_crashes": 5501,
+            "fatal": 108,
+            "serious": 743,
+            "minor": 2343,
+            "non_injury": 3261,
+            "intersection_crashes": 0,
+            "holiday_crashes": 459,
+            "cyclist_involved": 84,
+            "pedestrian_involved": 38,
+            "motorcycle_involved": 355,
+            "crash_risk_index": 0.163,
+            "fatal_rate": 0.0196,
+            "serious_rate": 0.1351,
+            "intersection_rate": 0.0
+          }
+        },
+        "transitional_70": {
+          "urban": {
+            "total_crashes": 328,
+            "fatal": 4,
+            "serious": 26,
+            "minor": 123,
+            "non_injury": 213,
+            "intersection_crashes": 0,
+            "holiday_crashes": 16,
+            "cyclist_involved": 31,
+            "pedestrian_involved": 0,
+            "motorcycle_involved": 19,
+            "crash_risk_index": 0.1327,
+            "fatal_rate": 0.0122,
+            "serious_rate": 0.0793,
+            "intersection_rate": 0.0
+          }
+        },
+        "very_low_30": {
+          "urban": {
+            "total_crashes": 85,
+            "fatal": 0,
+            "serious": 7,
+            "minor": 24,
+            "non_injury": 60,
+            "intersection_crashes": 0,
+            "holiday_crashes": 3,
+            "cyclist_involved": 4,
+            "pedestrian_involved": 15,
+            "motorcycle_involved": 1,
+            "crash_risk_index": 0.12,
+            "fatal_rate": 0.0,
+            "serious_rate": 0.0824,
+            "intersection_rate": 0.0
+          }
+        }
+      },
+      "data_provenance": {
+        "source": "Stats NZ 2023 Census",
+        "field": "regional_council_population"
+      }
+    },
+    "Nelson": {
+      "population_2023": 54400,
+      "national_weight": 0.01091,
+      "territorial_authorities": {
+        "Nelson City": {
+          "population_2023": 54400,
+          "regional_weight": 1.0,
+          "national_weight": 0.01091,
+          "urban_rural": "urban",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        }
+      },
+      "licence_data": {
+        "available": true,
+        "matched_csv_key": "NELSON REGION",
+        "test_types": {
+          "FULL": {
+            "aggregate_pass_rate": 0.688,
+            "age_groups": {
+              "16-24": {
+                "test_count": 1096,
+                "pass_count": 857,
+                "fail_count": 239,
+                "pass_rate": 0.78
+              },
+              "25-29": {
+                "test_count": 291,
+                "pass_count": 180,
+                "fail_count": 111,
+                "pass_rate": 0.62
+              },
+              "30-34": {
+                "test_count": 228,
+                "pass_count": 129,
+                "fail_count": 99,
+                "pass_rate": 0.57
+              },
+              "35-39": {
+                "test_count": 153,
+                "pass_count": 95,
+                "fail_count": 58,
+                "pass_rate": 0.62
+              },
+              "40+": {
+                "test_count": 252,
+                "pass_count": 128,
+                "fail_count": 124,
+                "pass_rate": 0.51
+              }
+            },
+            "data_provenance": {
+              "source": "NZTA Driver Licence Pass Rates CSV",
+              "region_key": "NELSON REGION",
+              "test_type": "FULL"
+            }
+          },
+          "LEARNER": {
+            "aggregate_pass_rate": 0.737,
+            "age_groups": {
+              "16-24": {
+                "test_count": 908,
+                "pass_count": 712,
+                "fail_count": 196,
+                "pass_rate": 0.78
+              },
+              "25-29": {
+                "test_count": 344,
+                "pass_count": 239,
+                "fail_count": 105,
+                "pass_rate": 0.69
+              },
+              "30-34": {
+                "test_count": 302,
+                "pass_count": 229,
+                "fail_count": 73,
+                "pass_rate": 0.76
+              },
+              "35-39": {
+                "test_count": 208,
+                "pass_count": 148,
+                "fail_count": 60,
+                "pass_rate": 0.71
+              },
+              "40+": {
+                "test_count": 241,
+                "pass_count": 148,
+                "fail_count": 93,
+                "pass_rate": 0.61
+              }
+            },
+            "data_provenance": {
+              "source": "NZTA Driver Licence Pass Rates CSV",
+              "region_key": "NELSON REGION",
+              "test_type": "LEARNER"
+            }
+          },
+          "RESTRICTED": {
+            "aggregate_pass_rate": 0.635,
+            "age_groups": {
+              "16-24": {
+                "test_count": 1622,
+                "pass_count": 1066,
+                "fail_count": 556,
+                "pass_rate": 0.66
+              },
+              "25-29": {
+                "test_count": 129,
+                "pass_count": 72,
+                "fail_count": 57,
+                "pass_rate": 0.56
+              },
+              "30-34": {
+                "test_count": 80,
+                "pass_count": 47,
+                "fail_count": 33,
+                "pass_rate": 0.59
+              },
+              "35-39": {
+                "test_count": 73,
+                "pass_count": 39,
+                "fail_count": 34,
+                "pass_rate": 0.53
+              },
+              "40+": {
+                "test_count": 56,
+                "pass_count": 20,
+                "fail_count": 36,
+                "pass_rate": 0.36
+              }
+            },
+            "data_provenance": {
+              "source": "NZTA Driver Licence Pass Rates CSV",
+              "region_key": "NELSON REGION",
+              "test_type": "RESTRICTED"
+            }
+          }
+        }
+      },
+      "crash_stats": {
+        "total_crashes": 8844,
+        "fatal": 44,
+        "serious": 552,
+        "minor": 2602,
+        "non_injury": 6202,
+        "intersection_crashes": 0,
+        "crash_risk_index": 0.1183,
+        "data_provenance": {
+          "source": "NZTA Crash Analysis System (CAS)",
+          "note": "Aggregated from raw crash records"
+        }
+      },
+      "crash_risk_by_zone": {
+        "urban_50": {
+          "urban": {
+            "total_crashes": 7056,
+            "fatal": 21,
+            "serious": 379,
+            "minor": 2004,
+            "non_injury": 5005,
+            "intersection_crashes": 0,
+            "holiday_crashes": 346,
+            "cyclist_involved": 685,
+            "pedestrian_involved": 382,
+            "motorcycle_involved": 259,
+            "crash_risk_index": 0.1083,
+            "fatal_rate": 0.003,
+            "serious_rate": 0.0537,
+            "intersection_rate": 0.0
+          }
+        },
+        "rural_100": {
+          "rural": {
+            "total_crashes": 1303,
+            "fatal": 22,
+            "serious": 144,
+            "minor": 484,
+            "non_injury": 833,
+            "intersection_crashes": 0,
+            "holiday_crashes": 102,
+            "cyclist_involved": 20,
+            "pedestrian_involved": 16,
+            "motorcycle_involved": 73,
+            "crash_risk_index": 0.1468,
+            "fatal_rate": 0.0169,
+            "serious_rate": 0.1105,
+            "intersection_rate": 0.0
+          }
+        },
+        "transitional_70": {
+          "urban": {
+            "total_crashes": 401,
+            "fatal": 1,
+            "serious": 21,
+            "minor": 93,
+            "non_injury": 305,
+            "intersection_crashes": 0,
+            "holiday_crashes": 19,
+            "cyclist_involved": 10,
+            "pedestrian_involved": 3,
+            "motorcycle_involved": 15,
+            "crash_risk_index": 0.0973,
+            "fatal_rate": 0.0025,
+            "serious_rate": 0.0524,
+            "intersection_rate": 0.0
+          }
+        },
+        "very_low_30": {
+          "urban": {
+            "total_crashes": 84,
+            "fatal": 0,
+            "serious": 8,
+            "minor": 21,
+            "non_injury": 59,
+            "intersection_crashes": 0,
+            "holiday_crashes": 9,
+            "cyclist_involved": 2,
+            "pedestrian_involved": 19,
+            "motorcycle_involved": 0,
+            "crash_risk_index": 0.121,
+            "fatal_rate": 0.0,
+            "serious_rate": 0.0952,
+            "intersection_rate": 0.0
+          }
+        }
+      },
+      "data_provenance": {
+        "source": "Stats NZ 2023 Census",
+        "field": "regional_council_population"
+      }
+    },
+    "Marlborough": {
+      "population_2023": 51900,
+      "national_weight": 0.01041,
+      "territorial_authorities": {
+        "Marlborough District": {
+          "population_2023": 51900,
+          "regional_weight": 1.0,
+          "national_weight": 0.01041,
+          "urban_rural": "mixed",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        }
+      },
+      "licence_data": {
+        "available": false,
+        "matched_csv_key": "MARLBOROUGH REGION",
+        "test_types": {}
+      },
+      "crash_stats": {
+        "total_crashes": 9208,
+        "fatal": 144,
+        "serious": 702,
+        "minor": 2995,
+        "non_injury": 6356,
+        "intersection_crashes": 0,
+        "crash_risk_index": 0.2129,
+        "data_provenance": {
+          "source": "NZTA Crash Analysis System (CAS)",
+          "note": "Aggregated from raw crash records"
+        }
+      },
+      "crash_risk_by_zone": {
+        "urban_50": {
+          "urban": {
+            "total_crashes": 5037,
+            "fatal": 14,
+            "serious": 186,
+            "minor": 1236,
+            "non_injury": 3839,
+            "intersection_crashes": 0,
+            "holiday_crashes": 250,
+            "cyclist_involved": 372,
+            "pedestrian_involved": 178,
+            "motorcycle_involved": 162,
+            "crash_risk_index": 0.0943,
+            "fatal_rate": 0.0028,
+            "serious_rate": 0.0369,
+            "intersection_rate": 0.0
+          }
+        },
+        "rural_100": {
+          "rural": {
+            "total_crashes": 3687,
+            "fatal": 126,
+            "serious": 499,
+            "minor": 1625,
+            "non_injury": 2155,
+            "intersection_crashes": 0,
+            "holiday_crashes": 242,
+            "cyclist_involved": 39,
+            "pedestrian_involved": 19,
+            "motorcycle_involved": 181,
+            "crash_risk_index": 0.1696,
+            "fatal_rate": 0.0342,
+            "serious_rate": 0.1353,
+            "intersection_rate": 0.0
+          }
+        },
+        "very_low_30": {
+          "urban": {
+            "total_crashes": 263,
+            "fatal": 1,
+            "serious": 7,
+            "minor": 54,
+            "non_injury": 207,
+            "intersection_crashes": 0,
+            "holiday_crashes": 8,
+            "cyclist_involved": 26,
+            "pedestrian_involved": 18,
+            "motorcycle_involved": 7,
+            "crash_risk_index": 0.0878,
+            "fatal_rate": 0.0038,
+            "serious_rate": 0.0266,
+            "intersection_rate": 0.0
+          }
+        },
+        "transitional_70": {
+          "urban": {
+            "total_crashes": 220,
+            "fatal": 3,
+            "serious": 9,
+            "minor": 79,
+            "non_injury": 155,
+            "intersection_crashes": 0,
+            "holiday_crashes": 16,
+            "cyclist_involved": 6,
+            "pedestrian_involved": 2,
+            "motorcycle_involved": 7,
+            "crash_risk_index": 0.1127,
+            "fatal_rate": 0.0136,
+            "serious_rate": 0.0409,
+            "intersection_rate": 0.0
+          }
+        },
+        "open_road_110": {
+          "rural": {
+            "total_crashes": 1,
+            "fatal": 0,
+            "serious": 1,
+            "minor": 1,
+            "non_injury": 0,
+            "intersection_crashes": 0,
+            "holiday_crashes": 0,
+            "cyclist_involved": 0,
+            "pedestrian_involved": 0,
+            "motorcycle_involved": 0,
+            "crash_risk_index": 0.6,
+            "fatal_rate": 0.0,
+            "serious_rate": 1.0,
+            "intersection_rate": 0.0
+          }
+        }
+      },
+      "data_provenance": {
+        "source": "Stats NZ 2023 Census",
+        "field": "regional_council_population"
+      }
+    },
+    "West Coast": {
+      "population_2023": 33400,
+      "national_weight": 0.0067,
+      "territorial_authorities": {
+        "Buller District": {
+          "population_2023": 10200,
+          "regional_weight": 0.30539,
+          "national_weight": 0.00205,
+          "urban_rural": "rural",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "Grey District": {
+          "population_2023": 13900,
+          "regional_weight": 0.41617,
+          "national_weight": 0.00279,
+          "urban_rural": "rural",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "Westland District": {
+          "population_2023": 9300,
+          "regional_weight": 0.27844,
+          "national_weight": 0.00186,
+          "urban_rural": "rural",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        }
+      },
+      "licence_data": {
+        "available": false,
+        "matched_csv_key": "WEST COAST REGION",
+        "test_types": {}
+      },
+      "crash_stats": {
+        "total_crashes": 8088,
+        "fatal": 181,
+        "serious": 941,
+        "minor": 3028,
+        "non_injury": 5086,
+        "intersection_crashes": 0,
+        "crash_risk_index": 0.1197,
+        "data_provenance": {
+          "source": "NZTA Crash Analysis System (CAS)",
+          "note": "Aggregated from raw crash records"
+        }
+      },
+      "crash_risk_by_zone": {
+        "rural_100": {
+          "rural": {
+            "total_crashes": 5373,
+            "fatal": 159,
+            "serious": 749,
+            "minor": 2194,
+            "non_injury": 3167,
+            "intersection_crashes": 0,
+            "holiday_crashes": 479,
+            "cyclist_involved": 32,
+            "pedestrian_involved": 31,
+            "motorcycle_involved": 369,
+            "crash_risk_index": 0.1704,
+            "fatal_rate": 0.0296,
+            "serious_rate": 0.1394,
+            "intersection_rate": 0.0
+          }
+        },
+        "transitional_70": {
+          "urban": {
+            "total_crashes": 350,
+            "fatal": 4,
+            "serious": 40,
+            "minor": 152,
+            "non_injury": 206,
+            "intersection_crashes": 0,
+            "holiday_crashes": 24,
+            "cyclist_involved": 4,
+            "pedestrian_involved": 10,
+            "motorcycle_involved": 20,
+            "crash_risk_index": 0.1527,
+            "fatal_rate": 0.0114,
+            "serious_rate": 0.1143,
+            "intersection_rate": 0.0
+          }
+        },
+        "urban_50": {
+          "urban": {
+            "total_crashes": 2256,
+            "fatal": 16,
+            "serious": 145,
+            "minor": 660,
+            "non_injury": 1633,
+            "intersection_crashes": 0,
+            "holiday_crashes": 144,
+            "cyclist_involved": 65,
+            "pedestrian_involved": 83,
+            "motorcycle_involved": 91,
+            "crash_risk_index": 0.1115,
+            "fatal_rate": 0.0071,
+            "serious_rate": 0.0643,
+            "intersection_rate": 0.0
+          }
+        },
+        "very_low_30": {
+          "urban": {
+            "total_crashes": 108,
+            "fatal": 2,
+            "serious": 7,
+            "minor": 22,
+            "non_injury": 79,
+            "intersection_crashes": 0,
+            "holiday_crashes": 11,
+            "cyclist_involved": 2,
+            "pedestrian_involved": 10,
+            "motorcycle_involved": 9,
+            "crash_risk_index": 0.1237,
+            "fatal_rate": 0.0185,
+            "serious_rate": 0.0648,
+            "intersection_rate": 0.0
+          }
+        },
+        "open_road_110": {
+          "rural": {
+            "total_crashes": 1,
+            "fatal": 0,
+            "serious": 0,
+            "minor": 0,
+            "non_injury": 1,
+            "intersection_crashes": 0,
+            "holiday_crashes": 0,
+            "cyclist_involved": 0,
+            "pedestrian_involved": 0,
+            "motorcycle_involved": 0,
+            "crash_risk_index": 0.04,
+            "fatal_rate": 0.0,
+            "serious_rate": 0.0,
+            "intersection_rate": 0.0
+          }
+        }
+      },
+      "data_provenance": {
+        "source": "Stats NZ 2023 Census",
+        "field": "regional_council_population"
+      }
+    },
+    "Canterbury": {
+      "population_2023": 648500,
+      "national_weight": 0.13002,
+      "territorial_authorities": {
+        "Christchurch City": {
+          "population_2023": 391400,
+          "regional_weight": 0.60355,
+          "national_weight": 0.07847,
+          "urban_rural": "urban",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "Selwyn District": {
+          "population_2023": 78100,
+          "regional_weight": 0.12043,
+          "national_weight": 0.01566,
+          "urban_rural": "mixed",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "Waimakariri District": {
+          "population_2023": 65900,
+          "regional_weight": 0.10162,
+          "national_weight": 0.01321,
+          "urban_rural": "mixed",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "Hurunui District": {
+          "population_2023": 14000,
+          "regional_weight": 0.02159,
+          "national_weight": 0.00281,
+          "urban_rural": "rural",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "Kaik\u014dura District": {
+          "population_2023": 4000,
+          "regional_weight": 0.00617,
+          "national_weight": 0.0008,
+          "urban_rural": "rural",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "Ashburton District": {
+          "population_2023": 37100,
+          "regional_weight": 0.05721,
+          "national_weight": 0.00744,
+          "urban_rural": "rural",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "Timaru District": {
+          "population_2023": 46700,
+          "regional_weight": 0.07201,
+          "national_weight": 0.00936,
+          "urban_rural": "mixed",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "Mackenzie District": {
+          "population_2023": 6900,
+          "regional_weight": 0.01064,
+          "national_weight": 0.00138,
+          "urban_rural": "rural",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "Waimate District": {
+          "population_2023": 8200,
+          "regional_weight": 0.01264,
+          "national_weight": 0.00164,
+          "urban_rural": "rural",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        }
+      },
+      "licence_data": {
+        "available": true,
+        "matched_csv_key": "CANTERBURY REGION",
+        "test_types": {
+          "FULL": {
+            "aggregate_pass_rate": 0.695,
+            "age_groups": {
+              "16-24": {
+                "test_count": 7394,
+                "pass_count": 5776,
+                "fail_count": 1618,
+                "pass_rate": 0.78
+              },
+              "25-29": {
+                "test_count": 2626,
+                "pass_count": 1660,
+                "fail_count": 966,
+                "pass_rate": 0.63
+              },
+              "30-34": {
+                "test_count": 1867,
+                "pass_count": 1130,
+                "fail_count": 737,
+                "pass_rate": 0.61
+              },
+              "35-39": {
+                "test_count": 1224,
+                "pass_count": 743,
+                "fail_count": 481,
+                "pass_rate": 0.61
+              },
+              "40+": {
+                "test_count": 1648,
+                "pass_count": 952,
+                "fail_count": 696,
+                "pass_rate": 0.58
+              }
+            },
+            "data_provenance": {
+              "source": "NZTA Driver Licence Pass Rates CSV",
+              "region_key": "CANTERBURY REGION",
+              "test_type": "FULL"
+            }
+          },
+          "LEARNER": {
+            "aggregate_pass_rate": 0.743,
+            "age_groups": {
+              "16-24": {
+                "test_count": 10984,
+                "pass_count": 8530,
+                "fail_count": 2454,
+                "pass_rate": 0.78
+              },
+              "25-29": {
+                "test_count": 2274,
+                "pass_count": 1632,
+                "fail_count": 642,
+                "pass_rate": 0.72
+              },
+              "30-34": {
+                "test_count": 1651,
+                "pass_count": 1236,
+                "fail_count": 415,
+                "pass_rate": 0.75
+              },
+              "35-39": {
+                "test_count": 1072,
+                "pass_count": 730,
+                "fail_count": 342,
+                "pass_rate": 0.68
+              },
+              "40+": {
+                "test_count": 1562,
+                "pass_count": 907,
+                "fail_count": 655,
+                "pass_rate": 0.58
+              }
+            },
+            "data_provenance": {
+              "source": "NZTA Driver Licence Pass Rates CSV",
+              "region_key": "CANTERBURY REGION",
+              "test_type": "LEARNER"
+            }
+          },
+          "RESTRICTED": {
+            "aggregate_pass_rate": 0.582,
+            "age_groups": {
+              "16-24": {
+                "test_count": 10257,
+                "pass_count": 6248,
+                "fail_count": 4009,
+                "pass_rate": 0.61
+              },
+              "25-29": {
+                "test_count": 1255,
+                "pass_count": 610,
+                "fail_count": 645,
+                "pass_rate": 0.49
+              },
+              "30-34": {
+                "test_count": 702,
+                "pass_count": 354,
+                "fail_count": 348,
+                "pass_rate": 0.5
+              },
+              "35-39": {
+                "test_count": 382,
+                "pass_count": 195,
+                "fail_count": 187,
+                "pass_rate": 0.51
+              },
+              "40+": {
+                "test_count": 456,
+                "pass_count": 192,
+                "fail_count": 264,
+                "pass_rate": 0.42
+              }
+            },
+            "data_provenance": {
+              "source": "NZTA Driver Licence Pass Rates CSV",
+              "region_key": "CANTERBURY REGION",
+              "test_type": "RESTRICTED"
+            }
+          }
+        }
+      },
+      "crash_stats": {
+        "total_crashes": 92202,
+        "fatal": 1117,
+        "serious": 8043,
+        "minor": 33902,
+        "non_injury": 59301,
+        "intersection_crashes": 0,
+        "crash_risk_index": 0.1237,
+        "data_provenance": {
+          "source": "NZTA Crash Analysis System (CAS)",
+          "note": "Aggregated from raw crash records"
+        }
+      },
+      "crash_risk_by_zone": {
+        "rural_100": {
+          "rural": {
+            "total_crashes": 26143,
+            "fatal": 793,
+            "serious": 3730,
+            "minor": 11173,
+            "non_injury": 15292,
+            "intersection_crashes": 0,
+            "holiday_crashes": 1926,
+            "cyclist_involved": 263,
+            "pedestrian_involved": 169,
+            "motorcycle_involved": 1249,
+            "crash_risk_index": 0.1713,
+            "fatal_rate": 0.0303,
+            "serious_rate": 0.1427,
+            "intersection_rate": 0.0
+          }
+        },
+        "urban_50": {
+          "urban": {
+            "total_crashes": 55602,
+            "fatal": 225,
+            "serious": 3478,
+            "minor": 18859,
+            "non_injury": 37236,
+            "intersection_crashes": 0,
+            "holiday_crashes": 2736,
+            "cyclist_involved": 3876,
+            "pedestrian_involved": 2701,
+            "motorcycle_involved": 1810,
+            "crash_risk_index": 0.1193,
+            "fatal_rate": 0.004,
+            "serious_rate": 0.0626,
+            "intersection_rate": 0.0
+          }
+        },
+        "very_low_30": {
+          "urban": {
+            "total_crashes": 1366,
+            "fatal": 6,
+            "serious": 96,
+            "minor": 461,
+            "non_injury": 879,
+            "intersection_crashes": 0,
+            "holiday_crashes": 65,
+            "cyclist_involved": 92,
+            "pedestrian_involved": 242,
+            "motorcycle_involved": 34,
+            "crash_risk_index": 0.1281,
+            "fatal_rate": 0.0044,
+            "serious_rate": 0.0703,
+            "intersection_rate": 0.0
+          }
+        },
+        "transitional_70": {
+          "urban": {
+            "total_crashes": 9074,
+            "fatal": 93,
+            "serious": 739,
+            "minor": 3405,
+            "non_injury": 5880,
+            "intersection_crashes": 0,
+            "holiday_crashes": 463,
+            "cyclist_involved": 369,
+            "pedestrian_involved": 191,
+            "motorcycle_involved": 421,
+            "crash_risk_index": 0.1318,
+            "fatal_rate": 0.0102,
+            "serious_rate": 0.0814,
+            "intersection_rate": 0.0
+          }
+        },
+        "open_road_110": {
+          "rural": {
+            "total_crashes": 17,
+            "fatal": 0,
+            "serious": 0,
+            "minor": 4,
+            "non_injury": 14,
+            "intersection_crashes": 0,
+            "holiday_crashes": 0,
+            "cyclist_involved": 0,
+            "pedestrian_involved": 0,
+            "motorcycle_involved": 1,
+            "crash_risk_index": 0.0682,
+            "fatal_rate": 0.0,
+            "serious_rate": 0.0,
+            "intersection_rate": 0.0
+          }
+        }
+      },
+      "data_provenance": {
+        "source": "Stats NZ 2023 Census",
+        "field": "regional_council_population"
+      }
+    },
+    "Otago": {
+      "population_2023": 258600,
+      "national_weight": 0.05185,
+      "territorial_authorities": {
+        "Dunedin City": {
+          "population_2023": 128900,
+          "regional_weight": 0.49845,
+          "national_weight": 0.02584,
+          "urban_rural": "urban",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "Queenstown-Lakes District": {
+          "population_2023": 47800,
+          "regional_weight": 0.18484,
+          "national_weight": 0.00958,
+          "urban_rural": "mixed",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "Central Otago District": {
+          "population_2023": 27100,
+          "regional_weight": 0.1048,
+          "national_weight": 0.00543,
+          "urban_rural": "rural",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "Clutha District": {
+          "population_2023": 18400,
+          "regional_weight": 0.07115,
+          "national_weight": 0.00369,
+          "urban_rural": "rural",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "Waitaki District": {
+          "population_2023": 24400,
+          "regional_weight": 0.09435,
+          "national_weight": 0.00489,
+          "urban_rural": "rural",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        }
+      },
+      "licence_data": {
+        "available": true,
+        "matched_csv_key": "OTAGO REGION",
+        "test_types": {
+          "FULL": {
+            "aggregate_pass_rate": 0.775,
+            "age_groups": {
+              "16-24": {
+                "test_count": 2649,
+                "pass_count": 2201,
+                "fail_count": 448,
+                "pass_rate": 0.83
+              },
+              "25-29": {
+                "test_count": 950,
+                "pass_count": 706,
+                "fail_count": 244,
+                "pass_rate": 0.74
+              },
+              "30-34": {
+                "test_count": 797,
+                "pass_count": 578,
+                "fail_count": 219,
+                "pass_rate": 0.73
+              },
+              "35-39": {
+                "test_count": 479,
+                "pass_count": 334,
+                "fail_count": 145,
+                "pass_rate": 0.7
+              },
+              "40+": {
+                "test_count": 489,
+                "pass_count": 337,
+                "fail_count": 152,
+                "pass_rate": 0.69
+              }
+            },
+            "data_provenance": {
+              "source": "NZTA Driver Licence Pass Rates CSV",
+              "region_key": "OTAGO REGION",
+              "test_type": "FULL"
+            }
+          },
+          "LEARNER": {
+            "aggregate_pass_rate": 0.738,
+            "age_groups": {
+              "16-24": {
+                "test_count": 3836,
+                "pass_count": 2979,
+                "fail_count": 857,
+                "pass_rate": 0.78
+              },
+              "25-29": {
+                "test_count": 936,
+                "pass_count": 661,
+                "fail_count": 275,
+                "pass_rate": 0.71
+              },
+              "30-34": {
+                "test_count": 805,
+                "pass_count": 565,
+                "fail_count": 240,
+                "pass_rate": 0.7
+              },
+              "35-39": {
+                "test_count": 493,
+                "pass_count": 333,
+                "fail_count": 160,
+                "pass_rate": 0.68
+              },
+              "40+": {
+                "test_count": 483,
+                "pass_count": 300,
+                "fail_count": 183,
+                "pass_rate": 0.62
+              }
+            },
+            "data_provenance": {
+              "source": "NZTA Driver Licence Pass Rates CSV",
+              "region_key": "OTAGO REGION",
+              "test_type": "LEARNER"
+            }
+          },
+          "RESTRICTED": {
+            "aggregate_pass_rate": 0.667,
+            "age_groups": {
+              "16-24": {
+                "test_count": 3470,
+                "pass_count": 2351,
+                "fail_count": 1119,
+                "pass_rate": 0.68
+              },
+              "25-29": {
+                "test_count": 410,
+                "pass_count": 272,
+                "fail_count": 138,
+                "pass_rate": 0.66
+              },
+              "30-34": {
+                "test_count": 235,
+                "pass_count": 146,
+                "fail_count": 89,
+                "pass_rate": 0.62
+              },
+              "35-39": {
+                "test_count": 143,
+                "pass_count": 83,
+                "fail_count": 60,
+                "pass_rate": 0.58
+              },
+              "40+": {
+                "test_count": 144,
+                "pass_count": 82,
+                "fail_count": 62,
+                "pass_rate": 0.57
+              }
+            },
+            "data_provenance": {
+              "source": "NZTA Driver Licence Pass Rates CSV",
+              "region_key": "OTAGO REGION",
+              "test_type": "RESTRICTED"
+            }
+          }
+        }
+      },
+      "crash_stats": {
+        "total_crashes": 49231,
+        "fatal": 439,
+        "serious": 4758,
+        "minor": 19875,
+        "non_injury": 31245,
+        "intersection_crashes": 0,
+        "crash_risk_index": 0.1526,
+        "data_provenance": {
+          "source": "NZTA Crash Analysis System (CAS)",
+          "note": "Aggregated from raw crash records"
+        }
+      },
+      "crash_risk_by_zone": {
+        "urban_50": {
+          "urban": {
+            "total_crashes": 28392,
+            "fatal": 69,
+            "serious": 1836,
+            "minor": 9671,
+            "non_injury": 19539,
+            "intersection_crashes": 0,
+            "holiday_crashes": 1498,
+            "cyclist_involved": 1013,
+            "pedestrian_involved": 1524,
+            "motorcycle_involved": 696,
+            "crash_risk_index": 0.1151,
+            "fatal_rate": 0.0024,
+            "serious_rate": 0.0647,
+            "intersection_rate": 0.0
+          }
+        },
+        "rural_100": {
+          "rural": {
+            "total_crashes": 17663,
+            "fatal": 352,
+            "serious": 2619,
+            "minor": 9055,
+            "non_injury": 9592,
+            "intersection_crashes": 0,
+            "holiday_crashes": 1341,
+            "cyclist_involved": 118,
+            "pedestrian_involved": 101,
+            "motorcycle_involved": 616,
+            "crash_risk_index": 0.1726,
+            "fatal_rate": 0.0199,
+            "serious_rate": 0.1483,
+            "intersection_rate": 0.0
+          }
+        },
+        "transitional_70": {
+          "urban": {
+            "total_crashes": 2107,
+            "fatal": 15,
+            "serious": 225,
+            "minor": 909,
+            "non_injury": 1312,
+            "intersection_crashes": 0,
+            "holiday_crashes": 136,
+            "cyclist_involved": 48,
+            "pedestrian_involved": 26,
+            "motorcycle_involved": 67,
+            "crash_risk_index": 0.1404,
+            "fatal_rate": 0.0071,
+            "serious_rate": 0.1068,
+            "intersection_rate": 0.0
+          }
+        },
+        "very_low_30": {
+          "urban": {
+            "total_crashes": 1066,
+            "fatal": 3,
+            "serious": 77,
+            "minor": 239,
+            "non_injury": 800,
+            "intersection_crashes": 0,
+            "holiday_crashes": 72,
+            "cyclist_involved": 26,
+            "pedestrian_involved": 157,
+            "motorcycle_involved": 25,
+            "crash_risk_index": 0.1081,
+            "fatal_rate": 0.0028,
+            "serious_rate": 0.0722,
+            "intersection_rate": 0.0
+          }
+        },
+        "open_road_110": {
+          "rural": {
+            "total_crashes": 3,
+            "fatal": 0,
+            "serious": 1,
+            "minor": 1,
+            "non_injury": 2,
+            "intersection_crashes": 0,
+            "holiday_crashes": 0,
+            "cyclist_involved": 0,
+            "pedestrian_involved": 0,
+            "motorcycle_involved": 0,
+            "crash_risk_index": 0.2267,
+            "fatal_rate": 0.0,
+            "serious_rate": 0.3333,
+            "intersection_rate": 0.0
+          }
+        }
+      },
+      "data_provenance": {
+        "source": "Stats NZ 2023 Census",
+        "field": "regional_council_population"
+      }
+    },
+    "Southland": {
+      "population_2023": 102900,
+      "national_weight": 0.02063,
+      "territorial_authorities": {
+        "Invercargill City": {
+          "population_2023": 58700,
+          "regional_weight": 0.57046,
+          "national_weight": 0.01177,
+          "urban_rural": "urban",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "Southland District": {
+          "population_2023": 33400,
+          "regional_weight": 0.32459,
+          "national_weight": 0.0067,
+          "urban_rural": "rural",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        },
+        "Gore District": {
+          "population_2023": 13500,
+          "regional_weight": 0.1312,
+          "national_weight": 0.00271,
+          "urban_rural": "rural",
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census",
+            "field": "usually_resident_population_count"
+          }
+        }
+      },
+      "licence_data": {
+        "available": true,
+        "matched_csv_key": "SOUTHLAND REGION",
+        "test_types": {
+          "FULL": {
+            "aggregate_pass_rate": 0.729,
+            "age_groups": {
+              "16-24": {
+                "test_count": 1158,
+                "pass_count": 973,
+                "fail_count": 185,
+                "pass_rate": 0.84
+              },
+              "25-29": {
+                "test_count": 384,
+                "pass_count": 242,
+                "fail_count": 142,
+                "pass_rate": 0.63
+              },
+              "30-34": {
+                "test_count": 293,
+                "pass_count": 183,
+                "fail_count": 110,
+                "pass_rate": 0.62
+              },
+              "35-39": {
+                "test_count": 289,
+                "pass_count": 184,
+                "fail_count": 105,
+                "pass_rate": 0.64
+              },
+              "40+": {
+                "test_count": 304,
+                "pass_count": 189,
+                "fail_count": 115,
+                "pass_rate": 0.62
+              }
+            },
+            "data_provenance": {
+              "source": "NZTA Driver Licence Pass Rates CSV",
+              "region_key": "SOUTHLAND REGION",
+              "test_type": "FULL"
+            }
+          },
+          "LEARNER": {
+            "aggregate_pass_rate": 0.66,
+            "age_groups": {
+              "16-24": {
+                "test_count": 2088,
+                "pass_count": 1410,
+                "fail_count": 678,
+                "pass_rate": 0.68
+              },
+              "25-29": {
+                "test_count": 356,
+                "pass_count": 218,
+                "fail_count": 138,
+                "pass_rate": 0.61
+              },
+              "30-34": {
+                "test_count": 351,
+                "pass_count": 233,
+                "fail_count": 118,
+                "pass_rate": 0.66
+              },
+              "35-39": {
+                "test_count": 242,
+                "pass_count": 170,
+                "fail_count": 72,
+                "pass_rate": 0.7
+              },
+              "40+": {
+                "test_count": 319,
+                "pass_count": 183,
+                "fail_count": 136,
+                "pass_rate": 0.57
+              }
+            },
+            "data_provenance": {
+              "source": "NZTA Driver Licence Pass Rates CSV",
+              "region_key": "SOUTHLAND REGION",
+              "test_type": "LEARNER"
+            }
+          },
+          "RESTRICTED": {
+            "aggregate_pass_rate": 0.643,
+            "age_groups": {
+              "16-24": {
+                "test_count": 1728,
+                "pass_count": 1149,
+                "fail_count": 579,
+                "pass_rate": 0.66
+              },
+              "25-29": {
+                "test_count": 138,
+                "pass_count": 83,
+                "fail_count": 55,
+                "pass_rate": 0.6
+              },
+              "30-34": {
+                "test_count": 94,
+                "pass_count": 49,
+                "fail_count": 45,
+                "pass_rate": 0.52
+              },
+              "35-39": {
+                "test_count": 77,
+                "pass_count": 41,
+                "fail_count": 36,
+                "pass_rate": 0.53
+              },
+              "40+": {
+                "test_count": 77,
+                "pass_count": 37,
+                "fail_count": 40,
+                "pass_rate": 0.48
+              }
+            },
+            "data_provenance": {
+              "source": "NZTA Driver Licence Pass Rates CSV",
+              "region_key": "SOUTHLAND REGION",
+              "test_type": "RESTRICTED"
+            }
+          }
+        }
+      },
+      "crash_stats": {
+        "total_crashes": 22326,
+        "fatal": 272,
+        "serious": 2356,
+        "minor": 9436,
+        "non_injury": 13977,
+        "intersection_crashes": 0,
+        "crash_risk_index": 0.1418,
+        "data_provenance": {
+          "source": "NZTA Crash Analysis System (CAS)",
+          "note": "Aggregated from raw crash records"
+        }
+      },
+      "crash_risk_by_zone": {
+        "urban_50": {
+          "urban": {
+            "total_crashes": 11649,
+            "fatal": 47,
+            "serious": 686,
+            "minor": 4018,
+            "non_injury": 8091,
+            "intersection_crashes": 0,
+            "holiday_crashes": 516,
+            "cyclist_involved": 495,
+            "pedestrian_involved": 497,
+            "motorcycle_involved": 258,
+            "crash_risk_index": 0.1127,
+            "fatal_rate": 0.004,
+            "serious_rate": 0.0589,
+            "intersection_rate": 0.0
+          }
+        },
+        "transitional_70": {
+          "urban": {
+            "total_crashes": 615,
+            "fatal": 5,
+            "serious": 75,
+            "minor": 321,
+            "non_injury": 356,
+            "intersection_crashes": 0,
+            "holiday_crashes": 36,
+            "cyclist_involved": 16,
+            "pedestrian_involved": 9,
+            "motorcycle_involved": 16,
+            "crash_risk_index": 0.1523,
+            "fatal_rate": 0.0081,
+            "serious_rate": 0.122,
+            "intersection_rate": 0.0
+          }
+        },
+        "rural_100": {
+          "rural": {
+            "total_crashes": 9746,
+            "fatal": 220,
+            "serious": 1566,
+            "minor": 5002,
+            "non_injury": 5312,
+            "intersection_crashes": 0,
+            "holiday_crashes": 634,
+            "cyclist_involved": 34,
+            "pedestrian_involved": 58,
+            "motorcycle_involved": 283,
+            "crash_risk_index": 0.1771,
+            "fatal_rate": 0.0226,
+            "serious_rate": 0.1607,
+            "intersection_rate": 0.0
+          }
+        },
+        "very_low_30": {
+          "urban": {
+            "total_crashes": 316,
+            "fatal": 0,
+            "serious": 29,
+            "minor": 95,
+            "non_injury": 218,
+            "intersection_crashes": 0,
+            "holiday_crashes": 17,
+            "cyclist_involved": 3,
+            "pedestrian_involved": 44,
+            "motorcycle_involved": 15,
+            "crash_risk_index": 0.1251,
+            "fatal_rate": 0.0,
+            "serious_rate": 0.0918,
+            "intersection_rate": 0.0
+          }
+        }
+      },
+      "data_provenance": {
+        "source": "Stats NZ 2023 Census",
+        "field": "regional_council_population"
+      }
+    }
+  },
+  "spawn_rules": {
+    "licence_stage_lookup": {
+      "16-24": "LEARNER",
+      "25-29": "RESTRICTED",
+      "30-34": "FULL",
+      "35-39": "FULL",
+      "40+": "FULL",
+      "source": "NZTA licence progression rules"
+    },
+    "competence_prior_formula": {
+      "formula": "max(0.10, pass_rate[region][test_type][age_group] - 0.08*(attempts-1))",
+      "source": "NZTA Driver Licence Pass Rates CSV",
+      "penalty": -0.08,
+      "floor": 0.1,
+      "fallback": 0.65
+    },
+    "population_sampling": {
+      "level_1": "Sample regional_council by national_weight (Census)",
+      "level_2": "Sample territorial_authority by regional_weight (Census)"
+    }
+  }
+}

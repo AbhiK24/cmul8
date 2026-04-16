@@ -1,0 +1,1080 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "DriverPersonaV6",
+  "type": "object",
+  "description": "DriverPersonaV6: all behavioral priors sourced from PDF extraction (NAMED_STATS). No behavioral numbers hardcoded. Census/Licence/CAS from structured CSVs.",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Unique identifier for the agent.",
+      "field_classification": {
+        "field_class": "identity",
+        "data_kind": "discrete_nominal"
+      },
+      "data_provenance": {
+        "source": "generated"
+      }
+    },
+    "agent_version": {
+      "type": "string",
+      "description": "Version of the agent in the simulation pipeline.",
+      "field_classification": {
+        "field_class": "identity",
+        "data_kind": "discrete_nominal"
+      },
+      "data_provenance": {
+        "source": "pipeline"
+      },
+      "enum": [
+        "v6"
+      ]
+    },
+    "location": {
+      "type": "object",
+      "properties": {
+        "regional_council": {
+          "type": "string",
+          "description": "Regional council area where the agent is located.",
+          "field_classification": {
+            "field_class": "structural",
+            "data_kind": "discrete_nominal"
+          },
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census"
+          },
+          "enum": [
+            "Northland",
+            "Auckland",
+            "Waikato",
+            "Bay of Plenty",
+            "Gisborne",
+            "Hawke's Bay",
+            "Taranaki",
+            "Manawat\u016b-Whanganui",
+            "Wellington",
+            "Tasman",
+            "Nelson",
+            "Marlborough",
+            "West Coast",
+            "Canterbury",
+            "Otago",
+            "Southland"
+          ]
+        },
+        "territorial_authority": {
+          "type": "string",
+          "description": "Territorial authority area where the agent is located.",
+          "field_classification": {
+            "field_class": "structural",
+            "data_kind": "discrete_nominal"
+          },
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census"
+          }
+        }
+      },
+      "description": ""
+    },
+    "demographic": {
+      "type": "object",
+      "properties": {
+        "age": {
+          "type": "integer",
+          "description": "Age of the agent.",
+          "field_classification": {
+            "field_class": "structural",
+            "data_kind": "discrete_ordinal"
+          },
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census"
+          },
+          "minimum": 16,
+          "maximum": 100
+        },
+        "gender": {
+          "type": "string",
+          "description": "Gender of the agent.",
+          "field_classification": {
+            "field_class": "structural",
+            "data_kind": "discrete_nominal"
+          },
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census"
+          },
+          "enum": [
+            "male",
+            "female",
+            "other",
+            "prefer_not_to_say"
+          ]
+        },
+        "ethnicity": {
+          "type": "string",
+          "description": "Ethnicity of the agent.",
+          "field_classification": {
+            "field_class": "structural",
+            "data_kind": "discrete_nominal"
+          },
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census"
+          }
+        },
+        "employment_status": {
+          "type": "string",
+          "description": "Employment status of the agent.",
+          "field_classification": {
+            "field_class": "structural",
+            "data_kind": "discrete_nominal"
+          },
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census"
+          }
+        },
+        "household_size": {
+          "type": "integer",
+          "description": "Size of the agent's household.",
+          "field_classification": {
+            "field_class": "structural",
+            "data_kind": "discrete_ordinal"
+          },
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census"
+          },
+          "minimum": 1,
+          "maximum": 10
+        },
+        "urban_rural": {
+          "type": "string",
+          "description": "Whether the agent resides in an urban or rural area.",
+          "field_classification": {
+            "field_class": "structural",
+            "data_kind": "discrete_nominal"
+          },
+          "data_provenance": {
+            "source": "Stats NZ 2023 Census"
+          },
+          "enum": [
+            "urban",
+            "mixed",
+            "rural"
+          ]
+        }
+      },
+      "description": ""
+    },
+    "vehicle": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Type of vehicle the agent uses.",
+          "field_classification": {
+            "field_class": "structural",
+            "data_kind": "discrete_nominal"
+          },
+          "data_provenance": {
+            "source": "MoT Fleet Statistics 2022"
+          },
+          "enum": [
+            "Car",
+            "Motorcycle",
+            "Heavy Vehicle",
+            "Other"
+          ]
+        },
+        "age_years": {
+          "type": "integer",
+          "description": "Age of the agent's vehicle in years.",
+          "field_classification": {
+            "field_class": "structural",
+            "data_kind": "discrete_ordinal"
+          },
+          "data_provenance": {
+            "source": "MoT Fleet Statistics 2022"
+          },
+          "minimum": 0,
+          "maximum": 30
+        },
+        "wof_compliant": {
+          "type": "boolean",
+          "description": "Whether the agent's vehicle is Warrant of Fitness compliant.",
+          "field_classification": {
+            "field_class": "behavioral",
+            "data_kind": "binary"
+          },
+          "data_provenance": {
+            "source": "NAMED_STATS:wof_always_current"
+          }
+        }
+      },
+      "description": ""
+    },
+    "licence": {
+      "type": "object",
+      "properties": {
+        "stage": {
+          "type": "string",
+          "description": "Stage of the agent's driver licence.",
+          "field_classification": {
+            "field_class": "structural",
+            "data_kind": "discrete_nominal"
+          },
+          "data_provenance": {
+            "source": "NZTA Driver Licence Pass Rates CSV"
+          },
+          "enum": [
+            "LEARNER",
+            "RESTRICTED",
+            "FULL"
+          ]
+        },
+        "age_group": {
+          "type": "string",
+          "description": "Age group of the agent based on their driver licence.",
+          "field_classification": {
+            "field_class": "structural",
+            "data_kind": "discrete_nominal"
+          },
+          "data_provenance": {
+            "source": "NZTA Driver Licence Pass Rates CSV"
+          },
+          "enum": [
+            "16-24",
+            "25-29",
+            "30-34",
+            "35-39",
+            "40+"
+          ]
+        },
+        "attempt_number": {
+          "type": "integer",
+          "description": "Number of attempts the agent has made to obtain their driver licence.",
+          "field_classification": {
+            "field_class": "structural",
+            "data_kind": "discrete_ordinal"
+          },
+          "data_provenance": {
+            "source": "NZTA Driver Licence Pass Rates CSV (assumed distribution)"
+          },
+          "minimum": 1,
+          "maximum": 5
+        },
+        "competence_prior": {
+          "type": "number",
+          "description": "Prior competence level of the agent as a driver.",
+          "field_classification": {
+            "field_class": "behavioral",
+            "data_kind": "continuous"
+          },
+          "data_provenance": {
+            "source": "NZTA Driver Licence Pass Rates CSV"
+          },
+          "minimum": 0.1,
+          "maximum": 1.0
+        }
+      },
+      "description": ""
+    },
+    "svo": {
+      "type": "object",
+      "properties": {
+        "svo_class": {
+          "type": "string",
+          "description": "Selfish-voter (SVO) class of the agent.",
+          "field_classification": {
+            "field_class": "behavioral",
+            "data_kind": "discrete_nominal"
+          },
+          "data_provenance": {
+            "source": "derived from theta"
+          },
+          "enum": [
+            "Prosocial",
+            "Individualist",
+            "Competitive"
+          ]
+        },
+        "theta": {
+          "type": "object",
+          "properties": {
+            "safety_weight": {
+              "type": "number",
+              "description": "Weight given to safety in the agent's decision-making.",
+              "field_classification": {
+                "field_class": "behavioral",
+                "data_kind": "continuous"
+              },
+              "data_provenance": {
+                "source": "derived:softmax(safety_cluster_mean)"
+              },
+              "minimum": 0,
+              "maximum": 1
+            },
+            "throughput_weight": {
+              "type": "number",
+              "description": "Weight given to throughput in the agent's decision-making.",
+              "field_classification": {
+                "field_class": "behavioral",
+                "data_kind": "continuous"
+              },
+              "data_provenance": {
+                "source": "derived:softmax(throughput_cluster_mean)"
+              },
+              "minimum": 0,
+              "maximum": 1
+            },
+            "self_interest_weight": {
+              "type": "number",
+              "description": "Weight given to self-interest in the agent's decision-making.",
+              "field_classification": {
+                "field_class": "behavioral",
+                "data_kind": "continuous"
+              },
+              "data_provenance": {
+                "source": "derived:softmax(self_interest_cluster_mean)"
+              },
+              "minimum": 0,
+              "maximum": 1
+            }
+          },
+          "description": ""
+        },
+        "raw_scores": {
+          "type": "object",
+          "properties": {
+            "speed_preference_score": {
+              "type": "number",
+              "description": "Preference score for speed.",
+              "field_classification": {
+                "field_class": "behavioral",
+                "data_kind": "continuous"
+              },
+              "data_provenance": {
+                "source": "NAMED_STATS:speeding_attitude_dist"
+              },
+              "minimum": 0,
+              "maximum": 1
+            },
+            "route_efficiency_weight": {
+              "type": "number",
+              "description": "Weight given to route efficiency.",
+              "field_classification": {
+                "field_class": "behavioral",
+                "data_kind": "continuous"
+              },
+              "data_provenance": {
+                "source": "NAMED_STATS:mode_shift_willingness_dist (inverse)"
+              },
+              "minimum": 0,
+              "maximum": 1
+            },
+            "time_pressure_index": {
+              "type": "number",
+              "description": "Index of time pressure experienced by the agent.",
+              "field_classification": {
+                "field_class": "behavioral",
+                "data_kind": "continuous"
+              },
+              "data_provenance": {
+                "source": "no direct source \u2014 uniform prior"
+              },
+              "minimum": 0,
+              "maximum": 1
+            },
+            "overtaking_tendency": {
+              "type": "number",
+              "description": "Tendency to overtake other vehicles.",
+              "field_classification": {
+                "field_class": "behavioral",
+                "data_kind": "continuous"
+              },
+              "data_provenance": {
+                "source": "NAMED_STATS:aggressive_incident_past_year"
+              },
+              "minimum": 0,
+              "maximum": 1
+            },
+            "queue_jump_tendency": {
+              "type": "number",
+              "description": "Tendency to queue jump.",
+              "field_classification": {
+                "field_class": "behavioral",
+                "data_kind": "continuous"
+              },
+              "data_provenance": {
+                "source": "NAMED_STATS:intersection_yield_norm_dist (inverse)"
+              },
+              "minimum": 0,
+              "maximum": 1
+            },
+            "gap_acceptance_aggressiveness": {
+              "type": "number",
+              "description": "Aggressiveness in gap acceptance.",
+              "field_classification": {
+                "field_class": "behavioral",
+                "data_kind": "continuous"
+              },
+              "data_provenance": {
+                "source": "NAMED_STATS:intersection_yield_norm_dist + CAS young driver data"
+              },
+              "minimum": 0,
+              "maximum": 1
+            },
+            "hazard_perception_score": {
+              "type": "number",
+              "description": "Score indicating hazard perception ability.",
+              "field_classification": {
+                "field_class": "behavioral",
+                "data_kind": "continuous"
+              },
+              "data_provenance": {
+                "source": "NZTA Licence pass rates (competence proxy) + CAS young driver"
+              },
+              "minimum": 0,
+              "maximum": 1
+            },
+            "following_distance_preference": {
+              "type": "number",
+              "description": "Preference for following distance.",
+              "field_classification": {
+                "field_class": "behavioral",
+                "data_kind": "continuous"
+              },
+              "data_provenance": {
+                "source": "NAMED_STATS:tailgating_prevalence_dist (inverse)"
+              },
+              "minimum": 0,
+              "maximum": 1
+            },
+            "speed_compliance_score": {
+              "type": "number",
+              "description": "Score indicating compliance with speed limits.",
+              "field_classification": {
+                "field_class": "behavioral",
+                "data_kind": "continuous"
+              },
+              "data_provenance": {
+                "source": "NAMED_STATS:speed_compliance_rate"
+              },
+              "minimum": 0,
+              "maximum": 1
+            },
+            "wof_compliance_score": {
+              "type": "number",
+              "description": "Score indicating compliance with Warrant of Fitness.",
+              "field_classification": {
+                "field_class": "behavioral",
+                "data_kind": "continuous"
+              },
+              "data_provenance": {
+                "source": "NAMED_STATS:wof_always_current"
+              },
+              "minimum": 0,
+              "maximum": 1
+            },
+            "seatbelt_score": {
+              "type": "number",
+              "description": "Score indicating seatbelt use compliance.",
+              "field_classification": {
+                "field_class": "behavioral",
+                "data_kind": "continuous"
+              },
+              "data_provenance": {
+                "source": "NAMED_STATS:seatbelt_compliance_rate"
+              },
+              "minimum": 0,
+              "maximum": 1
+            },
+            "intersection_yield_score": {
+              "type": "number",
+              "description": "Score indicating yielding behavior at intersections.",
+              "field_classification": {
+                "field_class": "behavioral",
+                "data_kind": "continuous"
+              },
+              "data_provenance": {
+                "source": "NAMED_STATS:intersection_yield_always"
+              },
+              "minimum": 0,
+              "maximum": 1
+            },
+            "risk_denial_score": {
+              "type": "number",
+              "description": "Score indicating risk denial tendency.",
+              "field_classification": {
+                "field_class": "behavioral",
+                "data_kind": "continuous"
+              },
+              "data_provenance": {
+                "source": "NAMED_STATS:optimism_bias_rate + personal_risk_perception_dist"
+              },
+              "minimum": 0,
+              "maximum": 1
+            },
+            "detection_bias_score": {
+              "type": "number",
+              "description": "Score indicating detection bias.",
+              "field_classification": {
+                "field_class": "behavioral",
+                "data_kind": "continuous"
+              },
+              "data_provenance": {
+                "source": "NAMED_STATS:enforcement_effectiveness_dist (inverse)"
+              },
+              "minimum": 0,
+              "maximum": 1
+            },
+            "aggression_score": {
+              "type": "number",
+              "description": "Score indicating aggressive behavior.",
+              "field_classification": {
+                "field_class": "behavioral",
+                "data_kind": "continuous"
+              },
+              "data_provenance": {
+                "source": "NAMED_STATS:aggressive_incident_past_year + road_rage_prevalence_dist"
+              },
+              "minimum": 0,
+              "maximum": 1
+            },
+            "entitlement_score": {
+              "type": "number",
+              "description": "Score indicating entitlement.",
+              "field_classification": {
+                "field_class": "behavioral",
+                "data_kind": "continuous"
+              },
+              "data_provenance": {
+                "source": "NAMED_STATS:speed_limit_attitude_dist + nz_driver_standard_dist"
+              },
+              "minimum": 0,
+              "maximum": 1
+            },
+            "coalition_resistance_score": {
+              "type": "number",
+              "description": "Score indicating resistance to coalitions.",
+              "field_classification": {
+                "field_class": "behavioral",
+                "data_kind": "continuous"
+              },
+              "data_provenance": {
+                "source": "NAMED_STATS:mode_shift_willingness_dist (inverse)"
+              },
+              "minimum": 0,
+              "maximum": 1
+            },
+            "road_rage_score": {
+              "type": "number",
+              "description": "Score indicating road rage tendency.",
+              "field_classification": {
+                "field_class": "behavioral",
+                "data_kind": "continuous"
+              },
+              "data_provenance": {
+                "source": "NAMED_STATS:road_rage_prevalence_dist"
+              },
+              "minimum": 0,
+              "maximum": 1
+            }
+          },
+          "description": ""
+        }
+      },
+      "description": ""
+    },
+    "cognitive": {
+      "type": "object",
+      "properties": {
+        "fatigue_level": {
+          "type": "number",
+          "description": "Level of fatigue experienced by the agent.",
+          "field_classification": {
+            "field_class": "behavioral",
+            "data_kind": "continuous"
+          },
+          "data_provenance": {
+            "source": "NAMED_STATS:fatigue_driving_past_month"
+          },
+          "minimum": 0,
+          "maximum": 1
+        },
+        "distraction_profile": {
+          "type": "string",
+          "description": "Profile of distraction behaviors.",
+          "field_classification": {
+            "field_class": "behavioral",
+            "data_kind": "discrete_nominal"
+          },
+          "data_provenance": {
+            "source": "NAMED_STATS:handheld_phone_while_driving"
+          },
+          "enum": [
+            "None",
+            "Hands-free",
+            "Handheld"
+          ]
+        },
+        "substance_coefficient": {
+          "type": "number",
+          "description": "Coefficient indicating substance use while driving.",
+          "field_classification": {
+            "field_class": "behavioral",
+            "data_kind": "continuous"
+          },
+          "data_provenance": {
+            "source": "NAMED_STATS:drink_drive_past_year"
+          },
+          "minimum": 0,
+          "maximum": 1
+        },
+        "reaction_latency_modifier": {
+          "type": "number",
+          "description": "Modifier for reaction latency due to fatigue and substance use.",
+          "field_classification": {
+            "field_class": "behavioral",
+            "data_kind": "continuous"
+          },
+          "data_provenance": {
+            "source": "derived: 1.0 + fatigue*0.3 + substance*0.5"
+          },
+          "minimum": 0.5,
+          "maximum": 2.0
+        },
+        "situational_awareness": {
+          "type": "number",
+          "description": "Level of situational awareness, affected by fatigue and distraction.",
+          "field_classification": {
+            "field_class": "behavioral",
+            "data_kind": "continuous"
+          },
+          "data_provenance": {
+            "source": "derived: 1.0 - fatigue*0.4 - distraction_penalty"
+          },
+          "minimum": 0,
+          "maximum": 1
+        }
+      },
+      "description": ""
+    },
+    "rule_elasticity": {
+      "type": "object",
+      "properties": {
+        "risk_denial_factor": {
+          "type": "number",
+          "description": "Factor indicating the degree of risk denial.",
+          "field_classification": {
+            "field_class": "behavioral",
+            "data_kind": "continuous"
+          },
+          "data_provenance": {
+            "source": "alias: svo.raw_scores.risk_denial_score"
+          },
+          "minimum": 0,
+          "maximum": 1
+        },
+        "detection_probability_bias": {
+          "type": "number",
+          "description": "Bias in detection probability.",
+          "field_classification": {
+            "field_class": "behavioral",
+            "data_kind": "continuous"
+          },
+          "data_provenance": {
+            "source": "alias: svo.raw_scores.detection_bias_score"
+          },
+          "minimum": 0,
+          "maximum": 1
+        },
+        "speed_compliance_probability": {
+          "type": "number",
+          "description": "Probability of compliance with speed limits.",
+          "field_classification": {
+            "field_class": "behavioral",
+            "data_kind": "continuous"
+          },
+          "data_provenance": {
+            "source": "alias: svo.raw_scores.speed_compliance_score"
+          },
+          "minimum": 0,
+          "maximum": 1
+        }
+      },
+      "description": ""
+    },
+    "perception": {
+      "type": "object",
+      "properties": {
+        "road_safety_satisfaction": {
+          "type": "string",
+          "description": "Level of satisfaction with road safety.",
+          "field_classification": {
+            "field_class": "perception",
+            "data_kind": "discrete_ordinal"
+          },
+          "data_provenance": {
+            "source": "NAMED_STATS:road_safety_satisfaction_dist"
+          }
+        },
+        "vision_zero_belief": {
+          "type": "string",
+          "description": "Belief in the Vision Zero concept.",
+          "field_classification": {
+            "field_class": "perception",
+            "data_kind": "discrete_ordinal"
+          },
+          "data_provenance": {
+            "source": "NAMED_STATS:vision_zero_belief_dist"
+          }
+        },
+        "speed_limit_attitude": {
+          "type": "string",
+          "description": "Attitude towards speed limits.",
+          "field_classification": {
+            "field_class": "perception",
+            "data_kind": "discrete_nominal"
+          },
+          "data_provenance": {
+            "source": "NAMED_STATS:speed_limit_attitude_dist"
+          }
+        },
+        "police_enforcement_effectiveness": {
+          "type": "string",
+          "description": "Perceived effectiveness of police enforcement.",
+          "field_classification": {
+            "field_class": "perception",
+            "data_kind": "discrete_ordinal"
+          },
+          "data_provenance": {
+            "source": "NAMED_STATS:enforcement_effectiveness_dist"
+          }
+        },
+        "road_infrastructure_quality": {
+          "type": "string",
+          "description": "Perceived quality of road infrastructure.",
+          "field_classification": {
+            "field_class": "perception",
+            "data_kind": "discrete_ordinal"
+          },
+          "data_provenance": {
+            "source": "NAMED_STATS:infrastructure_quality_dist"
+          }
+        },
+        "personal_risk_perception": {
+          "type": "string",
+          "description": "Perceived personal risk while driving.",
+          "field_classification": {
+            "field_class": "perception",
+            "data_kind": "discrete_ordinal"
+          },
+          "data_provenance": {
+            "source": "NAMED_STATS:personal_risk_perception_dist"
+          }
+        },
+        "distracted_driving_attitude": {
+          "type": "string",
+          "description": "Attitude towards distracted driving.",
+          "field_classification": {
+            "field_class": "perception",
+            "data_kind": "discrete_ordinal"
+          },
+          "data_provenance": {
+            "source": "NAMED_STATS:distracted_driving_attitude_dist"
+          }
+        },
+        "drink_drive_attitude": {
+          "type": "string",
+          "description": "Attitude towards drinking and driving.",
+          "field_classification": {
+            "field_class": "perception",
+            "data_kind": "discrete_nominal"
+          },
+          "data_provenance": {
+            "source": "NAMED_STATS:drink_drive_attitude_dist"
+          }
+        },
+        "fatigue_risk_awareness": {
+          "type": "string",
+          "description": "Awareness of the risks associated with fatigue.",
+          "field_classification": {
+            "field_class": "perception",
+            "data_kind": "discrete_ordinal"
+          },
+          "data_provenance": {
+            "source": "NAMED_STATS:fatigue_risk_awareness_dist"
+          }
+        },
+        "speeding_attitude": {
+          "type": "string",
+          "description": "Attitude towards speeding.",
+          "field_classification": {
+            "field_class": "perception",
+            "data_kind": "discrete_nominal"
+          },
+          "data_provenance": {
+            "source": "NAMED_STATS:speeding_attitude_dist"
+          }
+        },
+        "cycling_safety_concern": {
+          "type": "string",
+          "description": "Concern for cycling safety.",
+          "field_classification": {
+            "field_class": "perception",
+            "data_kind": "discrete_ordinal"
+          },
+          "data_provenance": {
+            "source": "NAMED_STATS:cycling_safety_concern_dist"
+          }
+        },
+        "rural_road_danger_perception": {
+          "type": "string",
+          "description": "Perception of danger on rural roads.",
+          "field_classification": {
+            "field_class": "perception",
+            "data_kind": "discrete_ordinal"
+          },
+          "data_provenance": {
+            "source": "NAMED_STATS:rural_road_danger_dist"
+          }
+        },
+        "mode_shift_willingness": {
+          "type": "string",
+          "description": "Willingness to shift modes of transportation.",
+          "field_classification": {
+            "field_class": "perception",
+            "data_kind": "discrete_ordinal"
+          },
+          "data_provenance": {
+            "source": "NAMED_STATS:mode_shift_willingness_dist"
+          }
+        },
+        "intersection_yield_norm": {
+          "type": "string",
+          "description": "Perception of the norm for yielding at intersections.",
+          "field_classification": {
+            "field_class": "perception",
+            "data_kind": "discrete_ordinal"
+          },
+          "data_provenance": {
+            "source": "NAMED_STATS:intersection_yield_norm_dist"
+          }
+        },
+        "tailgating_prevalence_belief": {
+          "type": "string",
+          "description": "Belief in the prevalence of tailgating.",
+          "field_classification": {
+            "field_class": "perception",
+            "data_kind": "discrete_ordinal"
+          },
+          "data_provenance": {
+            "source": "NAMED_STATS:tailgating_prevalence_dist"
+          }
+        },
+        "road_rage_prevalence_belief": {
+          "type": "string",
+          "description": "Belief in the prevalence of road rage.",
+          "field_classification": {
+            "field_class": "perception",
+            "data_kind": "discrete_ordinal"
+          },
+          "data_provenance": {
+            "source": "NAMED_STATS:road_rage_prevalence_dist"
+          }
+        },
+        "nz_driver_standard_belief": {
+          "type": "string",
+          "description": "Belief in the standard of New Zealand drivers.",
+          "field_classification": {
+            "field_class": "perception",
+            "data_kind": "discrete_ordinal"
+          },
+          "data_provenance": {
+            "source": "NAMED_STATS:nz_driver_standard_dist"
+          }
+        },
+        "young_driver_risk_belief": {
+          "type": "string",
+          "description": "Belief in the risk posed by young drivers.",
+          "field_classification": {
+            "field_class": "perception",
+            "data_kind": "discrete_ordinal"
+          },
+          "data_provenance": {
+            "source": "NAMED_STATS:young_driver_risk_dist"
+          }
+        }
+      },
+      "description": ""
+    },
+    "crash_exposure": {
+      "type": "object",
+      "properties": {
+        "crash_risk_index": {
+          "type": "number",
+          "description": "Index indicating the risk of being involved in a crash.",
+          "field_classification": {
+            "field_class": "structural",
+            "data_kind": "continuous"
+          },
+          "data_provenance": {
+            "source": "NZTA CAS \u2014 computed CRI"
+          },
+          "minimum": 0,
+          "maximum": 1
+        },
+        "speed_zone_profile": {
+          "type": "string",
+          "description": "Profile of speed zones where the agent drives.",
+          "field_classification": {
+            "field_class": "structural",
+            "data_kind": "discrete_nominal"
+          },
+          "data_provenance": {
+            "source": "NZTA NSLR"
+          }
+        },
+        "prior_crash_involvement": {
+          "type": "boolean",
+          "description": "Whether the agent has been involved in a prior crash.",
+          "field_classification": {
+            "field_class": "behavioral",
+            "data_kind": "binary"
+          },
+          "data_provenance": {
+            "source": "NZTA CAS \u2014 CRI proxy"
+          }
+        }
+      },
+      "description": ""
+    },
+    "dynamic": {
+      "type": "object",
+      "properties": {
+        "shock_sensitivity": {
+          "type": "number",
+          "description": "Sensitivity to shocks in the driving environment.",
+          "field_classification": {
+            "field_class": "behavioral",
+            "data_kind": "continuous"
+          },
+          "data_provenance": {
+            "source": "NAMED_STATS:infrastructure_quality_dist (inverse)"
+          },
+          "minimum": 0,
+          "maximum": 1
+        },
+        "memory_decay_rate": {
+          "type": "number",
+          "description": "Rate at which memory decays over time.",
+          "field_classification": {
+            "field_class": "structural",
+            "data_kind": "continuous"
+          },
+          "data_provenance": {
+            "source": "Generative Agents (Park et al 2023) \u2014 uniform prior"
+          },
+          "minimum": 0,
+          "maximum": 1
+        },
+        "reroute_threshold": {
+          "type": "number",
+          "description": "Threshold for rerouting behavior.",
+          "field_classification": {
+            "field_class": "behavioral",
+            "data_kind": "continuous"
+          },
+          "data_provenance": {
+            "source": "NAMED_STATS:mode_shift_willingness_dist (inverse)"
+          },
+          "minimum": 0,
+          "maximum": 1
+        },
+        "coalition_tendency": {
+          "type": "number",
+          "description": "Tendency to form coalitions.",
+          "field_classification": {
+            "field_class": "behavioral",
+            "data_kind": "continuous"
+          },
+          "data_provenance": {
+            "source": "derived: 1 - coalition_resistance_score"
+          },
+          "minimum": 0,
+          "maximum": 1
+        }
+      },
+      "description": ""
+    },
+    "memory": {
+      "type": "object",
+      "properties": {
+        "memory_stream": {
+          "type": "array",
+          "description": "Stream of memory data for the agent.",
+          "field_classification": {
+            "field_class": "structural",
+            "data_kind": "discrete_nominal"
+          },
+          "data_provenance": {
+            "source": "Generative Agents (Park et al 2023)"
+          },
+          "items": {
+            "type": "object"
+          }
+        },
+        "reflection_insights": {
+          "type": "array",
+          "description": "Insights gained from reflection.",
+          "field_classification": {
+            "field_class": "structural",
+            "data_kind": "discrete_nominal"
+          },
+          "data_provenance": {
+            "source": "Generative Agents (Park et al 2023)"
+          },
+          "items": {
+            "type": "object"
+          }
+        },
+        "plan_hierarchy": {
+          "type": "object",
+          "description": "Hierarchy of plans for the agent.",
+          "field_classification": {
+            "field_class": "structural",
+            "data_kind": "discrete_nominal"
+          },
+          "data_provenance": {
+            "source": "NAMED_STATS:trip_purpose_dist"
+          }
+        }
+      },
+      "description": ""
+    }
+  },
+  "required": [
+    "agent_id",
+    "agent_version",
+    "location",
+    "demographic",
+    "vehicle",
+    "licence",
+    "svo",
+    "cognitive",
+    "rule_elasticity",
+    "perception",
+    "crash_exposure",
+    "dynamic",
+    "memory"
+  ],
+  "additionalProperties": false,
+  "x_field_summary": {
+    "total": 75,
+    "behavioral": 36,
+    "perception": 18,
+    "structural": 19,
+    "identity": 2,
+    "continuous": 34,
+    "discrete_nominal": 20,
+    "discrete_ordinal": 19,
+    "binary": 2
+  }
+}

@@ -11,19 +11,19 @@ interface EmptyStateProps {
 const suggestions = [
   {
     icon: Users,
-    label: "Poll populations",
+    label: "Survey personas",
     prompt: "Would you support a congestion charge in exchange for improved public transit?",
     mode: "poll",
   },
   {
     icon: Database,
-    label: "Query scenarios",
+    label: "Query environment",
     prompt: "What is the median income distribution across District 7 zones?",
     mode: "ask",
   },
   {
     icon: Play,
-    label: "Run simulations",
+    label: "Run simulation",
     prompt: "Simulate the impact of a $5 daily congestion charge on commuter behavior",
     mode: "sim",
   },
@@ -61,7 +61,7 @@ export function EmptyState({ onSuggestionClick }: EmptyStateProps) {
         transition={{ duration: 0.5, delay: 0.2 }}
         className="text-[15px] text-[rgba(255,255,255,0.45)] mb-12 text-center max-w-md leading-relaxed"
       >
-        Poll synthetic populations, explore policy scenarios, and run game-theoretic simulations.
+        Survey simulated populations, explore scenarios, and run game-theoretic simulations.
       </motion.p>
 
       <div className="flex flex-wrap gap-3 justify-center max-w-xl">

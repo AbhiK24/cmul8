@@ -1,0 +1,12 @@
+flowchart LR
+    T1["<b>Tier 1</b><br/>Synthetic Polling<br/><i>Instant sentiment</i>"]
+    T2["<b>Tier 2</b><br/>One-Shot Simulation<br/><i>First-order effects</i>"]
+    T3["<b>Tier 3</b><br/>Equilibrium Analysis<br/><i>What actually happens</i>"]
+    T4["<b>Tier 4</b><br/>Policy Optimisation<br/><i>Best policy found</i>"]
+
+    T1 --> T2 --> T3 --> T4
+
+    style T1 fill:#f0f7ff,stroke:#2563eb,stroke-width:2px
+    style T2 fill:#f0f7ff,stroke:#2563eb,stroke-width:2px
+    style T3 fill:#f0f7ff,stroke:#2563eb,stroke-width:2px
+    style T4 fill:#1e40af,stroke:#1e40af,stroke-width:2px,color:#fff

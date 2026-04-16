@@ -241,14 +241,14 @@ export type Mode = {
 export const modes: Mode[] = [
   {
     id: "poll",
-    label: "Poll",
-    description: "Send to agent cohort",
+    label: "Survey",
+    description: "Ask a question to simulated personas",
     color: "amber",
   },
   {
     id: "ask",
-    label: "Ask ENV",
-    description: "RAG query on datasets",
+    label: "Query Environment",
+    description: "Search indexed datasets",
     color: "jade",
   },
   {
